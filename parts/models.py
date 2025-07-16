@@ -7,6 +7,10 @@ class CarManufacturer(models.Model):
     name = models.CharField(max_length=100, verbose_name="자동차 회사명")
     is_imported = models.BooleanField(default=False, verbose_name="수입자동차 여부")  # 수입 여부
 
+    class Meta:
+        verbose_name = "자동차 회사 관리"
+        verbose_name_plural = "자동차 회사 관리"
+
     def __str__(self):
         return self.name
 
@@ -14,8 +18,12 @@ class CarModel(models.Model):
     manufacturer = models.ForeignKey(CarManufacturer, on_delete=models.CASCADE, related_name='models', verbose_name="자동차 회사")
     name = models.CharField(max_length=100, verbose_name="차량 모델")
 
+    class Meta:
+        verbose_name = "차량 모델"
+        verbose_name_plural = "차량 모델 관리"
+
     def __str__(self):
-        return f"{self.manufacturer.name} {self.name}"
+        return f"{self.manufacturer.name} - {self.name}"
     
 class PartSubCategory(models.Model):
     # 부품 카테고리
@@ -36,26 +44,34 @@ class PartSubCategory(models.Model):
 
     name = models.CharField(max_length=100, verbose_name="부품 카테고리2")
 
+    class Meta:
+        verbose_name = "부품 카테고리"
+        verbose_name_plural = "부품 카테고리"
+
     def __str__(self):
         return f"{self.get_parent_category_display()} - {self.name}"
     
 class Part(models.Model):
     title = models.CharField(max_length=200, verbose_name="제목")
 
-    car_model = models.ForeignKey(CarModel, on_delete=models.SET_NULL, related_name='parts', verbose_name="차량 모델")
+    car_model = models.ForeignKey(CarModel, on_delete=models.SET_NULL, related_name='parts', null=True, blank=True, verbose_name="차량 모델")
 
     part_number = models.CharField(max_length=256, verbose_name="제품번호")  # 품번
     applicable_years = models.CharField(max_length=50, help_text="예: 2015-2018", verbose_name="연식")
 
     # 카테고리
-    subcategory = models.ForeignKey(PartSubCategory, on_delete=models.SET_NULL, verbose_name="부품 카테고리")
+    subcategory = models.ForeignKey(PartSubCategory, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="부품 카테고리")
 
     stock = models.PositiveIntegerField(default=0, verbose_name="재고")
-    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, verbose_name="가격")
+    price = models.DecimalField(max_digits=10, decimal_places=0, null=True, verbose_name="가격")
     description = models.TextField(blank=True, verbose_name="유의사항")
 
     def __str__(self):
         return f"{self.title} ({self.part_number})"
+    
+    class Meta:
+        verbose_name = "부품"
+        verbose_name_plural = "부품 관리"
 
     def get_category_display(self):
         return self.subcategory.get_parent_category_display() if self.subcategory else None
