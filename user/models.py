@@ -7,18 +7,18 @@ from django.core.validators import RegexValidator
 
 class UserManager(BaseUserManager):
 
-    def create_user(self, user_id, password, name, email, **extra_fields):
+    def create_user(self, user_id, password, name, email, hp, **extra_fields):
         if not user_id:
             raise ValueError('아이디를 입력해주세요.')
 
         email = self.normalize_email(email)
-        user = self.model(user_id=user_id, email=email, name=name, **extra_fields)
+        user = self.model(user_id=user_id, email=email, name=name, hp=hp, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, user_id, password, email, name=None):
-        user = self.create_user(user_id, password, name, email)
+    def create_superuser(self, user_id, password, email, name=None, hp=None):
+        user = self.create_user(user_id, password, name, email, hp)
         user.is_superuser = True
         user.is_staff = True
         user.is_admin = True
