@@ -1,0 +1,16 @@
+appdirs==1.4.4
+asgiref==3.9.1
+backports-datetime-fromisoformat==2.0.3
+baron==0.10.1
+dj-database-url==3.0.1
+dj-email-url==1.0.6
+Django==4.2.23
+django-cache-url==3.4.5
+environs==14.2.0
+marshmallow==4.0.0
+python-dotenv==1.1.1
+redbaron==0.9.2
+rply==0.7.8
+sqlparse==0.5.3
+typing_extensions==4.14.1
+tzdata==2025.2
