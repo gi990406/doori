@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import CarManufacturer, CarModel, PartSubCategory, Part, PartImage
+from django_summernote.admin import SummernoteModelAdmin
 
 @admin.register(CarManufacturer)
 class CarManufacturerAdmin(admin.ModelAdmin):
@@ -28,8 +29,11 @@ class PartImageInline(admin.TabularInline):
     extra = 1
 
 @admin.register(Part)
-class PartAdmin(admin.ModelAdmin):
+class PartAdmin(SummernoteModelAdmin):
     """부품 관리"""
+
+    summernote_fields = ('description',)
+
     list_display = [
         'title',
         'part_number',
