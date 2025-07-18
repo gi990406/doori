@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_summernote',
     'user',
+    'parts',
 ]
 
 MIDDLEWARE = [
@@ -136,6 +137,9 @@ STATICFILES_DIRS =[
 # py manage.py collectstatic
 STATIC_ROOT =BASE_DIR / "staticfiles"
 # STATIC_ROOT = os.path.join("staticfiles")
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
