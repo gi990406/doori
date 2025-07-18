@@ -15,7 +15,7 @@ class CarManufacturer(models.Model):
         return self.name
 
 class CarModel(models.Model):
-    manufacturer = models.ForeignKey(CarManufacturer, on_delete=models.CASCADE, related_name='models', verbose_name="자동차 회사")
+    manufacturer = models.ForeignKey(CarManufacturer, on_delete=models.CASCADE, related_name='models', verbose_name="자동차 회사" , help_text="회사가 없다면 + 버튼을 눌러 추가해주세요.")
     name = models.CharField(max_length=100, verbose_name="차량 모델")
 
     class Meta:
@@ -54,7 +54,7 @@ class PartSubCategory(models.Model):
 class Part(models.Model):
     title = models.CharField(max_length=200, verbose_name="제목")
 
-    car_model = models.ForeignKey(CarModel, on_delete=models.SET_NULL, related_name='parts', null=True, blank=True, verbose_name="차량 모델")
+    car_model = models.ForeignKey(CarModel, on_delete=models.SET_NULL, related_name='parts', null=True, blank=True, verbose_name="차량 모델", help_text="차량 모델이 없다면 + 버튼을 눌러 추가해주세요.")
 
     part_number = models.CharField(max_length=256, verbose_name="제품번호")  # 품번
     applicable_years = models.CharField(max_length=50, help_text="예: 2015-2018", verbose_name="연식")
@@ -63,7 +63,7 @@ class Part(models.Model):
     subcategory = models.ForeignKey(PartSubCategory, on_delete=models.SET_NULL, null=True, blank=True, verbose_name="부품 카테고리")
 
     stock = models.PositiveIntegerField(default=0, verbose_name="재고")
-    price = models.DecimalField(max_digits=10, decimal_places=0, null=True, verbose_name="가격")
+    price = models.DecimalField(max_digits=10, decimal_places=0, null=True, verbose_name="가격", help_text="0으로 입력 시 전화상담으로 표시")
     description = models.TextField(blank=True, verbose_name="유의사항")
 
     def __str__(self):
