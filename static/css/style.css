@@ -1,0 +1,267 @@
+body,
+td,
+p,
+input,
+button,
+textarea,
+select,
+.c1 {
+  font-family: "돋움";
+  font-size: 12px;
+  color: #373736;
+}
+
+img {
+  border: 0;
+}
+
+A:link {
+  COLOR: #373736;
+  FONT-FAMILY: "돋움";
+  FONT-SIZE: 12px;
+  text-decoration: none;
+}
+
+A:visited {
+  COLOR: #373736;
+  FONT-FAMILY: "돋움";
+  FONT-SIZE: 12px;
+  text-decoration: none;
+}
+
+A:hover {
+  COLOR: #666666;
+  FONT-FAMILY: "돋움";
+  FONT-SIZE: 12px;
+  text-decoration: underline;
+}
+
+A:active {
+  COLOR: #373736;
+  FONT-FAMILY: "돋움";
+  FONT-SIZE: 12px;
+  text-decoration: none;
+}
+
+
+/** 표시작 **/
+.p_ta1 {
+  background: url(/images/common/bg.gif) repeat-x;
+}
+
+.p_logo {
+  text-align: center;
+}
+
+.p_menu1 {}
+
+.p_menu2 {
+  margin: 15px 0 0 0;
+}
+
+.p_con {
+  margin: 20px 0 0 0;
+}
+
+/**메인 추출**/
+.p_m_pr {
+  margin: 45px 0 0 0;
+}
+
+.p_m_pr .t01 {
+  text-align: center;
+}
+
+.p_m_pr .t02 {
+  vertical-align: top;
+  border: #c5c5c5 solid 1px;
+  height: 295px;
+}
+
+.p_m_pr .t03 {
+  vertical-align: top;
+  border: #c5c5c5 solid 1px;
+  height: 570px;
+}
+
+/**하단 추출**/
+.p_f_t {
+  margin: 45px 0 0 0;
+}
+
+.p_f_t .t01 {
+  background: url(/images/common/foot_top.gif) no-repeat;
+  height: 200px;
+  vertical-align: top;
+}
+
+.p_f_t .t02 {
+  border-bottom: #c5c5c5 solid 1px;
+  height: 40px;
+}
+
+/**공지사항**/
+.p_f_noti {
+  float: right;
+  width: 370px;
+  margin: 35px 20px;
+  0 0;
+}
+
+.p_f_noti .more img {
+  float: right;
+  margin: 0 0 10px 0;
+}
+
+/**타이틀 추출**/
+.p_title1 {
+  margin: 10px 0 40px 0;
+}
+
+.p_title1 .t01 {}
+
+.p_title1 .t02 {
+  font-size: 11px;
+  color: #8e8e8e;
+  text-align: right;
+  vertical-align: bottom;
+  padding: 0 10px 5px 0;
+}
+
+.p_title1 .t02 img {
+  margin: 0 0 -2px 0;
+}
+
+.p_title1 .t03 {
+  height: 1px;
+  background: #eeeeee;
+}
+
+
+/**카피**/
+.p_f {
+  margin: 25px 0 30px 0;
+}
+
+.p_f .t01 {
+  width: 217px;
+}
+
+.p_f .t02 {
+  color: #666;
+}
+
+/** 오늘본상품 **/
+#p_today {
+  position: absolute;
+  margin-left: 10px;
+  top: 145px;
+  z-index: 1;
+}
+
+
+/*쇼핑리스트 링크ppppp*/
+.locat {
+  font-family: "돋움";
+  font-size: 13px;
+  color: #5a5a5a;
+  line-height: 120%;
+  padding-top: 5px;
+}
+
+.locat a:link {
+  font-family: "돋움";
+  font-size: 13px;
+  color: #5a5a5a;
+}
+
+.locat a:hover {
+  font-family: "돋움";
+  font-size: 13px;
+  color: #5a5a5a;
+}
+
+.locat a:active {
+  font-family: "돋움";
+  font-size: 13px;
+  color: #5a5a5a;
+}
+
+.locat a:visited {
+  font-family: "돋움";
+  font-size: 13px;
+  color: #5a5a5a;
+}
+
+.locat2 {
+  font-family: "돋움";
+  font-size: 13px;
+  font-weight: bold;
+  color: #4b4b4b;
+  line-height: 120%;
+  padding-top: 5px;
+}
+
+.locat2 img {
+  margin: 0 0 -2px 5px;
+}
+
+/** 표 끝**/
+
+
+
+
+.member {
+  font-weight: bold;
+  color: #888888;
+}
+
+.guest {
+  font-weight: normal;
+  color: #888888;
+}
+
+.lh {
+  line-height: 150%;
+}
+
+.jt {
+  text-align: justify;
+}
+
+.li {
+  font-weight: bold;
+  font-size: 18px;
+  vertical-align: -4px;
+  color: #66AEAD;
+}
+
+.ul {
+  list-style-type: square;
+  color: #66AEAD;
+}
+
+.ct {
+  font-family: Verdana, 굴림;
+  color: #222222;
+}
+
+.ed {
+  border: 1px solid #CCCCCC;
+}
+
+.tx {
+  border: 1px solid #CCCCCC;
+}
+
+.small {
+  font-size: 8pt;
+  font-family: 돋움;
+}
+
+.cloudy,
+a.cloudy {
+  color: #888888;
+}
+
+/* 흐림 */

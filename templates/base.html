@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta http-equiv="content-type" content="text/html">
+    <title>두리상사</title>
+    <link type="text/css"
+          rel="stylesheet"
+          href="{% static 'css/default.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}">
+    <meta name="author" content="두리상사 - 자동차중고부품">
+    <meta name="description" content="국산차 수입차 중고부품 전문, 현대,기아,쉐보레 범퍼, 라이트, 휀다 등">
+    <meta name="keywords"
+          content="두리상사,자동차중고부품,폐차장중고부품,광주중고부품,전남중고부품,광주전남중고부품,현대자동차부품,중고부품,현대자동차부품,현대차부품,중고휠,휠,폐차부품,중고자동차부품,중고차부품,기아자동차부품,기아차부품,쌍용차부품,쌍용자동차부품,수입차부품,자동차휠,삼성자동차부품,중고카오디오,폐차장부품,폐차부품,자동차중고부속,자동차머플러,자동차중고부품쇼핑몰,K3,K5,K7,K9,폭스바겐,아우디,그랜저,모닝,벤츠,BMW,에쿠스,체어맨,오피러스,렉스턴,SM5,SM3,SM7,코란도,스타렉스,렉스턴,무쏘,싼타페,카렌스,토스카,레조,아반떼,갤로퍼,스펙트라,엘란트라,엑셀,그랜저,카렌스,옵티마,쏘나타,레저,로체,크레도스,프레지오,스포티지,카니발,아반떼,다마스,i30,i40,마르샤,베르나,아토스,제네시스,클릭,포니,포터,엑센트,카니발,콩코드,프라이드,봉고,하이베스타,라디에이터그릴,리어도어,리어바디,리어범퍼,백도어,백피니셔,트렁크,사이드미러,스포일러,시그널램프,AV시스템,ECU,TCU,계기판,대쉬보드,룸미러,시트,에어백모듈,와이퍼모터,컴비네이션 스위치,콘솔박스,퓨즈박스,디스트리뷰터,라디에이터,밧데리,스타트모터,에어컨 컴프레서,인젝터,등속조인트,알루미늄 휠,트랜스미션">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="두리상사 - 자동차중고부품">
+    <meta property="og:description"
+          content="국산차 수입차 중고부품 전문, 현대,기아,쉐보레 범퍼, 라이트, 휀다 등">
+  </head>
+  <body topmargin="0" leftmargin="0">
+    {% block content %}
+    {% endblock content %}
+    {% include "footer.html" %}
+  </body>
+</html>

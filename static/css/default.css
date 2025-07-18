@@ -1,0 +1,78 @@
+.gnb_new {
+  display: block;
+  width: 100%;
+  height: 27px;
+}
+
+.gnb_new ul {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.gnb_new a li {
+  display: inline-block;
+  float: left;
+  padding: 5px 15px;
+  background: url('/images/main_bg_2.png')no-repeat right 7px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  color: #fff;
+}
+
+.gnb_new a li:hover {
+  color: #fcfbac;
+}
+
+.gnb_new a li span {
+  color: #b8e3f9;
+}
+
+@import url("http://fonts.googleapis.com/earlyaccess/nanumgothic.css");
+
+.lnb_new {
+  display: block;
+  width: 168px;
+  height: 367px;
+}
+
+.lnb_new ul {
+  width: 100%;
+  padding: 15px 15px;
+  margin: 0;
+  list-style-type: none;
+  text-decoration: none !important;
+}
+
+.lnb_new a li {
+  width: 100px;
+  display: block;
+  font-size: 12.7px;
+  font-weight: 600;
+  color: #fff;
+  font-family: 'Nanum Gothic';
+  padding: 3px 15px 4px 15px;
+  list-style-type: none;
+  text-decoration: none !important;
+}
+
+.lnb_new a li:hover {
+  color: #034184;
+  background: #f2fcff;
+  border-radius: 10px;
+  font-weight: 800;
+  list-style-type: none;
+  text-decoration: none !important;
+}
+
+.lnb_new a li span {
+  color: #b8e3f9;
+}
+
+.left_bg_1 {
+  background: url(/static/images/menubar/left_bg_1.jpg);
+  background-repeat: no-repeat;
+  background-position: center top
+}
