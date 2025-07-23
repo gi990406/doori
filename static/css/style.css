@@ -265,3 +265,134 @@ a.cloudy {
 }
 
 /* 흐림 */
+
+.board_top {
+  clear: both;
+}
+
+.board_list {
+  clear: both;
+  width: 100%;
+  table-layout: fixed;
+  margin: 5px 0 0 0;
+}
+
+.board_list th {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.board_list th {
+  background: url(../skin/board/basic/img/title_bg.gif) repeat-x;
+}
+
+.board_list th {
+  white-space: nowrap;
+  height: 34px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.board_list th {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.board_list tr.bg0 {
+  background-color: #fafafa;
+}
+
+.board_list tr.bg1 {
+  background-color: #ffffff;
+}
+
+.board_list td {
+  padding: .5em;
+}
+
+.board_list td {
+  border-bottom: 1px solid #ddd;
+}
+
+.board_list td.num {
+  color: #999999;
+  text-align: center;
+}
+
+.board_list td.checkbox {
+  text-align: center;
+}
+
+.board_list td.subject {
+  overflow: hidden;
+}
+
+.board_list td.name {
+  padding: 0 0 0 10px;
+}
+
+.board_list td.datetime {
+  font: normal 11px tahoma;
+  color: #BABABA;
+  text-align: center;
+}
+
+.board_list td.hit {
+  font: normal 11px tahoma;
+  color: #BABABA;
+  text-align: center;
+}
+
+.board_list td.good {
+  font: normal 11px tahoma;
+  color: #BABABA;
+  text-align: center;
+}
+
+.board_list td.nogood {
+  font: normal 11px tahoma;
+  color: #BABABA;
+  text-align: center;
+}
+
+.board_list .notice {
+  font-weight: normal;
+}
+
+.board_list .current {
+  font: bold 11px tahoma;
+  color: #E15916;
+}
+
+.board_list .comment {
+  font-family: Tahoma;
+  font-size: 10px;
+  color: #EE5A00;
+}
+
+.board_button {
+  clear: both;
+  margin: 10px 0 0 0;
+}
+
+.board_page {
+  clear: both;
+  text-align: center;
+  margin: 3px 0 0 0;
+}
+
+.board_page a:link {
+  color: #777;
+}
+
+.board_search {
+  text-align: center;
+  margin: 10px 0 0 0;
+}
+
+.board_search .stx {
+  height: 21px;
+  border: 1px solid #9A9A9A;
+  border-right: 1px solid #D8D8D8;
+  border-bottom: 1px solid #D8D8D8;
+}
