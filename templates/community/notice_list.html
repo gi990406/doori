@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  <td width="800" valign="top">
+    <!--타이틀시작-->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td class="t01">
+            <img src="{% static 'images/notice/notice_list.gif' %}"
+                 width=""
+                 height=""
+                 alt="공지사항">
+          </td>
+          <td class="t02" align="right">
+            <img src="{% static "images/icon/home.gif" %}"
+                 width=""
+                 height=""
+                 alt="home">
+            &gt; 공지사항
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="t03"></td>
+        </tr>
+      </tbody>
+    </table>
+    <!--/ 타이틀시작-->
+    <!-- 게시판 목록 시작 -->
+    <table width="97%" align="center" cellpadding="0" cellspacing="0">
+      <tbody>
+        <tr>
+          <td>
+            <!-- 분류 셀렉트 박스, 게시물 몇건, 관리자화면 링크 -->
+            <div class="board_top">
+              <div style="float:left;"></div>
+              <div style="float:right;">
+                <img src="{% static 'images/icon/total.gif' %}"
+                     align="absmiddle"
+                     border="0"
+                     alt="total"
+                     width=""
+                     height="">
+                <span style="color:#888888; font-weight:bold;">총 {{ notices.count }}개의 게시물</span>
+              </div>
+            </div>
+            <!-- 제목 -->
+              <table cellspacing="0" cellpadding="0" class="board_list">
+                <colgroup>
+                  <col width="50">
+                  <col>
+                  <col width="110">
+                  <col width="40">
+                  <col width="50">
+                </colgroup>
+                <tbody>
+                  <tr>
+                    <th>번호</th>
+                    <th>제&nbsp;&nbsp;&nbsp;목</th>
+                    <th>글쓴이</th>
+                    <th>날짜</th>
+                    <th>조회</th>
+                  </tr>
+                  {% for notice in notices %}
+                    <tr class="bg1">
+                      <td class="num">{{ notice.id }}</td>
+                      <td class="subject">
+                      <nobr style="display:block; overflow:hidden;"><a href="{% url 'community:notice_detail' notice.id %}">{{ notice.title }}</a>
+                    </nobr>
+                  </td>
+                  <td class="name">
+                    <span class="member">두리상사</span>
+                  </td>
+                  <td class="datetime">{{ notice.created_at | date:'m-d' }}</td>
+                  <td class="hit">{{ notice.hits }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        <div class="board_button">
+          <div style="float:left;"></div>
+          <div style="float:right;"></div>
+        </div>
+        <!-- 페이지 -->
+        <div class="board_page"></div>
+        <!-- 검색 -->
+        <div class="board_search">
+          <form name="fsearch" method="get">
+            <input type="hidden" name="bo_table" value="notice">
+            <input type="hidden" name="sca" value="">
+            <select name="sfl">
+              <option value="wr_subject">제목</option>
+              <option value="wr_content">내용</option>
+              <option value="wr_subject||wr_content">제목+내용</option>
+            </select>
+            <input name="stx"
+                   class="stx"
+                   maxlength="15"
+                   itemname="검색어"
+                   required=""
+                   value=""
+                   style="background-image: url(&quot;
+                          ../js/wrest.gif&quot;
+                          );
+                          background-position: right top;
+                          background-repeat: no-repeat">
+            <input type="image"
+                   src="../skin/board/basic/img/btn_search.gif"
+                   border="0"
+                   align="absmiddle">
+            <input type="radio" name="sop" value="and">
+            and
+            <input type="radio" name="sop" value="or">
+            or
+          </form>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<!-- 게시판 목록 끝 -->
+</td>
+{% endblock content %}

@@ -18,9 +18,116 @@
           content="국산차 수입차 중고부품 전문, 현대,기아,쉐보레 범퍼, 라이트, 휀다 등">
   </head>
   <body topmargin="0" leftmargin="0">
-    {% include "menubar.html" %}
-    {% block content %}
-    {% endblock content %}
+    <a name="g4_head"></a>
+    <table width="980" align="center" border="0" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td width="240" height="53">
+            <a href="{% url "index" %}">
+              <img src="{% static "images/logo.png" %}" width="" height="" alt="로고">
+            </a>
+          </td>
+          <td width="490" align="right" valign="bottom">
+            <!--메뉴1 시작-->
+            <a href="">
+              <img src="{% static "images/menubar/login.gif" %}"
+                   width=""
+                   height=""
+                   alt="로그인">
+            </a>
+            <a href="">
+              <img src="{% static "images/menubar/join.gif" %}"
+                   width=""
+                   height=""
+                   alt="회원가입">
+            </a>
+            <a href="">
+              <img src="{% static "images/menubar/order.gif" %}"
+                   width=""
+                   height=""
+                   alt="주문하기">
+            </a>
+            <a href="">
+              <img src="{% static "images/menubar/cart.gif" %}"
+                   width=""
+                   height=""
+                   alt="장바구니">
+            </a>
+            <a href="">
+              <img src="{% static "images/menubar/mypage.gif" %}"
+                   width=""
+                   height=""
+                   alt="마이페이지">
+            </a>
+            <!--메뉴1 끝-->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- 메뉴바 -->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td height="40"
+              style="background-color:#1B2558;
+                     background-repeat:repeat-x;
+                     background-position:center top">
+            <table width="980" align="center" border="0" cellspacing="0" cellpadding="0">
+              <tbody>
+                <tr>
+                  <td width="700" height="40">
+                    <div class="gnb_new">
+                      <ul>
+                        <a href="">
+                          <li>수입차</li>
+                        </a>
+                        <a href="">
+                          <li>현대자동차</li>
+                        </a>
+                        <a href="">
+                          <li>기아자동차</li>
+                        </a>
+                        <a href="">
+                          <li>쉐보레</li>
+                        </a>
+                        <a href="">
+                          <li>르노삼성</li>
+                        </a>
+                        <a href="">
+                          <li>쌍용자동차</li>
+                        </a>
+                        <a href="">
+                          <li>
+                            <span>커뮤니티</span>
+                          </li>
+                        </a>
+                        <a href="">
+                          <li style="background:none;">
+                            <span>고객센터</span>
+                          </li>
+                        </a>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td height="17"></td>
+        </tr>
+      </tbody>
+    </table>
+    <table width="980" align="center" border="0" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          {% include "menubar.html" %}
+          {% block content %}
+          {% endblock content %}
+        </tr>
+      </tbody>
+    </table>
     {% include "footer.html" %}
   </body>
 </html>

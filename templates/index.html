@@ -1,930 +1,111 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-  <!-- 추천제품 -->
-  <img src="./images/main_tit_2.jpg">
-  <div style="height:20px"></div>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0">
-    <tbody>
-      <tr>
-        <td width="20%" align="center" valign="top">
-          <table width="20%" cellpadding="0" cellspacing="0" border="0">
-            <tbody>
-              <tr>
-                <td height="5"></td>
-              </tr>
-              <tr>
-                <td align="center" style="border:1px solid #d2d2cd;">
-                  <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1598932185&amp;ca_id=91">
-                    <img id="1598932185_m"
-                         src="http://xn--o39ar20cmib.kr/data/item/1598932185_m"
-                         width="130"
-                         height="130"
-                         border="0">
-                  </a>
-                </td>
-              </tr>
-              <tr>
-                <td align="center" class="locat">
-                  <a href="./shop/item.php?it_id=1598932185&amp;ca_id=91" class="item">롤스로이스 고스트 전조등(우)</a>
-                </td>
-              </tr>
-              <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-              <tr>
-                <td align="center" class="locat2">
-                  전화문의<a href="javascript:popup_large_image('1598932185', '1598932185_l1', 800, 600, './shop')">
-                  <img src="./shop/img/btn_zoom.gif" border="0">
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td height="20"></td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-      <td width="20%" align="center" valign="top">
-        <table width="20%" cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            <tr>
-              <td height="5"></td>
-            </tr>
-            <tr>
-              <td align="center" style="border:1px solid #d2d2cd;">
-                <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1590042258&amp;ca_id=91">
-                  <img id="1590042258_m"
-                       src="http://xn--o39ar20cmib.kr/data/item/1590042258_m"
-                       width="130"
-                       height="130"
-                       border="0">
-                </a>
-              </td>
-            </tr>
-            <tr>
-              <td align="center" class="locat">
-                <a href="./shop/item.php?it_id=1590042258&amp;ca_id=91" class="item">체로키 후드</a>
-              </td>
-            </tr>
-            <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-            <tr>
-              <td align="center" class="locat2">
-                전화문의<a href="javascript:popup_large_image('1590042258', '1590042258_l1', 960, 720, './shop')">
-                <img src="./shop/img/btn_zoom.gif" border="0">
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td height="20"></td>
-          </tr>
-        </tbody>
-      </table>
-    </td>
-    <td width="20%" align="center" valign="top">
-      <table width="20%" cellpadding="0" cellspacing="0" border="0">
-        <tbody>
-          <tr>
-            <td height="5"></td>
-          </tr>
-          <tr>
-            <td align="center" style="border:1px solid #d2d2cd;">
-              <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1587712725&amp;ca_id=91">
-                <img id="1587712725_m"
-                     src="http://xn--o39ar20cmib.kr/data/item/1587712725_m"
-                     width="130"
-                     height="130"
-                     border="0">
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td align="center" class="locat">
-              <a href="./shop/item.php?it_id=1587712725&amp;ca_id=91" class="item">머스탱 gt 5.0 본넷</a>
-            </td>
-          </tr>
-          <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-          <tr>
-            <td align="center" class="locat2">
-              전화문의<a href="javascript:popup_large_image('1587712725', '1587712725_l1', 720, 960, './shop')">
-              <img src="./shop/img/btn_zoom.gif" border="0">
-            </a>
-          </td>
-        </tr>
+  <td width="800" valign="top">
+    <!-- 컨텐츠 -->
+    <table width="800" border="0" cellspacing="0" cellpadding="0">
+      <tbody>
         <tr>
-          <td height="20"></td>
+          <td width="8"></td>
+          <td width="212" valign="top">
+            <!-- 공지추출-->
+            <table width="212" border="0" cellspacing="0" cellpadding="0">
+              <tbody>
+                <tr>
+                  <td height="130"
+                      valign="top"
+                      style="padding-top:30px;
+                             background:url(static/images/notice.jpg);
+                             background-repeat:no-repeat;
+                             background-position:center top">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tbody>
+                        {% for notice in notices %}
+                          <tr>
+                            <td height="22">
+                              <nobr style="display:block; overflow:hidden; width:160;">
+                                &nbsp;&nbsp;&nbsp;
+                                <img src="{% static 'images/blot.gif' %}"
+                                     align="absmiddle"
+                                     width="2"
+                                     height="4">
+                                <a href="{% url 'community:notice_detail' notice.id %}">{{ notice.title }}</a>
+                                <span style="font-family:돋움; font-size:8pt; color:#9A9A9A;"></span></nobr>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td align="center">
+                              <img src="{% static 'images/dot_line.gif' %}"
+                                   width=""
+                                   height=""
+                                   alt="dot_line">
+                            </td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
         </tr>
       </tbody>
     </table>
+    <div style="height:5px;line-height:0;font-size:0;"></div>
+    <!-- 신제품 시작 -->
+    <img src="{% static "images/index/main_tit_2.jpg" %}"
+         alt="신규상품"
+         width=""
+         height="">
+    <div style="height:20px"></div>
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        {% for parts in parts %}
+          {% if forloop.first or forloop.counter0|divisibleby:5 %}<tr>{% endif %}
+            <td width="20%" align="center" valign="top">
+              <table width="20%" cellpadding="0" cellspacing="0" border="0">
+                <tbody>
+                  <tr>
+                    <td height="5"></td>
+                  </tr>
+                  <tr>
+                    <td align="center" style="border:1px solid #d2d2cd;">
+                      <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1598932185&amp;ca_id=91">
+                        <img id="1598932185_m"
+                             src="{{ parts.images.all.0.image.url }}"
+                             alt="{{ parts.name }} 이미지"
+                             width="130"
+                             height="130"
+                             border="0">
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="center" class="locat">
+                      <a href="./shop/item.php?it_id=1598932185&amp;ca_id=91" class="item">{{ parts.title }}</a>
+                    </td>
+                  </tr>
+                  {% if parts.price == 0 %}
+                    <tr>
+                      <td align="center" class="locat2">전화문의</td>
+                    </tr>
+                  {% else %}
+                    <tr>
+                      <td align="center" class="locat2">{{ parts.formatted_price }}원</td>
+                    </tr>
+                  {% endif %}
+                  <tr>
+                    <td height="20"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+            {% if forloop.counter|divisibleby:5 or forloop.last %}</tr>{% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+    <!-- 베스트 시작 -->
+    <div style="height:20px"></div>
   </td>
-  <td width="20%" align="center" valign="top">
-    <table width="20%" cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td height="5"></td>
-        </tr>
-        <tr>
-          <td align="center" style="border:1px solid #d2d2cd;">
-            <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1571039047&amp;ca_id=92">
-              <img id="1571039047_m"
-                   src="http://xn--o39ar20cmib.kr/data/item/1571039047_m"
-                   width="130"
-                   height="130"
-                   border="0">
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td align="center" class="locat">
-            <a href="./shop/item.php?it_id=1571039047&amp;ca_id=92" class="item">지프 체로키 백도어</a>
-          </td>
-        </tr>
-        <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-        <tr>
-          <td align="center" class="locat2">
-            전화문의<a href="javascript:popup_large_image('1571039047', '1571039047_l1', 720, 960, './shop')">
-            <img src="./shop/img/btn_zoom.gif" border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td height="20"></td>
-      </tr>
-    </tbody>
-  </table>
-</td>
-<td width="20%" align="center" valign="top">
-  <table width="20%" cellpadding="0" cellspacing="0" border="0">
-    <tbody>
-      <tr>
-        <td height="5"></td>
-      </tr>
-      <tr>
-        <td align="center" style="border:1px solid #d2d2cd;">
-          <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1571038827&amp;ca_id=92">
-            <img id="1571038827_m"
-                 src="http://xn--o39ar20cmib.kr/data/item/1571038827_m"
-                 width="130"
-                 height="130"
-                 border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td align="center" class="locat">
-          <a href="./shop/item.php?it_id=1571038827&amp;ca_id=92" class="item">도요타 시에나 백도어</a>
-        </td>
-      </tr>
-      <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-      <tr>
-        <td align="center" class="locat2">
-          전화문의<a href="javascript:popup_large_image('1571038827', '1571038827_l1', 720, 960, './shop')">
-          <img src="./shop/img/btn_zoom.gif" border="0">
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td height="20"></td>
-    </tr>
-  </tbody>
-</table>
-</td>
-</tr>
-<tr>
-  <td width="20%" align="center" valign="top">
-    <table width="20%" cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td height="5"></td>
-        </tr>
-        <tr>
-          <td align="center" style="border:1px solid #d2d2cd;">
-            <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1571036129&amp;ca_id=92">
-              <img id="1571036129_m"
-                   src="http://xn--o39ar20cmib.kr/data/item/1571036129_m"
-                   width="130"
-                   height="130"
-                   border="0">
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td align="center" class="locat">
-            <a href="./shop/item.php?it_id=1571036129&amp;ca_id=92" class="item">디스커버리 스포츠 백도어</a>
-          </td>
-        </tr>
-        <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-        <tr>
-          <td align="center" class="locat2">
-            전화문의<a href="javascript:popup_large_image('1571036129', '1571036129_l1', 720, 960, './shop')">
-            <img src="./shop/img/btn_zoom.gif" border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td height="20"></td>
-      </tr>
-    </tbody>
-  </table>
-</td>
-<td width="20%" align="center" valign="top">
-  <table width="20%" cellpadding="0" cellspacing="0" border="0">
-    <tbody>
-      <tr>
-        <td height="5"></td>
-      </tr>
-      <tr>
-        <td align="center" style="border:1px solid #d2d2cd;">
-          <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1570253232&amp;ca_id=91">
-            <img id="1570253232_m"
-                 src="http://xn--o39ar20cmib.kr/data/item/1570253232_m"
-                 width="130"
-                 height="130"
-                 border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td align="center" class="locat">
-          <a href="./shop/item.php?it_id=1570253232&amp;ca_id=91" class="item">셀토스 헤드램프</a>
-        </td>
-      </tr>
-      <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-      <tr>
-        <td align="center" class="locat2">
-          전화문의<a href="javascript:popup_large_image('1570253232', '1570253232_l1', 720, 960, './shop')">
-          <img src="./shop/img/btn_zoom.gif" border="0">
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td height="20"></td>
-    </tr>
-  </tbody>
-</table>
-</td>
-<td width="20%" align="center" valign="top">
-  <table width="20%" cellpadding="0" cellspacing="0" border="0">
-    <tbody>
-      <tr>
-        <td height="5"></td>
-      </tr>
-      <tr>
-        <td align="center" style="border:1px solid #d2d2cd;">
-          <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1570253087&amp;ca_id=91">
-            <img id="1570253087_m"
-                 src="http://xn--o39ar20cmib.kr/data/item/1570253087_m"
-                 width="130"
-                 height="130"
-                 border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td align="center" class="locat">
-          <a href="./shop/item.php?it_id=1570253087&amp;ca_id=91" class="item">셀토스 전범퍼 (센서 그릴 별도판매)</a>
-        </td>
-      </tr>
-      <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-      <tr>
-        <td align="center" class="locat2">
-          전화문의<a href="javascript:popup_large_image('1570253087', '1570253087_l1', 720, 960, './shop')">
-          <img src="./shop/img/btn_zoom.gif" border="0">
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td height="20"></td>
-    </tr>
-  </tbody>
-</table>
-</td>
-<td width="20%" align="center" valign="top">
-  <table width="20%" cellpadding="0" cellspacing="0" border="0">
-    <tbody>
-      <tr>
-        <td height="5"></td>
-      </tr>
-      <tr>
-        <td align="center" style="border:1px solid #d2d2cd;">
-          <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1564630706&amp;ca_id=92">
-            <img id="1564630706_m"
-                 src="http://xn--o39ar20cmib.kr/data/item/1564630706_m"
-                 width="130"
-                 height="130"
-                 border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td align="center" class="locat">
-          <a href="./shop/item.php?it_id=1564630706&amp;ca_id=92" class="item">CR-V 조수석 후미등</a>
-        </td>
-      </tr>
-      <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-      <tr>
-        <td align="center" class="locat2">
-          전화문의<a href="javascript:popup_large_image('1564630706', '1564630706_l1', 720, 960, './shop')">
-          <img src="./shop/img/btn_zoom.gif" border="0">
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td height="20"></td>
-    </tr>
-  </tbody>
-</table>
-</td>
-<td width="20%" align="center" valign="top">
-  <table width="20%" cellpadding="0" cellspacing="0" border="0">
-    <tbody>
-      <tr>
-        <td height="5"></td>
-      </tr>
-      <tr>
-        <td align="center" style="border:1px solid #d2d2cd;">
-          <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1562138429&amp;ca_id=91">
-            <img id="1562138429_m"
-                 src="http://xn--o39ar20cmib.kr/data/item/1562138429_m"
-                 width="130"
-                 height="130"
-                 border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td align="center" class="locat">
-          <a href="./shop/item.php?it_id=1562138429&amp;ca_id=91" class="item">제네시스 G80 4구6구 전범퍼</a>
-        </td>
-      </tr>
-      <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-      <tr>
-        <td align="center" class="locat2">
-          전화문의<a href="javascript:popup_large_image('1562138429', '1562138429_l1', 860, 643, './shop')">
-          <img src="./shop/img/btn_zoom.gif" border="0">
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td height="20"></td>
-    </tr>
-  </tbody>
-</table>
-</td>
-</tr>
-<tr>
-  <td width="20%" align="center" valign="top">
-    <table width="20%" cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td height="5"></td>
-        </tr>
-        <tr>
-          <td align="center" style="border:1px solid #d2d2cd;">
-            <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1562137530&amp;ca_id=91">
-              <img id="1562137530_m"
-                   src="http://xn--o39ar20cmib.kr/data/item/1562137530_m"
-                   width="130"
-                   height="130"
-                   border="0">
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td align="center" class="locat">
-            <a href="./shop/item.php?it_id=1562137530&amp;ca_id=91" class="item">포르쉐 박스터 718 조수석</a>
-          </td>
-        </tr>
-        <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-        <tr>
-          <td align="center" class="locat2">
-            전화문의<a href="javascript:popup_large_image('1562137530', '1562137530_l1', 960, 720, './shop')">
-            <img src="./shop/img/btn_zoom.gif" border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td height="20"></td>
-      </tr>
-    </tbody>
-  </table>
-</td>
-<td width="20%" align="center" valign="top">
-  <table width="20%" cellpadding="0" cellspacing="0" border="0">
-    <tbody>
-      <tr>
-        <td height="5"></td>
-      </tr>
-      <tr>
-        <td align="center" style="border:1px solid #d2d2cd;">
-          <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1561775751&amp;ca_id=91">
-            <img id="1561775751_m"
-                 src="http://xn--o39ar20cmib.kr/data/item/1561775751_m"
-                 width="130"
-                 height="130"
-                 border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td align="center" class="locat">
-          <a href="./shop/item.php?it_id=1561775751&amp;ca_id=91" class="item">펠리세이드 그릴</a>
-        </td>
-      </tr>
-      <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-      <tr>
-        <td align="center" class="locat2">
-          전화문의<a href="javascript:popup_large_image('1561775751', '1561775751_l1', 640, 480, './shop')">
-          <img src="./shop/img/btn_zoom.gif" border="0">
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td height="20"></td>
-    </tr>
-  </tbody>
-</table>
-</td>
-<td width="20%" align="center" valign="top">
-  <table width="20%" cellpadding="0" cellspacing="0" border="0">
-    <tbody>
-      <tr>
-        <td height="5"></td>
-      </tr>
-      <tr>
-        <td align="center" style="border:1px solid #d2d2cd;">
-          <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1560409015&amp;ca_id=91">
-            <img id="1560409015_m"
-                 src="http://xn--o39ar20cmib.kr/data/item/1560409015_m"
-                 width="130"
-                 height="130"
-                 border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td align="center" class="locat">
-          <a href="./shop/item.php?it_id=1560409015&amp;ca_id=91" class="item">쏘나타 dn8 그릴</a>
-        </td>
-      </tr>
-      <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-      <tr>
-        <td align="center" class="locat2">
-          전화문의<a href="javascript:popup_large_image('1560409015', '1560409015_l1', 720, 960, './shop')">
-          <img src="./shop/img/btn_zoom.gif" border="0">
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td height="20"></td>
-    </tr>
-  </tbody>
-</table>
-</td>
-<td width="20%" align="center" valign="top">
-  <table width="20%" cellpadding="0" cellspacing="0" border="0">
-    <tbody>
-      <tr>
-        <td height="5"></td>
-      </tr>
-      <tr>
-        <td align="center" style="border:1px solid #d2d2cd;">
-          <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1560240361&amp;ca_id=91">
-            <img id="1560240361_m"
-                 src="http://xn--o39ar20cmib.kr/data/item/1560240361_m"
-                 width="130"
-                 height="130"
-                 border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td align="center" class="locat">
-          <a href="./shop/item.php?it_id=1560240361&amp;ca_id=91" class="item">전범퍼 센스 4구</a>
-        </td>
-      </tr>
-      <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-      <tr>
-        <td align="center" class="locat2">
-          전화문의<a href="javascript:popup_large_image('1560240361', '1560240361_l1', 720, 960, './shop')">
-          <img src="./shop/img/btn_zoom.gif" border="0">
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td height="20"></td>
-    </tr>
-  </tbody>
-</table>
-</td>
-<td width="20%" align="center" valign="top">
-  <table width="20%" cellpadding="0" cellspacing="0" border="0">
-    <tbody>
-      <tr>
-        <td height="5"></td>
-      </tr>
-      <tr>
-        <td align="center" style="border:1px solid #d2d2cd;">
-          <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1559625164&amp;ca_id=91">
-            <img id="1559625164_m"
-                 src="http://xn--o39ar20cmib.kr/data/item/1559625164_m"
-                 width="130"
-                 height="130"
-                 border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td align="center" class="locat">
-          <a href="./shop/item.php?it_id=1559625164&amp;ca_id=91" class="item">제네시스G90전범퍼 안개등커버 포함</a>
-        </td>
-      </tr>
-      <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-      <tr>
-        <td align="center" class="locat2">
-          전화문의<a href="javascript:popup_large_image('1559625164', '1559625164_l1', 2880, 2160, './shop')">
-          <img src="./shop/img/btn_zoom.gif" border="0">
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td height="20"></td>
-    </tr>
-  </tbody>
-</table>
-</td>
-</tr>
-<tr>
-  <td width="20%" align="center" valign="top">
-    <table width="20%" cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td height="5"></td>
-        </tr>
-        <tr>
-          <td align="center" style="border:1px solid #d2d2cd;">
-            <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1559613526&amp;ca_id=91">
-              <img id="1559613526_m"
-                   src="http://xn--o39ar20cmib.kr/data/item/1559613526_m"
-                   width="130"
-                   height="130"
-                   border="0">
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td align="center" class="locat">
-            <a href="./shop/item.php?it_id=1559613526&amp;ca_id=91" class="item">2018 티구안 조수석 헤드램프</a>
-          </td>
-        </tr>
-        <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-        <tr>
-          <td align="center" class="locat2">
-            전화문의<a href="javascript:popup_large_image('1559613526', '1559613526_l1', 2880, 2160, './shop')">
-            <img src="./shop/img/btn_zoom.gif" border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td height="20"></td>
-      </tr>
-    </tbody>
-  </table>
-</td>
-<td width="20%" align="center" valign="top">
-  <table width="20%" cellpadding="0" cellspacing="0" border="0">
-    <tbody>
-      <tr>
-        <td height="5"></td>
-      </tr>
-      <tr>
-        <td align="center" style="border:1px solid #d2d2cd;">
-          <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1559025256&amp;ca_id=91">
-            <img id="1559025256_m"
-                 src="http://xn--o39ar20cmib.kr/data/item/1559025256_m"
-                 width="130"
-                 height="130"
-                 border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td align="center" class="locat">
-          <a href="./shop/item.php?it_id=1559025256&amp;ca_id=91" class="item">렉서스 NX 앞범퍼</a>
-        </td>
-      </tr>
-      <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-      <tr>
-        <td align="center" class="locat2">
-          전화문의<a href="javascript:popup_large_image('1559025256', '1559025256_l1', 700, 525, './shop')">
-          <img src="./shop/img/btn_zoom.gif" border="0">
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td height="20"></td>
-    </tr>
-  </tbody>
-</table>
-</td>
-<td width="20%" align="center" valign="top">
-  <table width="20%" cellpadding="0" cellspacing="0" border="0">
-    <tbody>
-      <tr>
-        <td height="5"></td>
-      </tr>
-      <tr>
-        <td align="center" style="border:1px solid #d2d2cd;">
-          <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1558415500&amp;ca_id=92">
-            <img id="1558415500_m"
-                 src="http://xn--o39ar20cmib.kr/data/item/1558415500_m"
-                 width="130"
-                 height="130"
-                 border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td align="center" class="locat">
-          <a href="./shop/item.php?it_id=1558415500&amp;ca_id=92" class="item">폭스바겐 CC 후미등</a>
-        </td>
-      </tr>
-      <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-      <tr>
-        <td align="center" class="locat2">
-          전화문의<a href="javascript:popup_large_image('1558415500', '1558415500_l1', 700, 525, './shop')">
-          <img src="./shop/img/btn_zoom.gif" border="0">
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td height="20"></td>
-    </tr>
-  </tbody>
-</table>
-</td>
-<td width="20%" align="center" valign="top">
-  <table width="20%" cellpadding="0" cellspacing="0" border="0">
-    <tbody>
-      <tr>
-        <td height="5"></td>
-      </tr>
-      <tr>
-        <td align="center" style="border:1px solid #d2d2cd;">
-          <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1555898030&amp;ca_id=92">
-            <img id="1555898030_m"
-                 src="http://xn--o39ar20cmib.kr/data/item/1555898030_m"
-                 width="130"
-                 height="130"
-                 border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td align="center" class="locat">
-          <a href="./shop/item.php?it_id=1555898030&amp;ca_id=92" class="item">마세라티 기블리 후미등</a>
-        </td>
-      </tr>
-      <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-      <tr>
-        <td align="center" class="locat2">
-          전화문의<a href="javascript:popup_large_image('1555898030', '1555898030_l1', 700, 525, './shop')">
-          <img src="./shop/img/btn_zoom.gif" border="0">
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td height="20"></td>
-    </tr>
-  </tbody>
-</table>
-</td>
-<td width="20%" align="center" valign="top">
-  <table width="20%" cellpadding="0" cellspacing="0" border="0">
-    <tbody>
-      <tr>
-        <td height="5"></td>
-      </tr>
-      <tr>
-        <td align="center" style="border:1px solid #d2d2cd;">
-          <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1551854863&amp;ca_id=93">
-            <img id="1551854863_m"
-                 src="http://xn--o39ar20cmib.kr/data/item/1551854863_m"
-                 width="130"
-                 height="130"
-                 border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td align="center" class="locat">
-          <a href="./shop/item.php?it_id=1551854863&amp;ca_id=93" class="item">포르쉐 파나메라 휀다</a>
-        </td>
-      </tr>
-      <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-      <tr>
-        <td align="center" class="locat2">
-          전화문의<a href="javascript:popup_large_image('1551854863', '1551854863_l1', 700, 525, './shop')">
-          <img src="./shop/img/btn_zoom.gif" border="0">
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td height="20"></td>
-    </tr>
-  </tbody>
-</table>
-</td>
-</tr>
-<tr>
-  <td width="20%" align="center" valign="top">
-    <table width="20%" cellpadding="0" cellspacing="0" border="0">
-      <tbody>
-        <tr>
-          <td height="5"></td>
-        </tr>
-        <tr>
-          <td align="center" style="border:1px solid #d2d2cd;">
-            <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1546664947&amp;ca_id=91">
-              <img id="1546664947_m"
-                   src="http://xn--o39ar20cmib.kr/data/item/1546664947_m"
-                   width="130"
-                   height="130"
-                   border="0">
-            </a>
-          </td>
-        </tr>
-        <tr>
-          <td align="center" class="locat">
-            <a href="./shop/item.php?it_id=1546664947&amp;ca_id=91" class="item">마세라티 기블리 전조등</a>
-          </td>
-        </tr>
-        <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-        <tr>
-          <td align="center" class="locat2">
-            전화문의<a href="javascript:popup_large_image('1546664947', '1546664947_l1', 700, 525, './shop')">
-            <img src="./shop/img/btn_zoom.gif" border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td height="20"></td>
-      </tr>
-    </tbody>
-  </table>
-</td>
-<td width="20%" align="center" valign="top">
-  <table width="20%" cellpadding="0" cellspacing="0" border="0">
-    <tbody>
-      <tr>
-        <td height="5"></td>
-      </tr>
-      <tr>
-        <td align="center" style="border:1px solid #d2d2cd;">
-          <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1534816718&amp;ca_id=91">
-            <img id="1534816718_m"
-                 src="http://xn--o39ar20cmib.kr/data/item/1534816718_m"
-                 width="130"
-                 height="130"
-                 border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td align="center" class="locat">
-          <a href="./shop/item.php?it_id=1534816718&amp;ca_id=91" class="item">제네시스G70 범퍼</a>
-        </td>
-      </tr>
-      <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-      <tr>
-        <td align="center" class="locat2">
-          전화문의<a href="javascript:popup_large_image('1534816718', '1534816718_l1', 700, 525, './shop')">
-          <img src="./shop/img/btn_zoom.gif" border="0">
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td height="20"></td>
-    </tr>
-  </tbody>
-</table>
-</td>
-<td width="20%" align="center" valign="top">
-  <table width="20%" cellpadding="0" cellspacing="0" border="0">
-    <tbody>
-      <tr>
-        <td height="5"></td>
-      </tr>
-      <tr>
-        <td align="center" style="border:1px solid #d2d2cd;">
-          <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1534480506&amp;ca_id=91">
-            <img id="1534480506_m"
-                 src="http://xn--o39ar20cmib.kr/data/item/1534480506_m"
-                 width="130"
-                 height="130"
-                 border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td align="center" class="locat">
-          <a href="./shop/item.php?it_id=1534480506&amp;ca_id=91" class="item">BMW 5시리즈 보닛</a>
-        </td>
-      </tr>
-      <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-      <tr>
-        <td align="center" class="locat2">
-          전화문의<a href="javascript:popup_large_image('1534480506', '1534480506_l1', 700, 525, './shop')">
-          <img src="./shop/img/btn_zoom.gif" border="0">
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td height="20"></td>
-    </tr>
-  </tbody>
-</table>
-</td>
-<td width="20%" align="center" valign="top">
-  <table width="20%" cellpadding="0" cellspacing="0" border="0">
-    <tbody>
-      <tr>
-        <td height="5"></td>
-      </tr>
-      <tr>
-        <td align="center" style="border:1px solid #d2d2cd;">
-          <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1533260426&amp;ca_id=91">
-            <img id="1533260426_m"
-                 src="http://xn--o39ar20cmib.kr/data/item/1533260426_m"
-                 width="130"
-                 height="130"
-                 border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td align="center" class="locat">
-          <a href="./shop/item.php?it_id=1533260426&amp;ca_id=91" class="item">e클래스 헤드라이트 운전석</a>
-        </td>
-      </tr>
-      <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-      <tr>
-        <td align="center" class="locat2">
-          전화문의<a href="javascript:popup_large_image('1533260426', '1533260426_l1', 700, 525, './shop')">
-          <img src="./shop/img/btn_zoom.gif" border="0">
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td height="20"></td>
-    </tr>
-  </tbody>
-</table>
-</td>
-<td width="20%" align="center" valign="top">
-  <table width="20%" cellpadding="0" cellspacing="0" border="0">
-    <tbody>
-      <tr>
-        <td height="5"></td>
-      </tr>
-      <tr>
-        <td align="center" style="border:1px solid #d2d2cd;">
-          <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1487302571&amp;ca_id=91">
-            <img id="1487302571_m"
-                 src="http://xn--o39ar20cmib.kr/data/item/1487302571_m"
-                 width="130"
-                 height="130"
-                 border="0">
-          </a>
-        </td>
-      </tr>
-      <tr>
-        <td align="center" class="locat">
-          <a href="./shop/item.php?it_id=1487302571&amp;ca_id=91" class="item">신형 말리부 앞범버</a>
-        </td>
-      </tr>
-      <!--시중가격<tr><td align=center><strike>0원</strike></td></tr>-->
-      <tr>
-        <td align="center" class="locat2">
-          전화문의<a href="javascript:popup_large_image('1487302571', '1487302571_l1', 703, 527, './shop')">
-          <img src="./shop/img/btn_zoom.gif" border="0">
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td height="20"></td>
-    </tr>
-  </tbody>
-</table>
-</td>
-</tr>
-</tbody>
-</table>
-<!-- 베스트 시작 -->
-<div style="height:20px"></div>
-</td>
-</tr>
-</tbody>
-</table>
-<script type="text/javascript" src="./js/wrest.js"></script>
-<!-- 새창 대신 사용하는 iframe -->
-<iframe width="0" height="0" name="hiddenframe" style="display:none;"></iframe>
 {% endblock content %}
