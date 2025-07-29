@@ -78,24 +78,11 @@
                   <td width="700" height="40">
                     <div class="gnb_new">
                       <ul>
-                        <a href="{% url "parts:product_list" %}">
-                          <li>수입차</li>
-                        </a>
-                        <a href="">
-                          <li>현대자동차</li>
-                        </a>
-                        <a href="">
-                          <li>기아자동차</li>
-                        </a>
-                        <a href="">
-                          <li>쉐보레</li>
-                        </a>
-                        <a href="">
-                          <li>르노삼성</li>
-                        </a>
-                        <a href="">
-                          <li>쌍용자동차</li>
-                        </a>
+                        {% for manufacturer in manufacturers %}
+                          <a href="{% url "parts:product_by_manufacturer" manufacturer.id %}">
+                            <li>{{ manufacturer.name }}</li>
+                          </a>
+                        {% endfor %}
                         <a href="">
                           <li>
                             <span>커뮤니티</span>
