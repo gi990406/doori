@@ -396,3 +396,46 @@ a.cloudy {
   border-right: 1px solid #D8D8D8;
   border-bottom: 1px solid #D8D8D8;
 }
+
+.p_list {
+  margin: 0 0 15px 0;
+}
+
+.p_list td {
+  color: #686868;
+  padding-bottom: 6px
+}
+
+.p_list01 {
+  font-size: 11px;
+}
+
+.p_list02 {
+  font-family: "돋움";
+  font-size: 9px;
+  text-align: right;
+}
+
+.p_list02 a:link {
+  font-family: "돋움";
+  font-size: 12px;
+  color: #5a5a5a;
+}
+
+.p_list02 a:hover {
+  font-family: "돋움";
+  font-size: 12px;
+  color: #5a5a5a;
+}
+
+.p_list02 a:active {
+  font-family: "돋움";
+  font-size: 12px;
+  color: #5a5a5a;
+}
+
+.p_list02 a:visited {
+  font-family: "돋움";
+  font-size: 12px;
+  color: #5a5a5a;
+}
