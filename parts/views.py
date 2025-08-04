@@ -65,3 +65,27 @@ class ProductListView(ListView):
         context['category_choices'] = PartSubCategory.PartsCategory.choices
 
         return context
+
+class CarModelPartsListView(ListView):
+    """차종별 부품 리스트"""
+    model = Part
+    template_name = 'product/product_model_list.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        self.car_model = get_object_or_404(CarModel, id=self.kwargs['car_model_id'])
+
+        queryset = Part.objects.filter(car_model=self.car_model).select_related('subcategory').prefetch_related('images')
+
+        for part in queryset:
+            try:
+                part.formatted_price = "{:,.0f}".format(part.price)
+            except (ValueError, TypeError):
+                part.formatted_price = part.price
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['car_model'] = self.car_model
+        return context

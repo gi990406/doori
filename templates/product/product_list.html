@@ -7,7 +7,12 @@
       <tbody>
         <tr>
           <td class="t01">
-            <img src="../images/title/title10.gif">
+            {% if selected_manufacturer == '현대자동차' %}
+              <img src="{% static "images/parts/title20.gif" %}"
+                   width=""
+                   height=""
+                   alt="">
+            {% endif %}
             <!-- 수정 필요 : 카테고리 명 표시-->
           </td>
           <td class="t02" align="right">
@@ -56,7 +61,7 @@
             <tr>
               <td>
                 {% for car in manufacturer_models %}
-                  <a href="./list.php?ca_id=1010">{{ car.name }} ({{ car.part_count }})</a> &nbsp;
+                  <a href="{% url "parts:product_by_model" car.id %}">{{ car.name }} ({{ car.part_count }})</a> &nbsp;
                 {% endfor %}
               </td>
             </tr>
