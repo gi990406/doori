@@ -1,4 +1,4 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from .models import Part, CarModel, CarManufacturer, PartSubCategory
 from django.shortcuts import get_object_or_404, render
 from django.db.models import Count
@@ -88,4 +88,20 @@ class CarModelPartsListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['car_model'] = self.car_model
+        return context
+
+class ProductDetailView(DetailView):
+    model = Part
+    template_name = 'product/product_detail.html'
+    context_object_name = 'product'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        part = self.object
+        if part.price:
+            context['formatted_price'] = "{:,.0f}".format(part.price)
+        else:
+            context['formatted_price'] = "전화문의"
+
         return context

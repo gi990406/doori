@@ -120,7 +120,7 @@
                       </tr>
                       <tr>
                         <td align="center" style="border:1px solid #d2d2cd;">
-                          <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1752766397&amp;ca_id=10">
+                          <a href="{% url 'parts:product_detail' part.pk %}">
                             <img id="1752766397_m"
                                  src="{{ part.images.all.0.image.url }}"
                                  alt="{{ part.title }} 이미지"
@@ -132,7 +132,7 @@
                       </tr>
                       <tr>
                         <td align="center" class="locat">
-                          <a href="../shop/item.php?it_id=1752766397&amp;ca_id=10" class="item">{{ part.title }}</a>
+                          <a href="{% url 'parts:product_detail' part.pk %}" class="item">{{ part.title }}</a>
                         </td>
                       </tr>
                       <tr>
