@@ -15,10 +15,11 @@ class ProductListView(ListView):
     def get_queryset(self):
         self.manufacturer = None
         self.category = None
+        category = self.kwargs.get('category')
+        self.category = self.kwargs.get('category')
 
         queryset = Part.objects.select_related('car_model__manufacturer', 'subcategory').prefetch_related('images').order_by('-id')
         manufacturer_id = self.kwargs.get('manufacturer_id')
-        category = self.kwargs.get('category')
 
         if manufacturer_id:
             self.manufacturer = get_object_or_404(CarManufacturer, id=manufacturer_id)
@@ -74,7 +75,7 @@ class ProductListView(ListView):
 
         # ✅ 세부 카테고리 목록 추가
         if self.category:
-            context['subcategory_list'] = PartSubCategory.objects.filter(parent_category=self.category)
+            context['subcategory_list'] = PartSubCategory.objects.filter(parent_category=self.category).annotate(part_count=Count('part'))
         else:
             context['subcategory_list'] = []
 

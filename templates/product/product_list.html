@@ -13,6 +13,48 @@
                    height=""
                    alt="">
             {% endif %}
+            {% if selected_category_display == '전면부품' %}
+              <img src="{% static "images/parts/title91.gif" %}"
+                   width=""
+                   height=""
+                   alt="">
+            {% endif %}
+            {% if selected_category_display == '후면부품' %}
+              <img src="{% static "images/parts/title92.gif" %}"
+                   width=""
+                   height=""
+                   alt="">
+            {% endif %}
+            {% if selected_category_display == '측면부품' %}
+              <img src="{% static "images/parts/title93.gif" %}"
+                   width=""
+                   height=""
+                   alt="">
+            {% endif %}
+            {% if selected_category_display == '실내부품' %}
+              <img src="{% static "images/parts/title94.gif" %}"
+                   width=""
+                   height=""
+                   alt="">
+            {% endif %}
+            {% if selected_category_display == '중고순정휠' %}
+              <img src="{% static "images/parts/title95.gif" %}"
+                   width=""
+                   height=""
+                   alt="">
+            {% endif %}
+            {% if selected_category_display == '하체부품' %}
+              <img src="{% static "images/parts/title96.gif" %}"
+                   width=""
+                   height=""
+                   alt="">
+            {% endif %}
+            {% if selected_category_display == '기타부품' %}
+              <img src="{% static "images/parts/title97.gif" %}"
+                   width=""
+                   height=""
+                   alt="">
+            {% endif %}
             <!-- 수정 필요 : 카테고리 명 표시-->
           </td>
           <td class="t02" align="right">
@@ -22,6 +64,7 @@
                  alt="home">
             &gt;
             {% if selected_manufacturer %}{{ selected_manufacturer }}{% endif %}
+            {% if selected_category_display %}{{ selected_category_display }}{% endif %}
           </td>
         </tr>
         <tr>
@@ -60,9 +103,14 @@
           <tbody>
             <tr>
               <td>
-                {% for car in manufacturer_models %}
-                  <a href="{% url "parts:product_by_model" car.id %}">{{ car.name }} ({{ car.part_count }})</a> &nbsp;
-                {% endfor %}
+                {% if manufacturer_models %}
+                  {% for car in manufacturer_models %}
+                    <a href="{% url "parts:product_by_model" car.id %}">{{ car.name }} ({{ car.part_count }})</a> &nbsp;
+                  {% endfor %}
+                {% endif %}
+                {% if subcategory_list %}
+                  {% for sub in subcategory_list %}<a href="">{{ sub.name }} ({{ sub.part_count }})</a> &nbsp;{% endfor %}
+                {% endif %}
               </td>
             </tr>
           </tbody>
@@ -108,55 +156,65 @@
             </tr>
           </tbody>
         </table>
-        <table width="100%" cellpadding="0" cellspacing="0" border="0">
-          <tbody>
-            {% for part in products %}
-              {% if forloop.first or forloop.counter0|divisibleby:4 %}<tr>{% endif %}
-                <td width="25%" align="center" valign="top">
-                  <table width="25%" cellpadding="0" cellspacing="0" border="0">
-                    <tbody>
-                      <tr>
-                        <td height="5"></td>
-                      </tr>
-                      <tr>
-                        <td align="center" style="border:1px solid #d2d2cd;">
-                          <a href="{% url 'parts:product_detail' part.pk %}">
-                            <img id="1752766397_m"
-                                 src="{{ part.images.all.0.image.url }}"
-                                 alt="{{ part.title }} 이미지"
-                                 width="120"
-                                 height="120"
-                                 border="0">
-                          </a>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td align="center" class="locat">
-                          <a href="{% url 'parts:product_detail' part.pk %}" class="item">{{ part.title }}</a>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td align="center"></td>
-                      </tr>
-                      <tr>
-                        <td align="center" class="locat2">
-                          {% if part.price == 0 %}
-                            전화문의
-                          {% else %}
-                            {{ part.formatted_price }}원
-                          {% endif %}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td height="20"></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-                {% if forloop.counter|divisibleby:4 or forloop.last %}</tr>{% endif %}
-            {% endfor %}
-          </tbody>
-        </table>
+        {% if products %}
+          <table width="100%" cellpadding="0" cellspacing="0" border="0">
+            <tbody>
+              {% for part in products %}
+                {% if forloop.first or forloop.counter0|divisibleby:4 %}<tr>{% endif %}
+                  <td width="25%" align="center" valign="top">
+                    <table width="25%" cellpadding="0" cellspacing="0" border="0">
+                      <tbody>
+                        <tr>
+                          <td height="5"></td>
+                        </tr>
+                        <tr>
+                          <td align="center" style="border:1px solid #d2d2cd;">
+                            <a href="{% url 'parts:product_detail' part.pk %}">
+                              <img id="1752766397_m"
+                                   src="{{ part.images.all.0.image.url }}"
+                                   alt="{{ part.title }} 이미지"
+                                   width="120"
+                                   height="120"
+                                   border="0">
+                            </a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="center" class="locat">
+                            <a href="{% url 'parts:product_detail' part.pk %}" class="item">{{ part.title }}</a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="center"></td>
+                        </tr>
+                        <tr>
+                          <td align="center" class="locat2">
+                            {% if part.price == 0 %}
+                              전화문의
+                            {% else %}
+                              {{ part.formatted_price }}원
+                            {% endif %}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td height="20"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                  {% if forloop.counter|divisibleby:4 or forloop.last %}</tr>{% endif %}
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <div align="center">
+            <img src="{% static "images/parts/no_item.gif" %}"
+                 border="0"
+                 width=""
+                 height=""
+                 alt="">
+          </div>
+        {% endif %}
       </td>
     </tr>
   </tbody>
