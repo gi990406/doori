@@ -24,17 +24,17 @@ class CarModel(models.Model):
 
     def __str__(self):
         return f"{self.manufacturer.name} - {self.name}"
-    
+
 class PartSubCategory(models.Model):
     # 부품 카테고리
     class PartsCategory(models.TextChoices):
-        FRONT = "front", _("전면")
-        REAR = "rear", _("후면")
-        SIDE = "side", _("측면")
-        INTERIOR = "interior", _("실내")
+        FRONT = "front", _("전면부품")
+        REAR = "rear", _("후면부품")
+        SIDE = "side", _("측면부품")
+        INTERIOR = "interior", _("실내부품")
         WHEEL = "wheel", _("중고순정휠")
-        UNDERBODY = "underbody", _("하체")
-        ETC = "etc", _("기타")
+        UNDERBODY = "underbody", _("하체부품")
+        ETC = "etc", _("기타부품")
 
     parent_category = models.CharField(
         max_length=20,
@@ -50,7 +50,7 @@ class PartSubCategory(models.Model):
 
     def __str__(self):
         return f"{self.get_parent_category_display()} - {self.name}"
-    
+
 class Part(models.Model):
     title = models.CharField(max_length=200, verbose_name="제목")
 
@@ -68,14 +68,14 @@ class Part(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.part_number})"
-    
+
     class Meta:
         verbose_name = "부품"
         verbose_name_plural = "부품 관리"
 
     def get_category_display(self):
         return self.subcategory.get_parent_category_display() if self.subcategory else None
-    
+
 class PartImage(models.Model):
     part = models.ForeignKey(Part, on_delete=models.CASCADE, related_name='images')
 

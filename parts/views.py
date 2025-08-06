@@ -13,6 +13,9 @@ class ProductListView(ListView):
     paginate_by = 10
 
     def get_queryset(self):
+        self.manufacturer = None
+        self.category = None
+
         queryset = Part.objects.select_related('car_model__manufacturer', 'subcategory').prefetch_related('images').order_by('-id')
         manufacturer_id = self.kwargs.get('manufacturer_id')
         category = self.kwargs.get('category')
@@ -63,6 +66,17 @@ class ProductListView(ListView):
         # 카테고리 목록 (한글 변환용)
         context['selected_category'] = self.kwargs.get('category')
         context['category_choices'] = PartSubCategory.PartsCategory.choices
+        context['selected_category_display'] = dict(PartSubCategory.PartsCategory.choices).get(self.kwargs.get('category'), "")
+
+        # 선택된 대분류 카테고리
+        context['selected_category'] = self.category
+        context['selected_category_display'] = dict(PartSubCategory.PartsCategory.choices).get(self.category, "")
+
+        # ✅ 세부 카테고리 목록 추가
+        if self.category:
+            context['subcategory_list'] = PartSubCategory.objects.filter(parent_category=self.category)
+        else:
+            context['subcategory_list'] = []
 
         return context
 

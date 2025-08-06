@@ -2,27 +2,11 @@
 <td class="left_bg_1" width="168" valign="top">
   <div class="lnb_new">
     <ul>
-      <a href="">
-        <li>전면부품</li>
-      </a>
-      <a href="">
-        <li>후면부품</li>
-      </a>
-      <a href="">
-        <li>측면부품</li>
-      </a>
-      <a href="">
-        <li>실내부품</li>
-      </a>
-      <a href="">
-        <li>중고순정휠</li>
-      </a>
-      <a href="">
-        <li>하체부품</li>
-      </a>
-      <a href="">
-        <li>기타부품</li>
-      </a>
+      {% for key, label in category_choices %}
+        <a href="{% url 'parts:product_by_category' key %}">
+          <li>{{ label }}</li>
+        </a>
+      {% endfor %}
       {% for manufacturer in manufacturers %}
         <a href="{% url "parts:product_by_manufacturer" manufacturer.id %}">
           <li>{{ manufacturer.name }}</li>

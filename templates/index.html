@@ -71,7 +71,7 @@
                   </tr>
                   <tr>
                     <td align="center" style="border:1px solid #d2d2cd;">
-                      <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1598932185&amp;ca_id=91">
+                      <a href="{% url 'parts:product_detail' parts.pk %}">
                         <img id="1598932185_m"
                              src="{{ parts.images.all.0.image.url }}"
                              alt="{{ parts.name }} 이미지"
@@ -83,7 +83,7 @@
                   </tr>
                   <tr>
                     <td align="center" class="locat">
-                      <a href="./shop/item.php?it_id=1598932185&amp;ca_id=91" class="item">{{ parts.title }}</a>
+                      <a href="{% url 'parts:product_detail' parts.pk %}" class="item">{{ parts.title }}</a>
                     </td>
                   </tr>
                   {% if parts.price == 0 %}
