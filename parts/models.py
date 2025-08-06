@@ -25,6 +25,17 @@ class CarModel(models.Model):
     def __str__(self):
         return f"{self.manufacturer.name} - {self.name}"
 
+class CarModelDetail(models.Model):
+    model = models.ForeignKey(CarModel, on_delete=models.CASCADE, related_name='details', verbose_name="차량 모델")
+    name = models.CharField(max_length=100, verbose_name="세부 차종 이름")
+
+    class Meta:
+        verbose_name = "세부 차종"
+        verbose_name_plural = "세부 차종 관리"
+
+    def __str__(self):
+        return f"{self.model.name} - {self.name}"
+
 class PartSubCategory(models.Model):
     # 부품 카테고리
     class PartsCategory(models.TextChoices):
@@ -55,6 +66,14 @@ class Part(models.Model):
     title = models.CharField(max_length=200, verbose_name="제목")
 
     car_model = models.ForeignKey(CarModel, on_delete=models.SET_NULL, related_name='parts', null=True, blank=True, verbose_name="차량 모델", help_text="차량 모델이 없다면 + 버튼을 눌러 추가해주세요.")
+    car_model_detail = models.ForeignKey(
+        CarModelDetail,
+        on_delete=models.SET_NULL,
+        related_name='parts',
+        null=True, blank=True,
+        verbose_name="세부 차종",
+        help_text="세부 차종명이 없다면 + 버튼을 눌러 추가해주세요."
+    )
 
     part_number = models.CharField(max_length=256, verbose_name="제품번호")  # 품번
     applicable_years = models.CharField(max_length=50, help_text="예: 2015-2018", verbose_name="연식")

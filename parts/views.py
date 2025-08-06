@@ -105,6 +105,38 @@ class CarModelPartsListView(ListView):
         context['car_model'] = self.car_model
         return context
 
+class ProductBySubcategoryView(ListView):
+    """세부 카테고리별 제품 목록"""
+    model = Part
+    template_name = 'product/subcategory_list.html'
+    context_object_name = 'products'
+    ordering = ['-id']
+
+    def get_queryset(self):
+        self.subcategory = get_object_or_404(PartSubCategory, id=self.kwargs['subcategory_id'])
+        self.parent_category = self.subcategory.get_parent_category_display()
+
+        queryset = Part.objects.select_related('car_model__manufacturer', 'subcategory') \
+                               .prefetch_related('images') \
+                               .filter(subcategory=self.subcategory) \
+                               .order_by('-id')
+
+        for part in queryset:
+            try:
+                part.formatted_price = "{:,.0f}".format(part.price)
+            except (ValueError, TypeError):
+                part.formatted_price = part.price
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['selected_subcategory'] = self.subcategory
+        context['selected_subcategory_display'] = str(self.subcategory.name)
+        context['selected_parent_category_display'] = self.parent_category  # ✅ 추가
+
+        return context
+
 class ProductDetailView(DetailView):
     model = Part
     template_name = 'product/product_detail.html'
@@ -120,3 +152,4 @@ class ProductDetailView(DetailView):
             context['formatted_price'] = "전화문의"
 
         return context
+

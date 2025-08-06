@@ -109,7 +109,9 @@
                   {% endfor %}
                 {% endif %}
                 {% if subcategory_list %}
-                  {% for sub in subcategory_list %}<a href="">{{ sub.name }} ({{ sub.part_count }})</a> &nbsp;{% endfor %}
+                  {% for sub in subcategory_list %}
+                    <a href="{% url 'parts:product_by_subcategory' sub.id %}">{{ sub.name }} ({{ sub.part_count }})</a> &nbsp;
+                  {% endfor %}
                 {% endif %}
               </td>
             </tr>

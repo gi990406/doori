@@ -1,4 +1,4 @@
-from django.urls import path, re_path
+from django.urls import path
 from . import views
 
 app_name = 'parts'
@@ -9,5 +9,5 @@ urlpatterns = [
     path('model/<int:car_model_id>/', views.CarModelPartsListView.as_view(), name='product_by_model'),
     path('<int:pk>/detail/', views.ProductDetailView.as_view(), name='product_detail'),
     path('category/<str:category>/', views.ProductListView.as_view(), name='product_by_category'),
-    # path('subcategory/<int:subcategory_id>/', views.SubcategoryPartListView.as_view(), name='product_by_subcategory'),
+    path('subcategory/<int:subcategory_id>/', views.ProductBySubcategoryView.as_view(), name='product_by_subcategory'),
 ]

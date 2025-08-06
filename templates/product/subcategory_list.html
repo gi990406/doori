@@ -7,8 +7,44 @@
       <tbody>
         <tr>
           <td class="t01">
-            {% if car_model.manufacturer.name == '현대자동차' %}
-              <img src="{% static "images/parts/title20.gif" %}"
+            {% if selected_parent_category_display == '전면부품' %}
+              <img src="{% static "images/parts/title91.gif" %}"
+                   width=""
+                   height=""
+                   alt="">
+            {% endif %}
+            {% if selected_parent_category_display == '후면부품' %}
+              <img src="{% static "images/parts/title92.gif" %}"
+                   width=""
+                   height=""
+                   alt="">
+            {% endif %}
+            {% if selected_parent_category_display == '측면부품' %}
+              <img src="{% static "images/parts/title93.gif" %}"
+                   width=""
+                   height=""
+                   alt="">
+            {% endif %}
+            {% if selected_parent_category_display == '실내부품' %}
+              <img src="{% static "images/parts/title94.gif" %}"
+                   width=""
+                   height=""
+                   alt="">
+            {% endif %}
+            {% if selected_parent_category_display == '중고순정휠' %}
+              <img src="{% static "images/parts/title95.gif" %}"
+                   width=""
+                   height=""
+                   alt="">
+            {% endif %}
+            {% if selected_parent_category_display == '하체부품' %}
+              <img src="{% static "images/parts/title96.gif" %}"
+                   width=""
+                   height=""
+                   alt="">
+            {% endif %}
+            {% if selected_parent_category_display == '기타부품' %}
+              <img src="{% static "images/parts/title97.gif" %}"
                    width=""
                    height=""
                    alt="">
@@ -19,7 +55,7 @@
                  width=""
                  height=""
                  alt="home">
-            &gt; {{ car_model.manufacturer.name }} &gt; {{ car_model.name }}
+            &gt; {{ selected_parent_category_display }} &gt; {{ selected_subcategory_display }}
           </td>
         </tr>
         <tr>
