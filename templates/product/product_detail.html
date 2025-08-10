@@ -1,182 +1,182 @@
 {% extends "../base.html" %}
 {% load static %}
 {% block content %}
-    <td width="800" valign="top">
-        <!--타이틀시작-->
-        <table width="100%" border="0" cellspacing="0" cellpadding="0">
-            <tbody>
+  <td width="800" valign="top">
+    <!--타이틀시작-->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td class="t01">
+            {% if product.car_model.manufacturer.name == '현대자동차' %}
+              <img src="{% static "images/parts/title20.gif" %}"
+                   width=""
+                   height=""
+                   alt="">
+            {% endif %}
+          </td>
+          <td class="t02" align="right">
+            <img src="{% static "images/icon/home.gif" %}"
+                 width=""
+                 height=""
+                 alt="home">
+            &gt; {{ product.car_model.manufacturer.name }} &gt; {{ product.car_model.name }}
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="t03"></td>
+        </tr>
+      </tbody>
+    </table>
+    <!--/ 타이틀시작-->
+    <table width="99%" cellpadding="0" cellspacing="0" align="center" border="0">
+      <tbody>
+        <tr>
+          <td>
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tbody>
                 <tr>
-                    <td class="t01">
-                        {% if product.car_model.manufacturer.name == '현대자동차' %}
-                            <img src="{% static "images/parts/title20.gif" %}"
-                                 width=""
-                                 height=""
-                                 alt="">
-                        {% endif %}
-                    </td>
-                    <td class="t02" align="right">
-                        <img src="{% static "images/icon/home.gif" %}"
-                             width=""
-                             height=""
-                             alt="home">
-                        &gt; {{ product.car_model.manufacturer.name }} &gt; {{ product.car_model.name }}
-                    </td>
+                  <!-- 상품중간이미지 -->
+                  <td align="center" valign="top">
+                    <table cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td colspan="3" align="center">
+                          <table cellpadding="1" cellspacing="0" bgcolor="#E4E4E4">
+                            <tr>
+                              <td>
+                                <div class="imsi">
+                                  {% if product.images.first %}
+                                    <a href="javascript:popup_large_image('{{ product.images.first.image.url }}')">
+                                      <img id="mainImage"
+                                           src="{{ product.images.first.image.url }}"
+                                           width="700"
+                                           height="525"
+                                           border="0">
+                                    </a>
+                                  {% else %}
+                                    <img id="mainImage"
+                                         src="{% static 'img/no-image.png' %}"
+                                         width="700"
+                                         height="525">
+                                  {% endif %}
+                                </div>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="3" height="10"></td>
+                      </tr>
+                      <!-- 썸네일 리스트 -->
+                      <tr>
+                        <td colspan="3" align="center">
+                          {% for image in product.images.all %}
+                            <a href="javascript:void(0);">
+                              <img src="{{ image.image.url }}"
+                                   width="40"
+                                   height="40"
+                                   border="0"
+                                   style="border:1px solid #E4E4E4"
+                                   onmouseover="setMainImage('{{ image.image.url }}')">
+                            </a>&nbsp;
+                          {% endfor %}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="3" height="7"></td>
+                      </tr>
+                    </table>
+                  </td>
+                  <!-- 상품중간이미지 END -->
+                  <td width="650" valign="top" align="center">
+                    <table width="430">
+                      <tbody>
+                        <tr>
+                          <td colspan="2" valign="top">
+                            <span style="font-size:14px; font-family:돋움;"><strong>{{ product.title }}</strong></span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table width="430" cellpadding="0" cellspacing="0">
+                      <colgroup width="110"></colgroup>
+                      <colgroup width="20"></colgroup>
+                      <colgroup width="300"></colgroup>
+                      <tbody>
+                        <tr>
+                          <td colspan="3" height="1" background="/static/images/dot_line.gif"></td>
+                        </tr>
+                        <tr>
+                          <td height="25">&nbsp;&nbsp;&nbsp; · 판매가격</td>
+                          <td align="center">:</td>
+                          <td>
+                            <font color="#FF5D00">{{ formatted_price }} </font>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="3" height="1" background="/static/images/dot_line.gif"></td>
+                        </tr>
+                        <tr>
+                          <td colspan="3" height="1" background="/static/images/dot_line.gif"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <br>
+                    <table>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <a href="">
+                              <img src="{% static "images/parts/btn2_wish.gif" %}" border="0" width="" height="" alt="보관하기"> <!-- 주문하기로 대체 -->
+                            </a>
+                            <a href="">
+                              <img src="{% static "images/parts/btn_item_recommend.gif" %}" border="0" width="" height="" alt="추천하기"> <!-- 보관하기로 대체 -->
+                            </a>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="t03"></td>
+                  <td colspan="3" height="20"></td>
                 </tr>
-            </tbody>
-        </table>
-        <!--/ 타이틀시작-->
-        <table width="99%" cellpadding="0" cellspacing="0" align="center" border="0">
-            <tbody>
                 <tr>
-                    <td>
-                        <table width="100%" cellpadding="0" cellspacing="0">
-                            <tbody>
-                                <tr>
-                                    <!-- 상품중간이미지 -->
-                                    <td align="center" valign="top">
-                                        <table cellpadding="0" cellspacing="0">
-                                            <tr>
-                                                <td colspan="3" align="center">
-                                                    <table cellpadding="1" cellspacing="0" bgcolor="#E4E4E4">
-                                                        <tr>
-                                                            <td>
-                                                                <div class="imsi">
-                                                                    {% if product.images.first %}
-                                                                        <a href="javascript:popup_large_image('{{ product.images.first.image.url }}')">
-                                                                            <img id="mainImage"
-                                                                                 src="{{ product.images.first.image.url }}"
-                                                                                 width="700"
-                                                                                 height="525"
-                                                                                 border="0">
-                                                                        </a>
-                                                                    {% else %}
-                                                                        <img id="mainImage"
-                                                                             src="{% static 'img/no-image.png' %}"
-                                                                             width="700"
-                                                                             height="525">
-                                                                    {% endif %}
-                                                                </div>
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="3" height="10"></td>
-                                            </tr>
-                                            <!-- 썸네일 리스트 -->
-                                            <tr>
-                                                <td colspan="3" align="center">
-                                                    {% for image in product.images.all %}
-                                                        <a href="javascript:void(0);">
-                                                            <img src="{{ image.image.url }}"
-                                                                 width="40"
-                                                                 height="40"
-                                                                 border="0"
-                                                                 style="border:1px solid #E4E4E4"
-                                                                 onmouseover="setMainImage('{{ image.image.url }}')">
-                                                        </a>&nbsp;
-                                                    {% endfor %}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="3" height="7"></td>
-                                            </tr>
-                                        </table>
-                                    </td>
-                                    <!-- 상품중간이미지 END -->
-                                    <td width="650" valign="top" align="center">
-                                        <table width="430">
-                                            <tbody>
-                                                <tr>
-                                                    <td colspan="2" valign="top">
-                                                        <span style="font-size:14px; font-family:돋움;"><strong>{{ product.title }}</strong></span>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <table width="430" cellpadding="0" cellspacing="0">
-                                            <colgroup width="110"></colgroup>
-                                            <colgroup width="20"></colgroup>
-                                            <colgroup width="300"></colgroup>
-                                            <tbody>
-                                                <tr>
-                                                    <td colspan="3" height="1" background="/static/images/dot_line.gif"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td height="25">&nbsp;&nbsp;&nbsp; · 판매가격</td>
-                                                    <td align="center">:</td>
-                                                    <td>
-                                                        <font color="#FF5D00">{{ formatted_price }}원 </font>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" height="1" background="/static/images/dot_line.gif"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" height="1" background="/static/images/dot_line.gif"></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <br>
-                                        <table>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <a href="javascript:item_wish(document.fitem, '1552009919');">
-                                                            <img src="../shop/img/btn2_wish.gif" border="0">
-                                                        </a>
-                                                        <a href="javascript:popup_item_recommend('1552009919');">
-                                                            <img src="../shop/img/btn_item_recommend.gif" border="0">
-                                                        </a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" height="20"></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <!-- 상품설명 -->
-                        <div id="item_explan" style="display:block;">
-                            <table width="100%" cellpadding="0" cellspacing="0">
-                                <tbody>
-                                    <tr>
-                                        <td style="border-top:1px solid #e6e6e6;
-                                                   border-bottom:1px solid #e6e6e6;
-                                                   padding-left:5px"
-                                            height="31">
-                                            <img src="{% static "images/icon/detail_icon1.gif" %}" align="absmiddle">
-                                            상세정보
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="padding:15px">
-                                            <table width="100%" cellspacing="0" border="0">
-                                                {{ product.description | safe }}
-                                            </table>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td height="1"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!-- 상품설명 end -->
-                        <a name="pm01" id="pm01"></a>
-                    </td>
+                  <td colspan="3"></td>
                 </tr>
-            </tbody>
-        </table>
-    </td>
+              </tbody>
+            </table>
+            <!-- 상품설명 -->
+            <div id="item_explan" style="display:block;">
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tbody>
+                  <tr>
+                    <td style="border-top:1px solid #e6e6e6;
+                               border-bottom:1px solid #e6e6e6;
+                               padding-left:5px"
+                        height="31">
+                      <img src="{% static "images/icon/detail_icon1.gif" %}" align="absmiddle">
+                      상세정보
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:15px">
+                      <table width="100%" cellspacing="0" border="0">
+                        {{ product.description | safe }}
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td height="1"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- 상품설명 end -->
+            <a name="pm01" id="pm01"></a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </td>
 {% endblock content %}

@@ -92,14 +92,14 @@
                             <li>{{ manufacturer.name }}</li>
                           </a>
                         {% endfor %}
-                        <a href="">
+                        <a href="{% url "community:notice_list" %}">
                           <li>
-                            <span>커뮤니티</span>
+                            <span>공지사항</span>
                           </li>
                         </a>
                         <a href="">
                           <li style="background:none;">
-                            <span>고객센터</span>
+                            <span>견적문의</span>
                           </li>
                         </a>
                       </ul>
