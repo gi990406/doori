@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView
-from .models import Part, CarModel, CarManufacturer, PartSubCategory
+from .models import Part, CarModel, CarManufacturer, PartSubCategory, CarModelDetail
 from django.shortcuts import get_object_or_404, render
 from django.db.models import Count
 
@@ -103,7 +103,43 @@ class CarModelPartsListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['car_model'] = self.car_model
+        context['model_details'] = (CarModelDetail.objects
+                                    .filter(model=self.car_model)
+                                    .annotate(part_count=Count('parts')))
         return context
+
+class ProductByModelDetailView(ListView):
+    """특정 세부차종의 부품 목록"""
+    model = Part
+    template_name = 'product/product_list.html'
+    context_object_name = 'products'
+    paginate_by = 10
+    ordering = ['-id']
+
+    def get_queryset(self):
+        self.detail = get_object_or_404(CarModelDetail, id=self.kwargs['detail_id'])
+        qs = Part.objects.select_related('car_model__manufacturer', 'subcategory', 'car_model_detail')\
+                         .prefetch_related('images')\
+                         .filter(car_model_detail=self.detail)\
+                         .order_by('-id')
+        for p in qs:
+            try:
+                p.formatted_price = "{:,.0f}".format(p.price)
+            except Exception:
+                p.formatted_price = p.price
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['selected_manufacturer'] = self.detail.model.manufacturer.name
+        context['selected_model'] = self.detail.model.name
+        context['selected_model_detail'] = self.detail.name
+        # 같은 모델의 다른 세부차종들(탭 전환용)
+        context['model_details'] = CarModelDetail.objects.filter(model=self.detail.model)\
+                                .annotate(part_count=Count('parts'))
+        context['category_choices'] = PartSubCategory.PartsCategory.choices
+        return context
+
 
 class ProductBySubcategoryView(ListView):
     """세부 카테고리별 제품 목록"""

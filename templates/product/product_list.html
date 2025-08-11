@@ -13,6 +13,12 @@
                    height=""
                    alt="">
             {% endif %}
+            {% if selected_manufacturer == '기아자동차' %}
+              <img src="{% static "images/parts/title30.gif" %}"
+                   width=""
+                   height=""
+                   alt="">
+            {% endif %}
             {% if selected_category_display == '전면부품' %}
               <img src="{% static "images/parts/title91.gif" %}"
                    width=""
@@ -65,6 +71,8 @@
             &gt;
             {% if selected_manufacturer %}{{ selected_manufacturer }}{% endif %}
             {% if selected_category_display %}{{ selected_category_display }}{% endif %}
+            {% if selected_model %}&gt;{{ selected_model }}{% endif %}
+            {% if selected_model_detail %}&gt;{{ selected_model_detail }}{% endif %}
           </td>
         </tr>
         <tr>
@@ -75,68 +83,66 @@
     <!--/ 타이틀시작-->
     <!-- 컨텐츠 -->
     <br>
-    <table width="98%" cellpadding="0" cellspacing="0" align="center" border="0">
-      <colgroup width="11">
-      </colgroup><colgroup width="">
-    </colgroup><colgroup width="11">
-  </colgroup>
-  <tbody>
-    <tr>
-      <td width="11">
-        <img src="{% static "images/parts/ca_box01.gif" %}"
-             width=""
-             height=""
-             alt="">
-      </td>
-      <td background="/static/images/parts/ca_bg01.gif"></td>
-      <td width="11">
-        <img src="{% static "images/parts/ca_box02.gif" %}"
-             width=""
-             height=""
-             alt="">
-      </td>
-    </tr>
-    <tr>
-      <td width="11" background="/static/images/parts/ca_bg02.gif"></td>
-      <td>
-        <table width="100%" border="0">
-          <tbody>
-            <tr>
-              <td>
-                {% if manufacturer_models %}
+    {% if manufacturer_models or subcategory_list %}
+      <table width="98%" cellpadding="0" cellspacing="0" align="center" border="0">
+        <colgroup width="11">
+        </colgroup><colgroup width="">
+      </colgroup><colgroup width="11">
+    </colgroup>
+    <tbody>
+      <tr>
+        <td width="11">
+          <img src="{% static "images/parts/ca_box01.gif" %}"
+               width=""
+               height=""
+               alt="">
+        </td>
+        <td background="/static/images/parts/ca_bg01.gif"></td>
+        <td width="11">
+          <img src="{% static "images/parts/ca_box02.gif" %}"
+               width=""
+               height=""
+               alt="">
+        </td>
+      </tr>
+      <tr>
+        <td width="11" background="/static/images/parts/ca_bg02.gif"></td>
+        <td>
+          <table width="100%" border="0">
+            <tbody>
+              <tr>
+                <td>
                   {% for car in manufacturer_models %}
                     <a href="{% url "parts:product_by_model" car.id %}">{{ car.name }} ({{ car.part_count }})</a> &nbsp;
                   {% endfor %}
-                {% endif %}
-                {% if subcategory_list %}
                   {% for sub in subcategory_list %}
                     <a href="{% url 'parts:product_by_subcategory' sub.id %}">{{ sub.name }} ({{ sub.part_count }})</a> &nbsp;
                   {% endfor %}
-                {% endif %}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </td>
-      <td width="11" background="/static/images/parts/ca_bg03.gif"></td>
-    </tr>
-    <tr>
-      <td width="11">
-        <img src="{% static "images/parts/ca_box03.gif" %}"
-             width=""
-             height=""
-             alt="">
-      </td>
-      <td background="/static/images/parts/ca_bg04.gif"></td>
-      <td width="11">
-        <img src="{% static "images/parts/ca_box04.gif" %}"
-             width=""
-             height=""
-             alt="">
-      </td>
-    </tr>
-  </tbody>
-</table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        <td width="11" background="/static/images/parts/ca_bg03.gif"></td>
+      </tr>
+      <tr>
+        <td width="11">
+          <img src="{% static "images/parts/ca_box03.gif" %}"
+               width=""
+               height=""
+               alt="">
+        </td>
+        <td background="/static/images/parts/ca_bg04.gif"></td>
+        <td width="11">
+          <img src="{% static "images/parts/ca_box04.gif" %}"
+               width=""
+               height=""
+               alt="">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+{% endif %}
 <table width="100%" cellpadding="0" cellspacing="0" border="0">
   <tbody>
     <tr>
