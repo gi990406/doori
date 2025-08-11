@@ -7,11 +7,6 @@
           <li>{{ label }}</li>
         </a>
       {% endfor %}
-      {% for manufacturer in manufacturers %}
-        <a href="{% url "parts:product_by_manufacturer" manufacturer.id %}">
-          <li>{{ manufacturer.name }}</li>
-        </a>
-      {% endfor %}
     </ul>
   </div>
   <div style="height:18px;line-height:0;font-size:0;"></div>

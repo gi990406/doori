@@ -107,10 +107,44 @@
                           <td colspan="3" height="1" background="/static/images/dot_line.gif"></td>
                         </tr>
                         <tr>
+                          <td height="25">&nbsp;&nbsp;&nbsp; · 품번</td>
+                          <td align="center">:</td>
+                          <td>
+                            <font>{{ product.part_number }}</font>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="3" height="1" background="/static/images/dot_line.gif"></td>
+                        </tr>
+                        <tr>
+                          <td height="25">&nbsp;&nbsp;&nbsp; · 연식</td>
+                          <td align="center">:</td>
+                          <td>
+                            <font>{{ product.applicable_years }}</font>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="3" height="1" background="/static/images/dot_line.gif"></td>
+                        </tr>
+                        <tr>
+                          <td height="25">&nbsp;&nbsp;&nbsp; · 재고</td>
+                          <td align="center">:</td>
+                          <td>
+                            <font>{{ product.stock }}개</font>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="3" height="1" background="/static/images/dot_line.gif"></td>
+                        </tr>
+                        <tr>
                           <td height="25">&nbsp;&nbsp;&nbsp; · 판매가격</td>
                           <td align="center">:</td>
                           <td>
-                            <font color="#FF5D00">{{ formatted_price }} </font>
+                            {% if product.price == 0 %}
+                              <a href="tel:01020108272"><font color="#FF5D00">{{ formatted_price }} 연결 </font></a>
+                            {% else %}
+                              <font>{{ formatted_price }}원 </font>
+                            {% endif %}
                           </td>
                         </tr>
                         <tr>
@@ -127,10 +161,20 @@
                         <tr>
                           <td>
                             <a href="">
-                              <img src="{% static "images/parts/btn2_wish.gif" %}" border="0" width="" height="" alt="보관하기"> <!-- 주문하기로 대체 -->
+                              <img src="{% static "images/parts/btn2_wish.gif" %}"
+                                   border="0"
+                                   width=""
+                                   height=""
+                                   alt="보관하기">
+                              <!-- 주문하기로 대체 -->
                             </a>
                             <a href="">
-                              <img src="{% static "images/parts/btn_item_recommend.gif" %}" border="0" width="" height="" alt="추천하기"> <!-- 보관하기로 대체 -->
+                              <img src="{% static "images/parts/btn_item_recommend.gif" %}"
+                                   border="0"
+                                   width=""
+                                   height=""
+                                   alt="추천하기">
+                              <!-- 보관하기로 대체 -->
                             </a>
                           </td>
                         </tr>
