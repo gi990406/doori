@@ -8,6 +8,7 @@
           rel="stylesheet"
           href="{% static 'css/default.css' %}">
     <link type="text/css" rel="stylesheet" href="{% static 'css/style.css' %}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="두리상사 - 자동차중고부품">
     <meta name="description" content="국산차 수입차 중고부품 전문, 현대,기아,쉐보레 범퍼, 라이트, 휀다 등">
     <meta name="keywords"
@@ -16,6 +17,15 @@
     <meta property="og:title" content="두리상사 - 자동차중고부품">
     <meta property="og:description"
           content="국산차 수입차 중고부품 전문, 현대,기아,쉐보레 범퍼, 라이트, 휀다 등">
+    <script>
+    function setMainImage(src) {
+      document.getElementById("mainImage").src = src;
+    }
+
+    function popup_large_image(image_url) {
+      window.open(image_url, 'popupImage', 'width=700,height=525');
+    }
+    </script>
   </head>
   <body topmargin="0" leftmargin="0">
     <a name="g4_head"></a>
@@ -78,32 +88,19 @@
                   <td width="700" height="40">
                     <div class="gnb_new">
                       <ul>
-                        <a href="">
-                          <li>수입차</li>
-                        </a>
-                        <a href="">
-                          <li>현대자동차</li>
-                        </a>
-                        <a href="">
-                          <li>기아자동차</li>
-                        </a>
-                        <a href="">
-                          <li>쉐보레</li>
-                        </a>
-                        <a href="">
-                          <li>르노삼성</li>
-                        </a>
-                        <a href="">
-                          <li>쌍용자동차</li>
-                        </a>
-                        <a href="">
+                        {% for manufacturer in manufacturers %}
+                          <a href="{% url "parts:product_by_manufacturer" manufacturer.id %}">
+                            <li>{{ manufacturer.name }}</li>
+                          </a>
+                        {% endfor %}
+                        <a href="{% url "community:notice_list" %}">
                           <li>
-                            <span>커뮤니티</span>
+                            <span>공지사항</span>
                           </li>
                         </a>
                         <a href="">
                           <li style="background:none;">
-                            <span>고객센터</span>
+                            <span>견적문의</span>
                           </li>
                         </a>
                       </ul>

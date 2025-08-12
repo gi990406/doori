@@ -2,65 +2,31 @@
 <td class="left_bg_1" width="168" valign="top">
   <div class="lnb_new">
     <ul>
-      <a href="">
-        <li>전면부품</li>
-      </a>
-      <a href="">
-        <li>후면부품</li>
-      </a>
-      <a href="">
-        <li>측면부품</li>
-      </a>
-      <a href="">
-        <li>실내부품</li>
-      </a>
-      <a href="">
-        <li>중고순정휠</li>
-      </a>
-      <a href="">
-        <li>하체부품</li>
-      </a>
-      <a href="">
-        <li>기타부품</li>
-      </a>
-      <a href="">
-        <li>현대자동차</li>
-      </a>
-      <a href="">
-        <li>기아자동차</li>
-      </a>
-      <a href="">
-        <li>쉐보레(GM대우)</li>
-      </a>
-      <a href="">
-        <li>르노삼성</li>
-      </a>
-      <a href="">
-        <li>쌍용자동차</li>
-      </a>
-      <a href="">
-        <li>수입자동차</li>
-      </a>
-      <a href="">
-        <li>수출용자동차</li>
-      </a>
-      <a href="">
-        <li>부품용자동차</li>
-      </a>
+      {% for key, label in category_choices %}
+        <a href="{% url 'parts:product_by_category' key %}">
+          <li>{{ label }}</li>
+        </a>
+      {% endfor %}
     </ul>
   </div>
   <div style="height:18px;line-height:0;font-size:0;"></div>
-  <a href="">
-    <img src="{% static 'images/banner/left_ban_1.jpg' %}" width="" height="" alt="회사소개">
-  </a>
-  <a href="">
-    <img src="{% static 'images/banner/left_ban_2.jpg' %}" width="" height="" alt="오시는 길">
-  </a>
-  <img src="{% static 'images/banner/left_ban_3.jpg' %}" width="" height="" alt="입금안내">
-  <img src="{% static 'images/banner/left_ban_4.jpg' %}" width="" height="" alt="배너광고">
+  <img src="{% static 'images/banner/left_ban_3.jpg' %}"
+       width=""
+       height=""
+       alt="입금안내">
+  <img src="{% static 'images/banner/left_ban_4.jpg' %}"
+       width=""
+       height=""
+       alt="배너광고">
   <div style="height:23px;line-height:0;font-size:0;"></div>
-  <img src="{% static 'images/banner/left_ban_5.jpg' %}" width="" height="" alt="고객센터">
-  <img src="{% static 'images/banner/left_ban_6.jpg' %}" width="" height="" alt="고객센터2"
+  <img src="{% static 'images/banner/left_ban_5.jpg' %}"
+       width=""
+       height=""
+       alt="고객센터">
+  <img src="{% static 'images/banner/left_ban_6.jpg' %}"
+       width=""
+       height=""
+       alt="게시판"
        border="0"
        usemap="#left_ban_6">
   <map name="left_ban_6">

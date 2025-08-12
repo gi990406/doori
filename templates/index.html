@@ -6,6 +6,9 @@
     <table width="800" border="0" cellspacing="0" cellpadding="0">
       <tbody>
         <tr>
+          <td width="580" height="367" valign="top">
+            <div style="height:4px;line-height:0;font-size:0;"></div>
+          </td>
           <td width="8"></td>
           <td width="212" valign="top">
             <!-- 공지추출-->
@@ -48,6 +51,12 @@
                 </tr>
               </tbody>
             </table>
+            <div style="height:4px;line-height:0;font-size:0;"></div>
+            <img src="{% static "images/main_ban_5.jpg" %}" width="" height="" alt="배너">
+            <div style="height:3px;line-height:0;font-size:0;"></div>
+            <a href="{% url "company" %}">
+              <img src="" alt="회사소개" width="" height="">
+            </a>
           </td>
         </tr>
       </tbody>
@@ -71,7 +80,7 @@
                   </tr>
                   <tr>
                     <td align="center" style="border:1px solid #d2d2cd;">
-                      <a href="http://xn--o39ar20cmib.kr/shop/item.php?it_id=1598932185&amp;ca_id=91">
+                      <a href="{% url 'parts:product_detail' parts.pk %}">
                         <img id="1598932185_m"
                              src="{{ parts.images.all.0.image.url }}"
                              alt="{{ parts.name }} 이미지"
@@ -83,7 +92,7 @@
                   </tr>
                   <tr>
                     <td align="center" class="locat">
-                      <a href="./shop/item.php?it_id=1598932185&amp;ca_id=91" class="item">{{ parts.title }}</a>
+                      <a href="{% url 'parts:product_detail' parts.pk %}" class="item">{{ parts.title }}</a>
                     </td>
                   </tr>
                   {% if parts.price == 0 %}

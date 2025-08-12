@@ -24,17 +24,28 @@ class CarModel(models.Model):
 
     def __str__(self):
         return f"{self.manufacturer.name} - {self.name}"
-    
+
+class CarModelDetail(models.Model):
+    model = models.ForeignKey(CarModel, on_delete=models.CASCADE, related_name='details', verbose_name="차량 모델")
+    name = models.CharField(max_length=100, verbose_name="세부 차종 이름")
+
+    class Meta:
+        verbose_name = "세부 차종"
+        verbose_name_plural = "세부 차종 관리"
+
+    def __str__(self):
+        return f"{self.model.name} - {self.name}"
+
 class PartSubCategory(models.Model):
     # 부품 카테고리
     class PartsCategory(models.TextChoices):
-        FRONT = "front", _("전면")
-        REAR = "rear", _("후면")
-        SIDE = "side", _("측면")
-        INTERIOR = "interior", _("실내")
+        FRONT = "front", _("전면부품")
+        REAR = "rear", _("후면부품")
+        SIDE = "side", _("측면부품")
+        INTERIOR = "interior", _("실내부품")
         WHEEL = "wheel", _("중고순정휠")
-        UNDERBODY = "underbody", _("하체")
-        ETC = "etc", _("기타")
+        UNDERBODY = "underbody", _("하체부품")
+        ETC = "etc", _("기타부품")
 
     parent_category = models.CharField(
         max_length=20,
@@ -50,11 +61,19 @@ class PartSubCategory(models.Model):
 
     def __str__(self):
         return f"{self.get_parent_category_display()} - {self.name}"
-    
+
 class Part(models.Model):
     title = models.CharField(max_length=200, verbose_name="제목")
 
     car_model = models.ForeignKey(CarModel, on_delete=models.SET_NULL, related_name='parts', null=True, blank=True, verbose_name="차량 모델", help_text="차량 모델이 없다면 + 버튼을 눌러 추가해주세요.")
+    car_model_detail = models.ForeignKey(
+        CarModelDetail,
+        on_delete=models.SET_NULL,
+        related_name='parts',
+        null=True, blank=True,
+        verbose_name="세부 차종",
+        help_text="세부 차종명이 없다면 + 버튼을 눌러 추가해주세요."
+    )
 
     part_number = models.CharField(max_length=256, verbose_name="제품번호")  # 품번
     applicable_years = models.CharField(max_length=50, help_text="예: 2015-2018", verbose_name="연식")
@@ -68,14 +87,14 @@ class Part(models.Model):
 
     def __str__(self):
         return f"{self.title} ({self.part_number})"
-    
+
     class Meta:
         verbose_name = "부품"
         verbose_name_plural = "부품 관리"
 
     def get_category_display(self):
         return self.subcategory.get_parent_category_display() if self.subcategory else None
-    
+
 class PartImage(models.Model):
     part = models.ForeignKey(Part, on_delete=models.CASCADE, related_name='images')
 

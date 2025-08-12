@@ -45,38 +45,38 @@
               </div>
             </div>
             <!-- 제목 -->
-              <table cellspacing="0" cellpadding="0" class="board_list">
-                <colgroup>
-                  <col width="50">
-                  <col>
-                  <col width="110">
-                  <col width="40">
-                  <col width="50">
-                </colgroup>
-                <tbody>
-                  <tr>
-                    <th>번호</th>
-                    <th>제&nbsp;&nbsp;&nbsp;목</th>
-                    <th>글쓴이</th>
-                    <th>날짜</th>
-                    <th>조회</th>
-                  </tr>
-                  {% for notice in notices %}
-                    <tr class="bg1">
-                      <td class="num">{{ notice.id }}</td>
-                      <td class="subject">
-                      <nobr style="display:block; overflow:hidden;"><a href="{% url 'community:notice_detail' notice.id %}">{{ notice.title }}</a>
-                    </nobr>
-                  </td>
-                  <td class="name">
-                    <span class="member">두리상사</span>
-                  </td>
-                  <td class="datetime">{{ notice.created_at | date:'m-d' }}</td>
-                  <td class="hit">{{ notice.hits }}</td>
+            <table cellspacing="0" cellpadding="0" class="board_list">
+              <colgroup>
+                <col width="50">
+                <col>
+                <col width="110">
+                <col width="40">
+                <col width="50">
+              </colgroup>
+              <tbody>
+                <tr>
+                  <th>번호</th>
+                  <th>제&nbsp;&nbsp;&nbsp;목</th>
+                  <th>글쓴이</th>
+                  <th>날짜</th>
+                  <th>조회</th>
                 </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+                {% for notice in notices %}
+                  <tr class="bg1">
+                    <td class="num">{{ notice.id }}</td>
+                    <td class="subject">
+                    <nobr style="display:block; overflow:hidden;"><a href="{% url 'community:notice_detail' notice.id %}">{{ notice.title }}</a>
+                  </nobr>
+                </td>
+                <td class="name">
+                  <span class="member">두리상사</span>
+                </td>
+                <td class="datetime">{{ notice.created_at | date:'m-d' }}</td>
+                <td class="hit">{{ notice.hits }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
         <div class="board_button">
           <div style="float:left;"></div>
           <div style="float:right;"></div>
@@ -105,13 +105,9 @@
                           background-position: right top;
                           background-repeat: no-repeat">
             <input type="image"
-                   src="../skin/board/basic/img/btn_search.gif"
+                   src="{% static "images/btn_search.gif" %}"
                    border="0"
                    align="absmiddle">
-            <input type="radio" name="sop" value="and">
-            and
-            <input type="radio" name="sop" value="or">
-            or
           </form>
         </div>
       </td>

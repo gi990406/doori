@@ -14,3 +14,6 @@ def home(request):
             part.formatted_price = part.price
 
     return render(request, 'index.html', {'notices': notices, 'parts': parts})
+
+def about(request) :
+    return render(request, 'about/company.html')

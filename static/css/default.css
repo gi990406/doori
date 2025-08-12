@@ -15,7 +15,7 @@
   display: inline-block;
   float: left;
   padding: 5px 15px;
-  background: url('/images/main_bg_2.png')no-repeat right 7px;
+  background: url('/static/images/menubar/main_bg_2.png')no-repeat right 7px;
   font-size: 13px;
   font-weight: 600;
   letter-spacing: -0.5px;

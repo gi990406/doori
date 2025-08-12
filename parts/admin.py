@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CarManufacturer, CarModel, PartSubCategory, Part, PartImage
+from .models import CarManufacturer, CarModel, PartSubCategory, Part, PartImage, CarModelDetail
 from django_summernote.admin import SummernoteModelAdmin
 
 @admin.register(CarManufacturer)
@@ -16,6 +16,14 @@ class CarModelAdmin(admin.ModelAdmin):
     list_filter = ['manufacturer']
     search_fields = ['name', 'manufacturer__name']
     autocomplete_fields = ['manufacturer']
+
+@admin.register(CarModelDetail)
+class CarModelDetailAdmin(admin.ModelAdmin):
+    """차량 모델 관리"""
+    list_display = ['name', 'model']
+    list_filter = ['model']
+    search_fields = ['name', 'model__name']
+    autocomplete_fields = ['model']
 
 @admin.register(PartSubCategory)
 class PartSubCategoryAdmin(admin.ModelAdmin):
@@ -39,14 +47,15 @@ class PartAdmin(SummernoteModelAdmin):
         'part_number',
         'get_manufacturer',
         'get_car_model',
+        'get_car_model_detail',
         'subcategory',
         'applicable_years',
         'stock',
         'price'
     ]
-    list_filter = ['subcategory__parent_category', 'subcategory__name', 'car_model__manufacturer']
+    list_filter = ['subcategory__parent_category', 'subcategory__name', 'car_model__manufacturer',]
     search_fields = ['title', 'part_number', 'car_model__name', 'car_model__manufacturer__name']
-    autocomplete_fields = ['car_model', 'subcategory']
+    autocomplete_fields = ['car_model', 'subcategory', 'car_model_detail']
     inlines = [PartImageInline]
     list_editable = ['stock']
 
@@ -57,3 +66,7 @@ class PartAdmin(SummernoteModelAdmin):
     def get_manufacturer(self, obj):
         return obj.car_model.manufacturer.name if obj.car_model else None
     get_manufacturer.short_description = "제조사"
+
+    def get_car_model_detail(self, obj):
+        return obj.car_model_detail.name if obj.car_model_detail else None
+    get_car_model_detail.short_description = "세부 차종명"
