@@ -9,11 +9,38 @@ from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.conf import settings
 from .models import Terms_and_condition
+from django.views.generic import TemplateView
 
 # 로그인 import
 from django.contrib.auth import authenticate, logout as logout_user, login as auth_login
 
-# Create your views here.
+# Create your views here..
+class RegisterTermsView(TemplateView):
+    template_name = "user/terms.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect("index")
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["terms_obj"] = Terms_and_condition.objects.order_by("-id").first()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        agree = request.POST.get("agree")
+        agree2 = request.POST.get("agree2")
+
+        if not agree:
+            messages.error(request, "회원가입약관의 내용에 동의하셔야 회원가입 하실 수 있습니다.")
+            return self.get(request, *args, **kwargs)
+        if not agree2:
+            messages.error(request, "개인정보취급방침의 내용에 동의하셔야 회원가입 하실 수 있습니다.")
+            return self.get(request, *args, **kwargs)
+
+        return redirect("/")
+
 class RegisterView(CreateView):
     """회원가입"""
     model = User

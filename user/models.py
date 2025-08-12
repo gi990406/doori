@@ -66,3 +66,4 @@ class Terms_and_condition(models.Model):
 
     def __str__(self):
         return f"{'회원 약관'}"
+
