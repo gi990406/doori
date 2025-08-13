@@ -14,6 +14,10 @@ from django.views.generic import TemplateView
 # 로그인 import
 from django.contrib.auth import authenticate, logout as logout_user, login as auth_login
 
+from django.contrib.auth.decorators import login_required
+from django.utils.http import urlencode
+from .forms import ProfileEditForm
+
 # Create your views here..
 class RegisterTermsView(TemplateView):
     template_name = "user/terms.html"
@@ -48,24 +52,25 @@ class RegisterView(CreateView):
     form_class = RegisterForm
 
     def get(self, request, *args, **kwargs):
-        url = settings.LOGIN_REDIRECT_URL
         if request.user.is_authenticated:
-            return HttpResponseRedirect(url)
+            return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
         return super().get(request, *args, **kwargs)
-
-    def get_success_url(self):
-        messages.success(self.request, "회원가입 성공.")
-        return reverse('user:login')
 
     def form_valid(self, form):
         self.object = form.save()
+        messages.success(self.request, "회원가입 성공.")
         return redirect(self.get_success_url())
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['terms'] = Terms_and_condition.objects.filter(id=1).get()
+    def form_invalid(self, form):
+        messages.error(self.request, "입력값을 확인해 주세요.")
+        return super().form_invalid(form)
 
-        return context
+    def get_success_url(self):
+        return reverse('user:login')
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        return ctx
 
 def login(request):
     # 이미 로그인한 경우: 로그인 페이지 접근 차단
@@ -89,6 +94,53 @@ def login(request):
             return render(request, 'user/login.html', {'error': '아이디 또는 비밀번호가 잘못되었습니다.'})
 
     return render(request, 'user/login.html')
+
+@login_required
+def password_confirm(request):
+    """
+    회원 정보 변경 등 민감 페이지 진입 전 비밀번호 확인.
+    성공 시 세션 플래그를 세팅하고 next로 리디렉션.
+    """
+    next_url = request.GET.get("next") or reverse("user:profile_edit")  # 원하는 기본 목적지로 교체
+    if request.method == "POST":
+        pw = request.POST.get("password", "")
+        # Custom User: USERNAME_FIELD = 'user_id'
+        user = authenticate(request, username=request.user.user_id, password=pw)
+        if user is not None:
+            # 5분만 유효한 플래그
+            request.session["pw_confirm_ok"] = True
+            request.session.set_expiry(300)
+            return redirect(next_url)
+        messages.error(request, "비밀번호가 일치하지 않습니다.")
+
+    return render(request, "user/change_verification.html", {"next": next_url})
+
+@login_required
+def profile_edit(request):
+    # 비밀번호 재확인 통과 여부 확인
+    if not request.session.get("pw_confirm_ok"):
+        return redirect(f"{reverse('user:password_confirm')}?{urlencode({'next': request.get_full_path()})}")
+
+    user = request.user
+    if request.method == "POST":
+        form = ProfileEditForm(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            # 한 번 통과했으면 플래그 제거(원하면 유지 가능)
+            request.session.pop("pw_confirm_ok", None)
+            messages.success(request, "회원 정보가 수정되었습니다.")
+            return redirect(reverse("index"))
+        else:
+            messages.error(request, "입력값을 확인해 주세요.")
+    else:
+        form = ProfileEditForm(instance=user)
+
+    ctx = {
+        "form": form,
+        "user_id": user.user_id,  # 읽기전용 표시용
+        "name": user.name,        # 읽기전용 표시용
+    }
+    return render(request, "user/profile_edit.html", ctx)
 
 def logout(request):
     logout_user(request)

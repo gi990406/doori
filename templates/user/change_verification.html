@@ -1,0 +1,145 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block content %}
+  <td width="800" valign="top">
+    <!-- 타이틀 -->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td class="t01">
+            <img src="{% static 'images/account/title_m1.gif' %}" alt="">
+          </td>
+          <td class="t02" align="right">
+            <img src="{% static 'images/icon/home.gif' %}" alt="">
+            &gt; 회원 비밀번호 확인
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="t03"></td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- 컨텐츠 -->
+    <form name="fmemberconfirm"
+          method="post"
+          action="{% url 'user:password_confirm' %}">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ next }}">
+      <table width="668" border="0" cellspacing="0" cellpadding="0" align="center">
+        <tbody>
+          <tr>
+            <td width="20" height="26"></td>
+            <td width="628"></td>
+            <td width="20"></td>
+          </tr>
+          <tr>
+            <td width="20" height="2"></td>
+            <td width="628" bgcolor="#8F8F8F"></td>
+            <td width="20"></td>
+          </tr>
+          <tr>
+            <td width="20" height="48"></td>
+            <td width="628"
+                align="right"
+                background="{% static 'images/account/modify_table_bg_top.gif' %}"></td>
+            <td width="20"></td>
+          </tr>
+          <tr>
+            <td width="20" height="223"></td>
+            <td width="628"
+                align="center"
+                background="{% static 'images/account/modify_table_bg.gif' %}">
+              <table width="460" border="0" cellspacing="0" cellpadding="0">
+                <tbody>
+                  <tr>
+                    <td width="460" height="223" align="center" bgcolor="#FFFFFF">
+                      <table width="350" border="0" cellpadding="0" cellspacing="0">
+                        <tbody>
+                          <tr>
+                            <td width="250">
+                              <table width="250" border="0" cellpadding="0" cellspacing="0">
+                                <tbody>
+                                  <tr>
+                                    <td width="10">
+                                      <img src="{% static 'images/account/icon.gif' %}"
+                                           width="3"
+                                           height="3"
+                                           alt="">
+                                    </td>
+                                    <td width="90" height="26">
+                                      <b>회원아이디</b>
+                                    </td>
+                                    <td width="150">
+                                      <b>{{ request.user.user_id }}</b>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      <img src="{% static 'images/account/icon.gif' %}"
+                                           width="3"
+                                           height="3"
+                                           alt="">
+                                    </td>
+                                    <td height="26">
+                                      <b>비밀번호</b>
+                                    </td>
+                                    <td>
+                                      <input type="password"
+                                             maxlength="16"
+                                             size="15"
+                                             name="password"
+                                             required
+                                             id="mb_password"
+                                             class="m_text">
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </td>
+                            <td width="100" valign="top">
+                              <button type="submit" style="background:none;border:0;cursor:pointer;">
+                                <img src="{% static 'images/account/ok_button.gif' %}"
+                                     width="65"
+                                     height="52"
+                                     alt="확인">
+                              </button>
+                            </td>
+                          </tr>
+                          {% if messages %}
+                            <tr>
+                              <td colspan="2" style="padding-top:8px;">
+                                {% for message in messages %}<div style="color:#d00;">{{ message }}</div>{% endfor %}
+                              </td>
+                            </tr>
+                          {% endif %}
+                          <tr>
+                            <td height="20" colspan="2"></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+            <td width="20"></td>
+          </tr>
+          <tr>
+            <td width="20" height="1"></td>
+            <td width="628" bgcolor="#F0F0F0"></td>
+            <td width="20"></td>
+          </tr>
+          <tr>
+            <td height="20" colspan="3"></td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+    <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      var pw = document.getElementById('mb_password');
+      if (pw) pw.focus();
+    });
+    </script>
+  </td>
+{% endblock content %}

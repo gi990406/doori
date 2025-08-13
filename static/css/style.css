@@ -448,3 +448,100 @@ a.cloudy {
   width: 350px;
   height: auto;
 }
+
+/* 약관/개인정보 박스 폭/스크롤 통일 */
+.policy-header {
+  width: 100%;
+  background: #f7f7f7 url('/static/images/account/login_table_bg_top.gif') repeat-x;
+  border: 1px solid #ddd;
+  border-bottom: 0;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  /* ✅ */
+}
+
+.policy-cell {
+  padding: 0;
+}
+
+.policy-box {
+  width: 100%;
+  height: 320px;
+  /* 고정 높이 */
+  overflow: auto;
+  /* 스크롤 */
+  -webkit-overflow-scrolling: touch;
+  padding: 12px;
+  background: #fff url('/static/images/account/login_table_bg.gif') repeat;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  /* ✅ 패딩/보더 포함하여 100% */
+}
+
+.policy-agree {
+  padding: 8px 4px 16px 4px;
+}
+
+.m_title {
+  BACKGROUND-COLOR: #F7F7F7;
+  PADDING-LEFT: 15px;
+  PADDING-top: 5px;
+  PADDING-BOTTOM: 5px;
+}
+
+.m_padding {
+  PADDING-LEFT: 15px;
+  PADDING-BOTTOM: 5px;
+  PADDING-TOP: 5px;
+}
+
+.m_padding2 {
+  PADDING-LEFT: 0px;
+  PADDING-top: 5px;
+  PADDING-BOTTOM: 0px;
+}
+
+.m_padding3 {
+  PADDING-LEFT: 0px;
+  PADDING-top: 5px;
+  PADDING-BOTTOM: 5px;
+}
+
+.m_text {
+  BORDER: #D3D3D3 1px solid;
+  HEIGHT: 18px;
+  BACKGROUND-COLOR: #ffffff;
+}
+
+.m_text2 {
+  BORDER: #D3D3D3 1px solid;
+  HEIGHT: 18px;
+  BACKGROUND-COLOR: #dddddd;
+}
+
+.m_textarea {
+  BORDER: #D3D3D3 1px solid;
+  BACKGROUND-COLOR: #ffffff;
+  WIDTH: 100%;
+  WORD-BREAK: break-all;
+}
+
+.w_message {
+  font-family: 돋움;
+  font-size: 9pt;
+  color: #4B4B4B;
+}
+
+.w_norobot {
+  font-family: 돋움;
+  font-size: 9pt;
+  color: #BB4681;
+}
+
+.w_hand {
+  cursor: pointer;
+}
+
+.mb_id {
+  ime-mode: disabled;
+}
