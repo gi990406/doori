@@ -545,3 +545,41 @@ a.cloudy {
 .mb_id {
   ime-mode: disabled;
 }
+
+.ppm01 {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.ppm01 {
+  background: url(/static/images/account/p_title_bg.gif) repeat-x;
+}
+
+.ppm01 {
+  white-space: nowrap;
+  height: 34px;
+  overflow: hidden;
+}
+
+.ppm01 td {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+/* 박스 슬라이스 틀 공백 제거 */
+.table-slice td {
+  padding: 0;
+}
+
+.table-slice .slice-row {
+  line-height: 0;
+  font-size: 0;
+}
+
+/* 인라인 간격 제거 */
+.table-slice img {
+  display: block;
+}
+
+/* 이미지 베이스라인 공백 제거 */

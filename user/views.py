@@ -17,6 +17,7 @@ from django.contrib.auth import authenticate, logout as logout_user, login as au
 from django.contrib.auth.decorators import login_required
 from django.utils.http import urlencode
 from .forms import ProfileEditForm
+from urllib.parse import urlparse
 
 # Create your views here..
 class RegisterTermsView(TemplateView):
@@ -69,8 +70,8 @@ class RegisterView(CreateView):
         return reverse('user:login')
 
     def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        return ctx
+        context = super().get_context_data(**kwargs)
+        return context
 
 def login(request):
     # 이미 로그인한 경우: 로그인 페이지 접근 차단
@@ -101,10 +102,14 @@ def password_confirm(request):
     회원 정보 변경 등 민감 페이지 진입 전 비밀번호 확인.
     성공 시 세션 플래그를 세팅하고 next로 리디렉션.
     """
-    next_url = request.GET.get("next") or reverse("user:profile_edit")  # 원하는 기본 목적지로 교체
+    next_url = request.GET.get('next') or request.POST.get('next') or reverse('user:profile_edit')  # 원하는 기본 목적지로 교체
+
+    parsed = urlparse(next_url)
+    if parsed.netloc:
+        next_url = reverse('user:profile_edit')
+
     if request.method == "POST":
         pw = request.POST.get("password", "")
-        # Custom User: USERNAME_FIELD = 'user_id'
         user = authenticate(request, username=request.user.user_id, password=pw)
         if user is not None:
             # 5분만 유효한 플래그
@@ -135,13 +140,51 @@ def profile_edit(request):
     else:
         form = ProfileEditForm(instance=user)
 
-    ctx = {
+    context = {
         "form": form,
         "user_id": user.user_id,  # 읽기전용 표시용
         "name": user.name,        # 읽기전용 표시용
     }
-    return render(request, "user/profile_edit.html", ctx)
+    return render(request, "user/profile_edit.html", context)
 
 def logout(request):
     logout_user(request)
     return redirect('/')
+
+@login_required(login_url='user:login')
+def mypage(request):
+    user = request.user
+
+    # 최근 주문/보관함: 아직 모델이 없다면 빈 리스트로
+    recent_orders = []
+    recent_wishlist = []
+
+    # (주문/보관 모델이 생기면 아래 패턴으로 교체)
+    # from orders.models import Order
+    # recent_orders = Order.objects.filter(user=user).order_by("-created_at")[:5]
+    # from shop.models import Wishlist
+    # recent_wishlist = Wishlist.objects.filter(user=user).select_related("product").order_by("-created_at")[:5]
+
+    context = {
+        "user_name": user.name or user.user_id,
+        "user_email": user.email,
+        "user_hp": user.hp,
+        "date_joined": user.date_joined,
+        "recent_orders": recent_orders,
+        "recent_wishlist": recent_wishlist,
+    }
+    return render(request, "user/mypage.html", context)
+
+
+@login_required
+def account_delete(request):
+    if request.method == 'POST':
+        # 실제 탈퇴 처리(비활성화 or 삭제)
+        user = request.user
+        from django.contrib.auth import logout
+        logout(request)
+        user.is_active = False  # 또는 user.delete()
+        user.save()
+        messages.success(request, '탈퇴가 완료되었습니다.')
+        return redirect('index')
+    return render(request, 'user/account_delete_confirm.html')
