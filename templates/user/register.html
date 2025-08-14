@@ -26,13 +26,9 @@
     <form name="fregisterform"
           method="post"
           autocomplete="off"
+          novalidate
           style="margin:0">
       {% csrf_token %}
-      {% if messages %}
-        <div style="color:#d00; padding:8px 0;">
-          {% for message in messages %}<div>{{ message }}</div>{% endfor %}
-        </div>
-      {% endif %}
       <table width="100%" cellspacing="0" cellpadding="0">
         <tbody>
           <tr>
@@ -43,7 +39,7 @@
                     <td width="160" class="m_title">아이디</td>
                     <td class="m_padding">
                       {{ form.user_id }}
-                      {% if form.user_id.errors %}
+                      {% if form.is_bound and form.user_id.errors %}
                         <div style="color:#d00;">{{ form.user_id.errors.0 }}</div>
                       {% else %}
                         <div style="color:#66A2C8;">※ 영문자, 숫자만 입력 가능. 최소 3자 이상</div>
@@ -54,7 +50,7 @@
                     <td class="m_title">비밀번호</td>
                     <td class="m_padding">
                       {{ form.password1 }}
-                      {% if form.password1.errors %}
+                      {% if form.is_bound and form.password1.errors %}
                         <div style="color:#d00;">{{ form.password1.errors.0 }}</div>
                       {% else %}
                         <div style="color:#66A2C8;">영문/숫자/특수문자 조합, 8~16자</div>
@@ -65,7 +61,9 @@
                     <td class="m_title">비밀번호 확인</td>
                     <td class="m_padding">
                       {{ form.password2 }}
-                      {% if form.password2.errors %}<div style="color:#d00;">{{ form.password2.errors.0 }}</div>{% endif %}
+                      {% if form.is_bound and form.password2.errors %}
+                        <div style="color:#d00;">{{ form.password2.errors.0 }}</div>
+                      {% endif %}
                     </td>
                   </tr>
                 </tbody>
@@ -91,21 +89,21 @@
                     <td width="160" class="m_title">이름</td>
                     <td class="m_padding">
                       {{ form.name }}
-                      {% if form.name.errors %}<div style="color:#d00;">{{ form.name.errors.0 }}</div>{% endif %}
+                      {% if form.is_bound and form.name.errors %}<div style="color:#d00;">{{ form.name.errors.0 }}</div>{% endif %}
                     </td>
                   </tr>
                   <tr bgcolor="#FFFFFF">
                     <td class="m_title">E-mail</td>
                     <td class="m_padding">
                       {{ form.email }}
-                      {% if form.email.errors %}<div style="color:#d00;">{{ form.email.errors.0 }}</div>{% endif %}
+                      {% if form.is_bound and form.email.errors %}<div style="color:#d00;">{{ form.email.errors.0 }}</div>{% endif %}
                     </td>
                   </tr>
                   <tr bgcolor="#FFFFFF">
                     <td class="m_title">핸드폰번호</td>
                     <td class="m_padding">
                       {{ form.hp }}
-                      {% if form.hp.errors %}<div style="color:#d00;">{{ form.hp.errors.0 }}</div>{% endif %}
+                      {% if form.is_bound and form.hp.errors %}<div style="color:#d00;">{{ form.hp.errors.0 }}</div>{% endif %}
                       <div style="color:#66A2C8;">예) 01012345678</div>
                     </td>
                   </tr>

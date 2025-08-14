@@ -18,6 +18,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.http import urlencode
 from .forms import ProfileEditForm
 from urllib.parse import urlparse
+from django.views.decorators.http import require_POST
 
 # Create your views here..
 class RegisterTermsView(TemplateView):
@@ -29,13 +30,13 @@ class RegisterTermsView(TemplateView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["terms_obj"] = Terms_and_condition.objects.order_by("-id").first()
-        return context
+        ctx = super().get_context_data(**kwargs)
+        ctx["terms_obj"] = Terms_and_condition.objects.order_by("-id").first()
+        return ctx
 
     def post(self, request, *args, **kwargs):
-        agree = request.POST.get("agree")
-        agree2 = request.POST.get("agree2")
+        agree  = request.POST.get("agree") == "1"
+        agree2 = request.POST.get("agree2") == "1"
 
         if not agree:
             messages.error(request, "회원가입약관의 내용에 동의하셔야 회원가입 하실 수 있습니다.")
@@ -44,10 +45,11 @@ class RegisterTermsView(TemplateView):
             messages.error(request, "개인정보취급방침의 내용에 동의하셔야 회원가입 하실 수 있습니다.")
             return self.get(request, *args, **kwargs)
 
-        return redirect("/")
+        # ✅ 약관 동의 성공 표시 후 회원가입 페이지로 리다이렉트 (GET)
+        request.session["agreed_terms"] = True
+        return redirect(reverse("user:register"))
 
 class RegisterView(CreateView):
-    """회원가입"""
     model = User
     template_name = 'user/register.html'
     form_class = RegisterForm
@@ -55,10 +57,17 @@ class RegisterView(CreateView):
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+        # ✅ 약관 미동의 시 약관 페이지로
+        if not request.session.get("agreed_terms"):
+            return redirect("user:register_terms")
+        # 원치 않으면 여기서 바로 지워도 됨
+        # request.session.pop("agreed_terms", None)
         return super().get(request, *args, **kwargs)
 
     def form_valid(self, form):
         self.object = form.save()
+        # 가입 완료 후 약관 플래그 제거
+        self.request.session.pop("agreed_terms", None)
         messages.success(self.request, "회원가입 성공.")
         return redirect(self.get_success_url())
 
@@ -68,10 +77,6 @@ class RegisterView(CreateView):
 
     def get_success_url(self):
         return reverse('user:login')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
 
 def login(request):
     # 이미 로그인한 경우: 로그인 페이지 접근 차단
@@ -175,16 +180,12 @@ def mypage(request):
     }
     return render(request, "user/mypage.html", context)
 
-
 @login_required
+@require_POST
 def account_delete(request):
-    if request.method == 'POST':
-        # 실제 탈퇴 처리(비활성화 or 삭제)
-        user = request.user
-        from django.contrib.auth import logout
-        logout(request)
-        user.is_active = False  # 또는 user.delete()
-        user.save()
-        messages.success(request, '탈퇴가 완료되었습니다.')
-        return redirect('index')
-    return render(request, 'user/account_delete_confirm.html')
+    user = request.user
+    logout(request)
+    user.is_active = False   # 완전 삭제하려면: user.delete()
+    user.save()
+    messages.success(request, '탈퇴가 완료되었습니다.')
+    return redirect('index')

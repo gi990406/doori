@@ -27,9 +27,8 @@
       <tbody>
         <tr>
           <td>
-            <form name="fregister"
-                  method="POST"
-                  action="{% url 'user:register' %}"
+            <form method="POST"
+                  action="{% url 'user:register_terms' %}"
                   autocomplete="off"
                   style="margin:0">
               {% csrf_token %}

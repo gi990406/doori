@@ -6,9 +6,13 @@ from django.contrib.auth.admin import UserAdmin
 
 # Register your models here.
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('user_id', 'name', 'hp')
+    list_display = ('user_id', 'name', 'hp', 'is_active')
     search_fields = ('user_id', 'name', 'hp')
+    list_filter = ('is_active',)
     ordering = ('-date_joined',)
+    # def get_queryset(self, request):
+    #     qs = super().get_queryset(request)
+    #     return qs.filter(is_active=True)
 
 admin.site.register(User, UserAdmin)
 
