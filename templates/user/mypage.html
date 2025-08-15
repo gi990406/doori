@@ -1,0 +1,232 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block content %}
+  <td width="800" valign="top">
+    <!-- 타이틀 -->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td class="t01">
+            <img src="{% static 'images/account/title_m9.gif' %}" alt="">
+          </td>
+          <td class="t02" align="right">
+            <img src="{% static 'images/icon/home.gif' %}" alt="">
+            &gt; 마이페이지
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="t03"></td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- 상단 바 -->
+    <table align="center" width="98%">
+      <tbody>
+        <tr>
+          <td>
+            <b>{{ user_name }}</b> 님의 마이페이지입니다.
+          </td>
+          <td align="right">
+            <!-- 회원정보 수정: 비밀번호 재확인 후 이동 -->
+            <a href="{% url 'user:password_confirm' %}?next={% url 'user:profile_edit' %}">
+              <img src="{% static 'images/account/my_modify.gif' %}"
+                   alt="정보수정"
+                   border="0"
+                   align="absmiddle">
+            </a>
+            <!-- 회원탈퇴: confirm 후 비밀번호 재확인 → 탈퇴 -->
+            <a href="#" onclick="member_leave(event);">
+              <img src="{% static 'images/account/my_leave.gif' %}"
+                   alt="회원탈퇴"
+                   border="0"
+                   align="absmiddle">
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <form id="accountDeleteForm"
+          method="post"
+          action="{% url 'user:account_delete' %}"
+          style="display:none">
+      {% csrf_token %}
+    </form>
+    <script>
+              function member_leave(e){
+                if(e) e.preventDefault();
+                if (confirm("정말 회원에서 탈퇴 하시겠습니까?\n이 작업은 되돌릴 수 없습니다.")) {
+                  document.getElementById('accountDeleteForm').submit();
+                }
+              }
+    </script>
+    <!-- 기본정보 박스 -->
+    <table class="table-slice"
+           width="98%"
+           border="0"
+           cellpadding="0"
+           cellspacing="0"
+           align="center">
+      <tbody>
+        <!-- 상단 바 -->
+        <tr class="slice-row">
+          <td width="4">
+            <img src="{% static 'images/account/my_box01_left.gif' %}" alt="">
+          </td>
+          <td style="background:url({% static 'images/account/my_box01_bg.gif' %}) top repeat-x"></td>
+          <td width="4">
+            <img src="{% static 'images/account/my_box01_right.gif' %}" alt="">
+          </td>
+        </tr>
+        <!-- 본문 -->
+        <tr>
+          <!-- 좌측 세로 라인 -->
+          <td style="background:url({% static 'images/account/my_bg_left.gif' %}) top repeat-y"></td>
+          <!-- 내용 -->
+          <td>
+            <table width="100%"
+                   cellpadding="0"
+                   cellspacing="0"
+                   align="center"
+                   bgcolor="#f7f7f7"
+                   style="table-layout:fixed">
+              <tbody>
+                <tr>
+                  <td height="25" style="width:140px; padding-left:12px;">E-mail</td>
+                  <td colspan="3" style="padding:6px 10px; white-space:nowrap;">: {{ user_email }}</td>
+                </tr>
+                <tr>
+                  <td height="25" style="padding-left:12px;">회원가입일시</td>
+                  <td colspan="3" style="padding:6px 10px; white-space:nowrap;">: {{ date_joined|date:"Y-m-d" }}</td>
+                </tr>
+                <tr>
+                  <td height="25" style="padding-left:12px;">연락처</td>
+                  <td colspan="3" style="padding:6px 10px; white-space:nowrap;">: {{ user_hp }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <!-- 우측 세로 라인 -->
+          <td style="background:url({% static 'images/account/my_bg_right.gif' %}) top repeat-y"></td>
+        </tr>
+        <!-- 하단 바 -->
+        <tr class="slice-row">
+          <td>
+            <img src="{% static 'images/account/my_box02_left.gif' %}" alt="">
+          </td>
+          <td style="background:url({% static 'images/account/my_box02_bg.gif' %}) top repeat-x"></td>
+          <td>
+            <img src="{% static 'images/account/my_box02_right.gif' %}" alt="">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
+    <br>
+    <!-- 최근 주문내역 -->
+    <table width="98%"
+           cellpadding="0"
+           cellspacing="0"
+           align="center"
+           style="margin:0 0 5px 0">
+      <tbody>
+        <tr>
+          <td style="color:#03C; font-weight:bold;">* 최근주문내역</td>
+          <td align="right">
+            <a href="{% url 'user:mypage' %}">
+              <img src="{% static 'shop/img/icon_more.gif' %}" border="0" alt="">
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table width="98%" align="center" cellpadding="0" cellspacing="0" border="0">
+      <colgroup>
+        <col width="100">
+        <col>
+        <col width="80">
+        <col width="120">
+        <col width="120">
+        <col width="120">
+      </colgroup>
+      <tbody>
+        <tr align="center" height="28" class="ppm01">
+          <td>주문서번호</td>
+          <td>주문일시</td>
+          <td>상품수</td>
+          <td>주문금액</td>
+          <td>입금액</td>
+          <td>미입금액</td>
+        </tr>
+        {% if recent_orders %}
+          {% for od in recent_orders %}
+            <tr align="center" height="28">
+              <td>{{ od.order_no }}</td>
+              <td>{{ od.created_at|date:"Y-m-d H:i" }}</td>
+              <td>{{ od.item_count }}</td>
+              <td>{{ od.total_amount|floatformat:0 }}원</td>
+              <td>{{ od.paid_amount|floatformat:0 }}원</td>
+              <td>{{ od.unpaid_amount|floatformat:0 }}원</td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="20" height="100" align="center">
+              <span class="point">주문 내역이 없습니다.</span>
+            </td>
+          </tr>
+        {% endif %}
+        <tr>
+          <td colspan="20" height="1" bgcolor="#bbbbbb"></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
+    <br>
+    <br>
+    <!-- 최근 보관내역 -->
+    <table width="98%"
+           cellpadding="0"
+           cellspacing="0"
+           align="center"
+           style="margin:0 0 5px 0">
+      <tbody>
+        <tr>
+          <td style="color:#03C; font-weight:bold;">* 최근보관내역</td>
+          <td align="right">
+            <a href="{% url 'user:mypage' %}">
+              <img src="{% static 'shop/img/icon_more.gif' %}" border="0" alt="">
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table width="98%" cellpadding="0" cellspacing="0" align="center">
+      <tbody>
+        <tr class="ppm01">
+          <td colspan="2">상품명</td>
+          <td>보관일시</td>
+        </tr>
+        {% if recent_wishlist %}
+          {% for w in recent_wishlist %}
+            <tr>
+              <td colspan="2">{{ w.product.title }}</td>
+              <td>{{ w.created_at|date:"Y-m-d H:i" }}</td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="3" height="100" align="center">
+              <span class="point">보관 내역이 없습니다.</span>
+            </td>
+          </tr>
+        {% endif %}
+        <tr>
+          <td height="1" colspan="3" bgcolor="#bbbbbb"></td>
+        </tr>
+      </tbody>
+    </table>
+  </td>
+{% endblock content %}
+<!-- 숨은 폼: CSRF 포함, POST로 바로 전송 -->

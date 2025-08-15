@@ -95,6 +95,33 @@ class Part(models.Model):
     def get_category_display(self):
         return self.subcategory.get_parent_category_display() if self.subcategory else None
 
+    @property
+    def main_image_url(self):
+        """첫 번째 이미지 URL (없으면 None)"""
+        first = self.images.first()
+        try:
+            return first.image.url if first and first.image else None
+        except Exception:
+            return None
+
+    @property
+    def brand_name(self):
+        """제조사명"""
+        try:
+            return self.car_model.manufacturer.name
+        except Exception:
+            return ""
+
+    @property
+    def model_name(self):
+        """모델명"""
+        return self.car_model.name if self.car_model else ""
+
+    @property
+    def position_display(self):
+        """카테고리 표시(전면/후면/…) 또는 서브카테고리명"""
+        return self.get_category_display() or (self.subcategory.name if self.subcategory else "")
+
 class PartImage(models.Model):
     part = models.ForeignKey(Part, on_delete=models.CASCADE, related_name='images')
 

@@ -448,3 +448,382 @@ a.cloudy {
   width: 350px;
   height: auto;
 }
+
+/* 약관/개인정보 박스 폭/스크롤 통일 */
+.policy-header {
+  width: 100%;
+  background: #f7f7f7 url('/static/images/account/login_table_bg_top.gif') repeat-x;
+  border: 1px solid #ddd;
+  border-bottom: 0;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  /* ✅ */
+}
+
+.policy-cell {
+  padding: 0;
+}
+
+.policy-box {
+  width: 100%;
+  height: 320px;
+  /* 고정 높이 */
+  overflow: auto;
+  /* 스크롤 */
+  -webkit-overflow-scrolling: touch;
+  padding: 12px;
+  background: #fff url('/static/images/account/login_table_bg.gif') repeat;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  /* ✅ 패딩/보더 포함하여 100% */
+}
+
+.policy-agree {
+  padding: 8px 4px 16px 4px;
+}
+
+.m_title {
+  BACKGROUND-COLOR: #F7F7F7;
+  PADDING-LEFT: 15px;
+  PADDING-top: 5px;
+  PADDING-BOTTOM: 5px;
+}
+
+.m_padding {
+  PADDING-LEFT: 15px;
+  PADDING-BOTTOM: 5px;
+  PADDING-TOP: 5px;
+}
+
+.m_padding2 {
+  PADDING-LEFT: 0px;
+  PADDING-top: 5px;
+  PADDING-BOTTOM: 0px;
+}
+
+.m_padding3 {
+  PADDING-LEFT: 0px;
+  PADDING-top: 5px;
+  PADDING-BOTTOM: 5px;
+}
+
+.m_text {
+  BORDER: #D3D3D3 1px solid;
+  HEIGHT: 18px;
+  BACKGROUND-COLOR: #ffffff;
+}
+
+.m_text2 {
+  BORDER: #D3D3D3 1px solid;
+  HEIGHT: 18px;
+  BACKGROUND-COLOR: #dddddd;
+}
+
+.m_textarea {
+  BORDER: #D3D3D3 1px solid;
+  BACKGROUND-COLOR: #ffffff;
+  WIDTH: 100%;
+  WORD-BREAK: break-all;
+}
+
+.w_message {
+  font-family: 돋움;
+  font-size: 9pt;
+  color: #4B4B4B;
+}
+
+.w_norobot {
+  font-family: 돋움;
+  font-size: 9pt;
+  color: #BB4681;
+}
+
+.w_hand {
+  cursor: pointer;
+}
+
+.mb_id {
+  ime-mode: disabled;
+}
+
+.ppm01 {
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.ppm01 {
+  background: url(/static/images/account/p_title_bg.gif) repeat-x;
+}
+
+.ppm01 {
+  white-space: nowrap;
+  height: 34px;
+  overflow: hidden;
+}
+
+.ppm01 td {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+.qty-input {
+  width: 50px;
+  text-align: center;
+}
+
+.warn {
+  color: #d9534f;
+  font-size: 12px;
+}
+
+.muted {
+  color: #666;
+  font-size: 12px;
+}
+
+/* 박스 슬라이스 틀 공백 제거 */
+.table-slice td {
+  padding: 0;
+}
+
+.table-slice .slice-row {
+  line-height: 0;
+  font-size: 0;
+}
+
+/* 인라인 간격 제거 */
+.table-slice img {
+  display: block;
+}
+
+/* 이미지 베이스라인 공백 제거 */
+
+/* 공통 버튼 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  min-width: 110px;
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 600;
+  border: 1px solid #d0d5dd;
+  border-radius: 18px;
+  background: #ffffff;
+  color: #344054;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .15s ease, border-color .15s ease, box-shadow .15s ease, color .15s ease;
+  box-shadow: 0 1px 0 rgba(16, 24, 40, .04);
+}
+
+.btn:hover {
+  background: #f2f4f7;
+  border-color: #c4c9d0;
+}
+
+.btn:active {
+  background: #eceff3;
+}
+
+.btn:focus {
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, .25);
+}
+
+/* 타입별 색상 */
+.btn-primary {
+  background: #2563eb;
+  border-color: #1d4ed8;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+  border-color: #1e40af;
+}
+
+.btn-danger {
+  background: #ef4444;
+  border-color: #dc2626;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+  border-color: #b91c1c;
+}
+
+.btn-secondary {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+/* 비활성 */
+.btn[disabled],
+.btn.disabled {
+  opacity: .55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* 아이콘(유니코드) */
+.btn .ico {
+  font-size: 14px;
+  opacity: .95;
+}
+
+.btn-save {
+  display: inline-block;
+  padding: 8px 14px;
+  background: #f97316;
+  /* 오렌지 */
+  color: #fff;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-save:hover {
+  background: #ea580c;
+}
+
+.btn-save .ico {
+  margin-right: 5px;
+}
+
+/* 수량 컨트롤 박스 */
+.qty-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.qty-input {
+  width: 64px;
+  height: 32px;
+  text-align: center;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  outline: 0;
+}
+
+.qty-input:focus {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, .15);
+  border-color: #94a3b8;
+}
+
+/* 변경 버튼(아이콘+텍스트) */
+.btn-qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #0f172a;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, transform .02s ease;
+}
+
+.btn-qty:hover {
+  background: #eef2f7;
+  border-color: #94a3b8;
+}
+
+.btn-qty:active {
+  transform: translateY(1px);
+}
+
+.btn-qty .ico {
+  font-size: 14px;
+}
+
+/* +/- 스텝 버튼(선택) */
+.step {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.step:hover {
+  background: #f2f4f7;
+}
+
+/* 재고 텍스트 */
+.stock-hint {
+  margin-top: 6px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.stock-hint.muted {
+  color: #64748b;
+}
+
+.stock-hint.warn {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.btn-primary-navy {
+  background-color: #0d1b4c;
+  color: white !important;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary-navy:hover {
+  background-color: #0b1640;
+}
+
+.btn-secondary-blue {
+  background-color: #1e3a8a;
+  color: white !important;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-secondary-blue:hover {
+  background-color: #162f6a;
+}
+
+.btn-primary-navy .ico,
+.btn-secondary-blue .ico {
+  font-size: 16px;
+}

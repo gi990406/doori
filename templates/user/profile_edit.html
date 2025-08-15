@@ -1,0 +1,132 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block content %}
+  <td width="800" valign="top">
+    <!-- 타이틀 -->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td class="t01">
+            <img src="{% static 'images/account/title_m3.gif' %}" alt="">
+          </td>
+          <td class="t02" align="right">
+            <img src="{% static 'images/icon/home.gif' %}" alt="">
+            &gt; 회원 정보 수정
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="t03"></td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- 컨텐츠 -->
+    <form name="fregisterform"
+          method="post"
+          autocomplete="off"
+          style="margin:0">
+      {% csrf_token %}
+      {% if messages %}
+        <div style="color:#d00; padding:8px 0;">
+          {% for message in messages %}<div>{{ message }}</div>{% endfor %}
+        </div>
+      {% endif %}
+      <table width="100%" cellspacing="0" cellpadding="0">
+        <tbody>
+          <tr>
+            <td bgcolor="#CCCCCC">
+              <table cellspacing="1" cellpadding="0" width="100%">
+                <tbody>
+                  <tr bgcolor="#FFFFFF">
+                    <td width="160" class="m_title">아이디</td>
+                    <td class="m_padding">
+                      <input class="m_text mb_id"
+                             value="{{ user_id }}"
+                             readonly
+                             style="background-color:#ddd">
+                      <table height="25" cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <font color="#66A2C8">※ 아이디는 변경할 수 없습니다.</font>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr bgcolor="#FFFFFF">
+                    <td class="m_title">비밀번호</td>
+                    <td class="m_padding">
+                      {{ form.password1 }}
+                      {% if form.non_field_errors %}<div style="color:#d00;">{{ form.non_field_errors.0 }}</div>{% endif %}
+                    </td>
+                  </tr>
+                  <tr bgcolor="#FFFFFF">
+                    <td class="m_title">비밀번호 확인</td>
+                    <td class="m_padding">{{ form.password2 }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table width="100%" cellspacing="0" cellpadding="0">
+        <tbody>
+          <tr>
+            <td height="1" bgcolor="#ffffff"></td>
+          </tr>
+        </tbody>
+      </table>
+      <table width="100%" cellspacing="0" cellpadding="0">
+        <tbody>
+          <tr>
+            <td bgcolor="#CCCCCC">
+              <table cellspacing="1" cellpadding="0" width="100%">
+                <tbody>
+                  <tr bgcolor="#FFFFFF">
+                    <td width="160" class="m_title">이름</td>
+                    <td class="m_padding">
+                      <input value="{{ name }}" readonly class="m_text2">
+                      <div style="color:#66A2C8;">※ 이름은 관리자에게 문의해 주세요.</div>
+                    </td>
+                  </tr>
+                  <tr bgcolor="#FFFFFF">
+                    <td class="m_title">E-mail</td>
+                    <td class="m_padding lh">
+                      {{ form.email }}
+                      {% if form.email.errors %}<div style="color:#d00;">{{ form.email.errors.0 }}</div>{% endif %}
+                    </td>
+                  </tr>
+                  <tr bgcolor="#FFFFFF">
+                    <td class="m_title">핸드폰번호</td>
+                    <td class="m_padding">
+                      {{ form.hp }}
+                      {% if form.hp.errors %}<div style="color:#d00;">{{ form.hp.errors.0 }}</div>{% endif %}
+                      <div style="color:#66A2C8;">예) 01012345678</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p align="center" style="margin:16px 0;">
+        <button type="submit" style="background:none;border:0;cursor:pointer;">
+          <img src="{% static 'images/account/join_ok_btn.gif' %}"
+               width="66"
+               height="20"
+               alt="수정">
+        </button>
+      </p>
+    </form>
+    <script>
+    // 첫 번째 입력 포커스
+    window.addEventListener('DOMContentLoaded', function () {
+      const first = document.querySelector("input[name='email']");
+      if (first) first.focus();
+    });
+    </script>
+  </td>
+{% endblock content %}

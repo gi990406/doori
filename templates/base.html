@@ -39,31 +39,49 @@
           </td>
           <td width="490" align="right" valign="bottom">
             <!--메뉴1 시작-->
-            <a href="">
-              <img src="{% static "images/menubar/login.gif" %}"
-                   width=""
-                   height=""
-                   alt="로그인">
-            </a>
-            <a href="">
-              <img src="{% static "images/menubar/join.gif" %}"
-                   width=""
-                   height=""
-                   alt="회원가입">
-            </a>
-            <a href="">
+            {% if request.user.is_authenticated %}
+              <a href="{% url "user:logout" %}">
+                <img src="{% static "images/menubar/logout.gif" %}"
+                     width=""
+                     height=""
+                     alt="로그아웃">
+              </a>
+            {% else %}
+              <a href="{% url "user:login" %}">
+                <img src="{% static "images/menubar/login.gif" %}"
+                     width=""
+                     height=""
+                     alt="로그인">
+              </a>
+            {% endif %}
+            {% if request.user.is_authenticated %}
+              <a href="{% url "user:password_confirm" %}">
+                <img src="{% static "images/menubar/change.gif" %}"
+                     width=""
+                     height=""
+                     alt="회원정보변경">
+              </a>
+            {% else %}
+              <a href="{% url "user:register_terms" %}">
+                <img src="{% static "images/menubar/join.gif" %}"
+                     width=""
+                     height=""
+                     alt="회원가입">
+              </a>
+            {% endif %}
+            <a href="{% url 'shop:order_form' %}">
               <img src="{% static "images/menubar/order.gif" %}"
                    width=""
                    height=""
                    alt="주문하기">
             </a>
-            <a href="">
+            <a href="{% url "shop:cart_detail" %}">
               <img src="{% static "images/menubar/cart.gif" %}"
                    width=""
                    height=""
                    alt="장바구니">
             </a>
-            <a href="">
+            <a href="{% url "user:mypage" %}">
               <img src="{% static "images/menubar/mypage.gif" %}"
                    width=""
                    height=""

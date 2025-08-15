@@ -147,7 +147,7 @@
                           <td align="center">:</td>
                           <td>
                             {% if product.price == 0 %}
-                              <a href="tel:01020108272"><font color="#FF5D00">{{ formatted_price }} 연결 </font></a>
+                              <a href="tel:01020108272"><font color="#FF5D00">{{ formatted_price }} </font></a>
                             {% else %}
                               <font>{{ formatted_price }}원 </font>
                             {% endif %}
@@ -166,22 +166,17 @@
                       <tbody>
                         <tr>
                           <td>
-                            <a href="">
-                              <img src="{% static "images/parts/btn2_wish.gif" %}"
-                                   border="0"
-                                   width=""
-                                   height=""
-                                   alt="보관하기">
-                              <!-- 주문하기로 대체 -->
-                            </a>
-                            <a href="">
-                              <img src="{% static "images/parts/btn_item_recommend.gif" %}"
-                                   border="0"
-                                   width=""
-                                   height=""
-                                   alt="추천하기">
-                              <!-- 보관하기로 대체 -->
-                            </a>
+                            {% if product.price == 0 %}
+                              <a href="tel:01020108272" class="btn-secondary-blue">전화하기</a>
+                            {% else %}
+                              <a href="{% url 'shop:buy_now' product.id %}" class="btn-primary-navy">주문하기</a>
+                            {% endif %}
+                            <form method="post"
+                                  action="{% url 'shop:add' product.id %}"
+                                  style="display:inline">
+                              {% csrf_token %}
+                              <button type="submit" class="btn-secondary-blue">보관하기</button>
+                            </form>
                           </td>
                         </tr>
                       </tbody>

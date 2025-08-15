@@ -1,0 +1,50 @@
+{% extends "../base.html" %}
+{% load humanize %}
+{% block content %}
+  <td width="800" valign="top">
+    <h3>주문이 접수되었습니다</h3>
+    <p>
+      주문번호: <b>#{{ order.id }}</b>
+    </p>
+    {% if not order.user_id %}
+      <p>
+        비회원 주문 조회는 <a href="{% url 'shop:guest_lookup' %}">여기</a>에서 이름과 주문 비밀번호로 확인하실 수 있어요.
+      </p>
+    {% endif %}
+    <table width="98%"
+           cellspacing="0"
+           cellpadding="6"
+           style="border:1px solid #eee">
+      <tr style="background:#fafafa;">
+        <th align="left">상품</th>
+        <th>수량</th>
+        <th>단가</th>
+        <th>소계</th>
+      </tr>
+      {% for it in order.items.all %}
+        <tr>
+          <td align="left">{{ it.title }}</td>
+          <td align="center">{{ it.quantity }}</td>
+          <td align="right">
+            {% if it.unit_price %}
+              {{ it.unit_price|intcomma }}원
+            {% else %}
+              -
+            {% endif %}
+          </td>
+          <td align="right">
+            {% if it.unit_price %}
+              {{ it.subtotal|intcomma }}원
+            {% else %}
+              -
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+    <p style="text-align:right">
+      <b>총액:</b> {{ total_amount|intcomma }}원
+    </p>
+    <div style="padding:12px; background:#fffbea; border:1px solid #fde68a;">입금 확인 후 발송됩니다. 감사합니다!</div>
+  </td>
+{% endblock %}

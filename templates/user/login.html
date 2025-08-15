@@ -1,0 +1,121 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block content %}
+  <td width="800" valign="top">
+    <!--타이틀시작-->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td class="t01">
+            <img src="{% static "images/account/title_m1.gif" %}"
+                 width=""
+                 height=""
+                 alt="">
+          </td>
+          <td class="t02" align="right">
+            <img src="{% static "images/icon/home.gif" %}" width="" height="" alt="">
+            &gt; 로그인
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="t03"></td>
+        </tr>
+      </tbody>
+    </table>
+    <!--/ 타이틀시작-->
+    <!-- 컨텐츠 -->
+    <form method="post"
+          action="{% url 'user:login' %}"
+          autocomplete="off"
+          style="padding:0px">
+      {% csrf_token %}
+      <table cellpadding="2" bgcolor="#F6F6F6" align="center">
+        <tbody>
+          <tr>
+            <td>
+              <table width="480" bgcolor="#FFFFFF" cellpadding="0" border="0">
+                <tbody>
+                  <tr>
+                    <td align="center" height="60">
+                      <img src="{% static "images/account/title_login.gif" %}"
+                           width=""
+                           height=""
+                           alt="">
+                    </td>
+                  </tr>
+                  {% if error %}
+                    <tr>
+                      <td align="center" style="color:red; padding:10px;">{{ error }}</td>
+                    </tr>
+                  {% endif %}
+                  <tr>
+                    <td>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td>
+                              <table>
+                                <tbody>
+                                  <tr>
+                                    <td width="120" align="right">아이디</td>
+                                    <td>
+                                      &nbsp;&nbsp;
+                                      <input class="ed" maxlength="20" size="15" name="user_id" required value="">
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td width="120" align="right">비밀번호</td>
+                                    <td>
+                                      &nbsp;&nbsp;
+                                      <input type="password"
+                                             class="ed"
+                                             maxlength="20"
+                                             size="15"
+                                             name="password"
+                                             required
+                                             value="">
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </td>
+                            <td>
+                              <button type="submit" style="background:none; border:0; padding:0;">
+                                <img src="{% static 'images/account/btn_confirm.gif' %}"
+                                     alt="확인"
+                                     border="0"
+                                     align="absmiddle">
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td height="30" align="center">
+                      <a href="{% url "user:register_terms" %}">
+                        <img src="{% static "images/account/btn_member_join.gif" %}"
+                             border="0"
+                             width=""
+                             height=""
+                             alt="">
+                      </a>
+                      <a href="javascript:;" onclick="win_password_lost();">
+                        <img src="{% static "images/account/btn_passfind.gif" %}"
+                             border="0"
+                             width=""
+                             height=""
+                             alt="">
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </td>
+{% endblock content %}

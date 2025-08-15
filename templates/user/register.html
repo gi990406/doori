@@ -1,0 +1,126 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block content %}
+  <td width="800" valign="top">
+    <!-- 타이틀 -->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td class="t01">
+            <img src="{% static 'images/account/title_m3.gif' %}"
+                 alt=""
+                 width=""
+                 height="">
+          </td>
+          <td class="t02" align="right">
+            <img src="{% static 'images/icon/home.gif' %}" alt="" width="" height="">
+            &gt; 회원가입
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="t03"></td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- 폼 -->
+    <form name="fregisterform"
+          method="post"
+          autocomplete="off"
+          novalidate
+          style="margin:0">
+      {% csrf_token %}
+      <table width="100%" cellspacing="0" cellpadding="0">
+        <tbody>
+          <tr>
+            <td bgcolor="#CCCCCC">
+              <table cellspacing="1" cellpadding="0" width="100%">
+                <tbody>
+                  <tr bgcolor="#FFFFFF">
+                    <td width="160" class="m_title">아이디</td>
+                    <td class="m_padding">
+                      {{ form.user_id }}
+                      {% if form.is_bound and form.user_id.errors %}
+                        <div style="color:#d00;">{{ form.user_id.errors.0 }}</div>
+                      {% else %}
+                        <div style="color:#66A2C8;">※ 영문자, 숫자만 입력 가능. 최소 3자 이상</div>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  <tr bgcolor="#FFFFFF">
+                    <td class="m_title">비밀번호</td>
+                    <td class="m_padding">
+                      {{ form.password1 }}
+                      {% if form.is_bound and form.password1.errors %}
+                        <div style="color:#d00;">{{ form.password1.errors.0 }}</div>
+                      {% else %}
+                        <div style="color:#66A2C8;">영문/숫자/특수문자 조합, 8~16자</div>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  <tr bgcolor="#FFFFFF">
+                    <td class="m_title">비밀번호 확인</td>
+                    <td class="m_padding">
+                      {{ form.password2 }}
+                      {% if form.is_bound and form.password2.errors %}
+                        <div style="color:#d00;">{{ form.password2.errors.0 }}</div>
+                      {% endif %}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table width="100%" cellspacing="0" cellpadding="0">
+        <tbody>
+          <tr>
+            <td height="1" bgcolor="#ffffff"></td>
+          </tr>
+        </tbody>
+      </table>
+      <table width="100%" cellspacing="0" cellpadding="0">
+        <tbody>
+          <tr>
+            <td bgcolor="#CCCCCC">
+              <table cellspacing="1" cellpadding="0" width="100%">
+                <tbody>
+                  <tr bgcolor="#FFFFFF">
+                    <td width="160" class="m_title">이름</td>
+                    <td class="m_padding">
+                      {{ form.name }}
+                      {% if form.is_bound and form.name.errors %}<div style="color:#d00;">{{ form.name.errors.0 }}</div>{% endif %}
+                    </td>
+                  </tr>
+                  <tr bgcolor="#FFFFFF">
+                    <td class="m_title">E-mail</td>
+                    <td class="m_padding">
+                      {{ form.email }}
+                      {% if form.is_bound and form.email.errors %}<div style="color:#d00;">{{ form.email.errors.0 }}</div>{% endif %}
+                    </td>
+                  </tr>
+                  <tr bgcolor="#FFFFFF">
+                    <td class="m_title">핸드폰번호</td>
+                    <td class="m_padding">
+                      {{ form.hp }}
+                      {% if form.is_bound and form.hp.errors %}<div style="color:#d00;">{{ form.hp.errors.0 }}</div>{% endif %}
+                      <div style="color:#66A2C8;">예) 01012345678</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p align="center" style="margin:16px 0;">
+        <button type="submit" style="background:none;border:0;cursor:pointer;">
+          <img src="{% static 'images/account/join_ok_btn.gif' %}"
+               width="66"
+               height="20"
+               alt="가입">
+        </button>
+      </p>
+    </form>
+  </td>
+{% endblock content %}

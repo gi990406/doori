@@ -1,0 +1,29 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block content %}
+  <td width="800" valign="top" align="center">
+    <p style="font-size: 1.1em; margin-bottom: 20px;">
+      정말 탈퇴하시겠습니까?
+      <br>
+      <span style="color: #d9534f; font-weight: bold;">이 작업은 되돌릴 수 없습니다.</span>
+    </p>
+    <form method="post" style="display: inline-block; margin-right: 10px;">
+      {% csrf_token %}
+      <button type="submit"
+              style="background-color: #d9534f;
+                     color: white;
+                     padding: 10px 20px;
+                     border: none;
+                     border-radius: 5px;
+                     cursor: pointer;
+                     font-size: 1em">탈퇴 진행</button>
+    </form>
+    <a href="{% url 'user:mypage' %}"
+       style="background-color: #6c757d;
+              color: white;
+              padding: 10px 20px;
+              border-radius: 5px;
+              text-decoration: none;
+              font-size: 1em">취소</a>
+  </td>
+{% endblock content %}

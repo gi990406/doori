@@ -1,0 +1,122 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block content %}
+  <td width="800" valign="top">
+    <!-- 타이틀 -->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td class="t01">
+            <img src="{% static 'images/account/title_m2.gif' %}"
+                 width=""
+                 height=""
+                 alt="">
+          </td>
+          <td class="t02" align="right">
+            <img src="{% static 'images/icon/home.gif' %}" width="" height="" alt="">
+            &gt; 회원가입약관
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="t03"></td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- 컨텐츠 -->
+    <table width="100%" cellspacing="0" align="center">
+      <tbody>
+        <tr>
+          <td>
+            <form method="POST"
+                  action="{% url 'user:register_terms' %}"
+                  autocomplete="off"
+                  style="margin:0">
+              {% csrf_token %}
+              <table width="100%" cellspacing="0" cellpadding="0">
+                <tbody>
+                  <tr>
+                    <td height="20"></td>
+                  </tr>
+                  <!-- 회원가입약관 헤더 -->
+                  <tr>
+                    <td class="policy-header">
+                      <b>회원가입약관</b>
+                    </td>
+                  </tr>
+                  <!-- 회원가입약관 본문 -->
+                  <tr>
+                    <td class="policy-cell">
+                      <div class="policy-box">
+                        {% if terms_obj and terms_obj.user_terms_and_conditions %}
+                          {{ terms_obj.user_terms_and_conditions|safe }}
+                        {% else %}
+                          약관이 준비되지 않았습니다. 관리자에게 문의해 주세요.
+                        {% endif %}
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="policy-agree">
+                      <label>
+                        <input type="checkbox" name="agree" value="1" required>
+                        동의합니다.
+                      </label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td height="20"></td>
+                  </tr>
+                  <!-- 개인정보취급방침 헤더 -->
+                  <tr>
+                    <td class="policy-header">
+                      <b>개인정보취급방침</b>
+                    </td>
+                  </tr>
+                  <!-- 개인정보취급방침 본문 -->
+                  <tr>
+                    <td class="policy-cell">
+                      <div class="policy-box">
+                        {% if terms_obj and terms_obj.privacy_policy %}
+                          {{ terms_obj.privacy_policy|safe }}
+                        {% else %}
+                          개인정보취급방침이 준비되지 않았습니다. 관리자에게 문의해 주세요.
+                        {% endif %}
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="policy-agree">
+                      <label>
+                        <input type="checkbox" name="agree2" value="1" required>
+                        동의합니다.
+                      </label>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="center" style="padding:16px 0;">
+                      <button type="submit" style="background:none;border:0;cursor:pointer;">
+                        <img src="{% static 'images/account/join_ok_btn.gif' %}"
+                             width="66"
+                             height="20"
+                             alt="다음">
+                      </button>
+                    </td>
+                  </tr>
+                  {% if messages %}
+                    <tr>
+                      <td>
+                        <div style="color:#d00; padding:8px 0;">
+                          {% for message in messages %}<div>{{ message }}</div>{% endfor %}
+                        </div>
+                      </td>
+                    </tr>
+                  {% endif %}
+                </tbody>
+              </table>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </td>
+{% endblock content %}
