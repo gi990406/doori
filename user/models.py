@@ -66,7 +66,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                 name='uniq_active_hp',
             ),
         ]
-        
+
 class Terms_and_condition(models.Model):
     user_terms_and_conditions = models.TextField(verbose_name="회원가입 약관")
     privacy_policy = models.TextField(verbose_name="개인정보 취급방침")

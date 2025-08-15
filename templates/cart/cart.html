@@ -154,7 +154,7 @@
               </a>
             {% else %}
               <!-- 실제 주문 시작 URL로 교체하세요 (회원/비회원 공용 시작점) -->
-              <a class="btn btn-primary" href="">
+              <a class="btn btn-primary" href="{% url 'shop:order_form' %}">
                 <span class="ico">🧾</span> 주문하기
               </a>
             {% endif %}
