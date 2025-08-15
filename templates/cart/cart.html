@@ -1,0 +1,170 @@
+{% extends "../base.html" %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+  <td width="800" valign="top">
+    <!-- 타이틀 -->
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td class="t01">
+            <img src="{% static 'images/cart/title_m6.gif' %}">
+          </td>
+          <td class="t02" align="right">
+            <img src="{% static 'images/icon/home.gif' %}">
+            &gt; 장바구니
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" class="t03"></td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- 테이블 (바깥 form 제거: 중첩 폼 방지) -->
+    <table width="98%" cellpadding="0" cellspacing="0" align="center">
+      <!-- 열: [이미지][상품명][수량][판매가][소계][삭제] = 6개 -->
+      <colgroup width="80"></colgroup>
+      <colgroup width=""></colgroup>
+      <colgroup width="80"></colgroup>
+      <colgroup width="80"></colgroup>
+      <colgroup width="80"></colgroup>
+      <colgroup width="50"></colgroup>
+      <tbody>
+        <tr align="center" height="28" class="ppm01">
+          <td colspan="2">상품명</td>
+          <td>수량</td>
+          <td>판매가</td>
+          <td>소계</td>
+          <td>삭제</td>
+        </tr>
+        {% for item in cart %}
+          {% with p=item.product %}
+            {% if p %}
+              <tr>
+                <td width="80" align="center">
+                  <img src="{{ p.main_image_url }}" alt="{{ p.title }}" width="60">
+                </td>
+                <td>
+                  <div style="padding:5px 10px;">
+                    <a href="{% url 'parts:product_detail' p.id %}"
+                       style="color:inherit;
+                              text-decoration:none"><strong>{{ p.title }}</strong></a>
+                    <br>
+                    <span class="muted">{{ p.brand_name }} {{ p.model_name }} / {{ p.position_display }}</span>
+                  </div>
+                </td>
+                <!-- 수량 -->
+                <td align="center">
+                  <form method="post" action="{% url 'shop:update' p.id %}">
+                    {% csrf_token %}
+                    <div class="qty-control">
+                      <input type="number"
+                             name="qty"
+                             value="{{ item.qty }}"
+                             min="1"
+                             class="qty-input">
+                      <button type="submit" class="btn-qty">
+                        <span class="ico">↻</span>
+                      </button>
+                    </div>
+                  </form>
+                  {% if item.stock is not None %}
+                    {% if not item.stock_ok %}
+                      <div class="stock-hint warn">재고 {{ item.stock }}개 이하</div>
+                    {% else %}
+                      <div class="stock-hint muted">재고: {{ item.stock }}개</div>
+                    {% endif %}
+                  {% endif %}
+                </td>
+                <!-- 가격/소계 -->
+                <td align="center">
+                  {% if item.price is None %}
+                    <a href="tel:01020108272"><span class="warn">전화문의</span></a>
+                  {% else %}
+                    {{ item.price|floatformat:0|intcomma }}원
+                  {% endif %}
+                </td>
+                <td align="center">
+                  {% if item.price is None %}
+                    -
+                  {% else %}
+                    {{ item.subtotal|floatformat:0|intcomma }}원
+                  {% endif %}
+                </td>
+                <!-- 삭제 -->
+                <td align="center">
+                  <form method="post" action="{% url 'shop:remove' p.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">
+                      <span class="ico">🗑️</span>
+                    </button>
+                  </form>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="6" height="1" bgcolor="#eeeeee"></td>
+              </tr>
+            {% endif %}
+          {% endwith %}
+        {% empty %}
+          <!-- 비어있을 때 -->
+          <tr>
+            <td colspan="6" align="center" height="100">
+              <span class="textpoint">장바구니가 비어 있습니다.</span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="6" height="1" bgcolor="#bbbbbb"></td>
+          </tr>
+        {% endfor %}
+        <!-- 합계/주의 -->
+        <tr>
+          <td colspan="6" height="1" bgcolor="#bbbbbb"></td>
+        </tr>
+        <tr>
+          <td colspan="6" align="right" style="padding:15px 10px;">
+            <b>총 상품금액:</b> {{ cart.total|floatformat:0|intcomma }}원
+            &nbsp;&nbsp;&nbsp;
+            <b>전화문의 상품:</b>
+            {% if cart.has_inquiry_only %}
+              <span class="warn">있음</span>
+            {% else %}
+              없음
+            {% endif %}
+            &nbsp;&nbsp;&nbsp;
+            <b>재고 문제:</b>
+            {% if cart.has_stock_issue %}
+              <span class="warn">있음</span>
+            {% else %}
+              없음
+            {% endif %}
+          </td>
+        </tr>
+        <!-- 버튼 -->
+        <tr>
+          <td colspan="6" align="center" style="padding:16px 0;">
+            <!-- 주문하기 -->
+            {% if cart.has_inquiry_only or cart.has_stock_issue %}
+              <button class="btn btn-primary" disabled title="전화문의 또는 재고 이슈로 주문 불가">
+                <span class="ico">🧾</span> 주문하기
+              </button>
+              &nbsp;
+              <a class="btn" href="tel:01020108272">
+                <span class="ico">📞</span> 문의하기
+              </a>
+            {% else %}
+              <!-- 실제 주문 시작 URL로 교체하세요 (회원/비회원 공용 시작점) -->
+              <a class="btn btn-primary" href="">
+                <span class="ico">🧾</span> 주문하기
+              </a>
+            {% endif %}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
+    <br>
+    <br>
+  </td>
+{% endblock content %}

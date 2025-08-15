@@ -171,17 +171,17 @@
                                    border="0"
                                    width=""
                                    height=""
-                                   alt="보관하기">
+                                   alt="주문하기">
                               <!-- 주문하기로 대체 -->
                             </a>
-                            <a href="">
-                              <img src="{% static "images/parts/btn_item_recommend.gif" %}"
-                                   border="0"
-                                   width=""
-                                   height=""
-                                   alt="추천하기">
-                              <!-- 보관하기로 대체 -->
-                            </a>
+                            <form method="post"
+                                  action="{% url 'shop:add' product.id %}"
+                                  style="display:inline">
+                              {% csrf_token %}
+                              <button type="submit" class="btn-save">
+                                <span class="ico">📦</span> 보관하기
+                              </button>
+                            </form>
                           </td>
                         </tr>
                       </tbody>

@@ -567,6 +567,21 @@ a.cloudy {
   text-align: center;
 }
 
+.qty-input {
+  width: 50px;
+  text-align: center;
+}
+
+.warn {
+  color: #d9534f;
+  font-size: 12px;
+}
+
+.muted {
+  color: #666;
+  font-size: 12px;
+}
+
 /* 박스 슬라이스 틀 공백 제거 */
 .table-slice td {
   padding: 0;
@@ -583,3 +598,189 @@ a.cloudy {
 }
 
 /* 이미지 베이스라인 공백 제거 */
+
+/* 공통 버튼 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  min-width: 110px;
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 600;
+  border: 1px solid #d0d5dd;
+  border-radius: 18px;
+  background: #ffffff;
+  color: #344054;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .15s ease, border-color .15s ease, box-shadow .15s ease, color .15s ease;
+  box-shadow: 0 1px 0 rgba(16, 24, 40, .04);
+}
+
+.btn:hover {
+  background: #f2f4f7;
+  border-color: #c4c9d0;
+}
+
+.btn:active {
+  background: #eceff3;
+}
+
+.btn:focus {
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, .25);
+}
+
+/* 타입별 색상 */
+.btn-primary {
+  background: #2563eb;
+  border-color: #1d4ed8;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+  border-color: #1e40af;
+}
+
+.btn-danger {
+  background: #ef4444;
+  border-color: #dc2626;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+  border-color: #b91c1c;
+}
+
+.btn-secondary {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+/* 비활성 */
+.btn[disabled],
+.btn.disabled {
+  opacity: .55;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* 아이콘(유니코드) */
+.btn .ico {
+  font-size: 14px;
+  opacity: .95;
+}
+
+.btn-save {
+  display: inline-block;
+  padding: 8px 14px;
+  background: #f97316;
+  /* 오렌지 */
+  color: #fff;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-save:hover {
+  background: #ea580c;
+}
+
+.btn-save .ico {
+  margin-right: 5px;
+}
+
+/* 수량 컨트롤 박스 */
+.qty-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.qty-input {
+  width: 64px;
+  height: 32px;
+  text-align: center;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  outline: 0;
+}
+
+.qty-input:focus {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, .15);
+  border-color: #94a3b8;
+}
+
+/* 변경 버튼(아이콘+텍스트) */
+.btn-qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #0f172a;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, transform .02s ease;
+}
+
+.btn-qty:hover {
+  background: #eef2f7;
+  border-color: #94a3b8;
+}
+
+.btn-qty:active {
+  transform: translateY(1px);
+}
+
+.btn-qty .ico {
+  font-size: 14px;
+}
+
+/* +/- 스텝 버튼(선택) */
+.step {
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.step:hover {
+  background: #f2f4f7;
+}
+
+/* 재고 텍스트 */
+.stock-hint {
+  margin-top: 6px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.stock-hint.muted {
+  color: #64748b;
+}
+
+.stock-hint.warn {
+  color: #dc2626;
+  font-weight: 600;
+}
