@@ -48,11 +48,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    "shop.apps.ShopConfig",
     'django_summernote',
     'user',
     'parts',
     'community',
-    'shop',
 ]
 
 MIDDLEWARE = [

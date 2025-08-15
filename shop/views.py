@@ -50,10 +50,8 @@ def order_form(request):
 
     if empty:
         messages.warning(request, "장바구니가 비어 있습니다.")
-        return redirect("shop:cart_detail")
     if has_inquiry or has_stock_issue:
         messages.error(request, "전화문의 상품 또는 재고 이슈가 있어 주문할 수 없습니다.")
-        return redirect("shop:cart_detail")
 
     if request.method == "POST":
         # 공통 주문 생성
@@ -129,3 +127,24 @@ def guest_lookup(request):
                     order = o
                     break
     return render(request, "orders/guest_lookup.html", {"order": order})
+
+def buy_now(request, part_id):
+    part = get_object_or_404(Part, pk=part_id)
+
+    # ① 전화문의/가격 0 → 주문 불가
+    if part.price in (None, 0, "0", ""):
+        messages.error(request, "전화문의 상품은 주문서로 바로 진행할 수 없습니다. 문의하기로 진행해주세요.")
+        return redirect("shop:product_detail", part_id=part.id)
+
+    # ② 재고 체크
+    if part.stock is not None and int(part.stock) < 1:
+        messages.error(request, "재고가 없어 주문할 수 없습니다.")
+        return redirect("shop:product_detail", part_id=part.id)
+
+    # ③ 장바구니 정리 후 1개 담고 주문서로
+    cart = Cart(request)
+    cart.clear()                      # 기존 담긴 것 비우고
+    cart.add(part_id, qty=1)          # 수량 조절 원하면 ?qty= 파라미터로 받아 처리
+
+    # 주문서로 이동 (네임스페이스 확인: order:order_form or shop:order_form)
+    return redirect("shop:order_form")

@@ -12,4 +12,6 @@ urlpatterns = [
     path("order/", views.order_form, name="order_form"),                 # 회원/비회원 공용 시작
     path("complete/<int:order_id>/", views.order_complete, name="complete"),
     path("guest-lookup/", views.guest_lookup, name="guest_lookup"),
+    path("buy/<int:part_id>/", views.buy_now, name="buy_now"),
+
 ]

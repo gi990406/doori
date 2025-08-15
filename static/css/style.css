@@ -784,3 +784,46 @@ a.cloudy {
   color: #dc2626;
   font-weight: 600;
 }
+
+.btn-primary-navy {
+  background-color: #0d1b4c;
+  color: white !important;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary-navy:hover {
+  background-color: #0b1640;
+}
+
+.btn-secondary-blue {
+  background-color: #1e3a8a;
+  color: white !important;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-secondary-blue:hover {
+  background-color: #162f6a;
+}
+
+.btn-primary-navy .ico,
+.btn-secondary-blue .ico {
+  font-size: 16px;
+}

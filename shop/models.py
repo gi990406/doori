@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.hashers import check_password
+from parts.models import Part
+from django.db.models import F, Value, IntegerField, Case, When
 
 class Order(models.Model):
     class Status(models.TextChoices):
@@ -23,6 +25,51 @@ class Order(models.Model):
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.REQUESTED)
     memo   = models.TextField(blank=True)  # 고객 메모 등
     created_at = models.DateTimeField(auto_now_add=True)
+
+    stock_applied = models.BooleanField(default=False, verbose_name="재고 차감 완료")
+
+    def apply_stock(self):
+        """입금확인 시 1회만 재고 차감 (음수 방지)."""
+        if self.stock_applied:
+            return
+
+        items = self.items.select_related("part").only("id", "quantity", "part__id", "part__stock")
+        from parts.models import Part  # 같은 앱이면 상대 import도 가능: from .models import Part
+
+        for it in items:
+            p = it.part
+            if not p:
+                continue
+            # 필요 시 전화문의 제외 조건 추가 가능:
+            # if it.unit_price is None: continue
+
+            Part.objects.filter(pk=p.pk).update(
+                stock=Case(
+                    When(stock__gte=it.quantity, then=F("stock") - it.quantity),
+                    default=Value(0),
+                    output_field=IntegerField(),
+                )
+            )
+
+        self.stock_applied = True
+        self.save(update_fields=["stock_applied"])
+
+    def unapply_stock(self):
+        """취소/주문접수로 되돌릴 때 1회만 재고 복원."""
+        if not self.stock_applied:
+            return
+
+        items = self.items.select_related("part").only("id", "quantity", "part__id", "part__stock")
+        from shop.models import Part
+
+        for it in items:
+            p = it.part
+            if not p:
+                continue
+            Part.objects.filter(pk=p.pk).update(stock=F("stock") + it.quantity)
+
+        self.stock_applied = False
+        self.save(update_fields=["stock_applied"])
 
     def total(self):
         return sum((i.subtotal() for i in self.items.all()), 0)
