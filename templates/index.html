@@ -7,55 +7,41 @@
       <tbody>
         <tr>
           <td width="580" height="367" valign="top">
-            <div style="height:4px;line-height:0;font-size:0;"></div>
+            <div style="height:4px;line-height:0;font-size:0;">
+              <img src="{% static 'images/index/intro.png' %}"
+                   width="583"
+                   height="369"
+                   alt="">
+            </div>
           </td>
-          <td width="8"></td>
           <td width="212" valign="top">
             <!-- 공지추출-->
-            <table width="212" border="0" cellspacing="0" cellpadding="0">
-              <tbody>
-                <tr>
-                  <td height="130"
-                      valign="top"
-                      style="padding-top:30px;
-                             background:url(static/images/notice.jpg);
-                             background-repeat:no-repeat;
-                             background-position:center top">
-                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                      <tbody>
-                        {% for notice in notices %}
-                          <tr>
-                            <td height="22">
-                              <nobr style="display:block; overflow:hidden; width:160;">
-                                &nbsp;&nbsp;&nbsp;
-                                <img src="{% static 'images/blot.gif' %}"
-                                     align="absmiddle"
-                                     width="2"
-                                     height="4">
-                                <a href="{% url 'community:notice_detail' notice.id %}">{{ notice.title }}</a>
-                                <span style="font-family:돋움; font-size:8pt; color:#9A9A9A;"></span></nobr>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td align="center">
-                              <img src="{% static 'images/dot_line.gif' %}"
-                                   width=""
-                                   height=""
-                                   alt="dot_line">
-                            </td>
-                          </tr>
-                        {% endfor %}
-                      </tbody>
-                    </table>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div style="height:4px;line-height:0;font-size:0;"></div>
-            <img src="{% static "images/main_ban_5.jpg" %}" width="" height="" alt="배너">
-            <div style="height:3px;line-height:0;font-size:0;"></div>
+            <div class="notice-bg">
+              <ul class="notice-list">
+                {% for n in notices %}
+                  <li>
+                    <span class="dot"></span>
+                    <a href="{% url 'community:notice_detail' n.id %}">{{ n.title }}</a>
+                  </li>
+                  {% if not forloop.last %}<div class="sep"></div>{% endif %}
+                {% empty %}
+                  <li class="empty">등록된 공지사항이 없습니다.</li>
+                {% endfor %}
+              </ul>
+            </div>
+            <div style="height:11px;line-height:0;font-size:0;"></div>
+            <a href="tel:01020108272">
+              <img src="{% static "images/banner/main_ban_5.png" %}"
+                   width="212"
+                   height="115"
+                   alt="배너">
+            </a>
+            <div style="height:11px;line-height:0;font-size:0;"></div>
             <a href="{% url "company" %}">
-              <img src="" alt="회사소개" width="" height="">
+              <img src="{% static "images/banner/left_ban_1.png" %}"
+                   alt="회사소개"
+                   width="212"
+                   height="115">
             </a>
           </td>
         </tr>

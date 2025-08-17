@@ -827,3 +827,100 @@ a.cloudy {
 .btn-secondary-blue .ico {
   font-size: 16px;
 }
+
+/* 배경 이미지 박스 자체 (안쪽에 리스트가 들어감) */
+.notice-bg {
+  /* 필요 시 조절 */
+  background: url("/static/images/notice/notice.png") no-repeat;
+  background-size: 212px 115px;
+  /* 헤더 영역(Notice 글자와 얇은 선)을 피해 아래로 컨텐츠 시작 */
+  padding: 28px 16px 12px;
+  /* top 값은 이미지에 맞춰 조절 */
+  box-sizing: border-box;
+}
+
+/* 리스트 기본 */
+.notice-list {
+  list-style: none;
+  margin: 3;
+  padding: 0;
+}
+
+.notice-list li {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 1px 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #273043;
+}
+
+/* 작은 커스텀 점 */
+.notice-list .dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #1e3a8a;
+  flex: 0 0 4px;
+  margin-top: 1px;
+}
+
+/* 제목: 한 줄 말줄임 */
+.notice-list a {
+  color: inherit;
+  text-decoration: none;
+  max-width: 170px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notice-list a:hover {
+  color: #0d1b4c;
+  text-decoration: underline;
+}
+
+/* 점선 구분자: 기존 이미지 그대로 사용 */
+.notice-list .sep {
+  height: 1px;
+  margin: 6px 0;
+  background: url("/static/images/dot_line.gif") repeat-x center;
+}
+
+/* 비어있을 때 */
+.notice-list .empty {
+  color: #94a3b8;
+  font-size: 12px;
+  text-align: center;
+  padding: 6px 0;
+}
+
+.login-menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* 세로 중앙 정렬 */
+  justify-content: flex-end;
+  /* 오른쪽 끝 정렬 */
+  gap: 18px;
+  /* 아이콘 간격 */
+}
+
+/* 로그인/로그아웃 버튼 */
+.login-menu .login-btn img {
+  width: 80px;
+  /* 크게 */
+  height: auto;
+  /* 비율 유지 */
+  cursor: pointer;
+}
+
+/* 나머지 아이콘 버튼 */
+.login-menu .icon-btn img {
+  width: 20px;
+  /* 작게 */
+  height: 20px;
+  object-fit: contain;
+  cursor: pointer;
+}

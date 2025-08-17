@@ -38,56 +38,34 @@
             </a>
           </td>
           <td width="490" align="right" valign="bottom">
-            <!--메뉴1 시작-->
-            {% if request.user.is_authenticated %}
-              <a href="{% url "user:logout" %}">
-                <img src="{% static "images/menubar/logout.gif" %}"
+            <div class="login-menu">
+              {% if request.user.is_authenticated %}
+                <a href="{% url "user:logout" %}" class="login-btn">
+                  <img src="{% static "images/menubar/logout.gif" %}" alt="로그아웃">
+                </a>
+              {% else %}
+                <a href="{% url "user:login" %}" class="login-btn">
+                  <img src="{% static "images/menubar/login.png" %}" alt="로그인">
+                </a>
+              {% endif %}
+              {% if request.user.is_authenticated %}
+                <a href="{% url "user:password_confirm" %}" class="icon-btn">
+                  <img src="{% static "images/menubar/change.gif" %}" alt="회원정보변경">
+                </a>
+              {% endif %}
+              <a href="{% url "shop:cart_detail" %}" class="icon-btn">
+                <img src="{% static "images/menubar/cart3.png" %}"
+                     alt="장바구니"
                      width=""
-                     height=""
-                     alt="로그아웃">
+                     height="">
               </a>
-            {% else %}
-              <a href="{% url "user:login" %}">
-                <img src="{% static "images/menubar/login.gif" %}"
+              <a href="{% url "user:mypage" %}" class="icon-btn">
+                <img src="{% static "images/menubar/mypage.png" %}"
+                     alt="마이페이지"
                      width=""
-                     height=""
-                     alt="로그인">
+                     height="">
               </a>
-            {% endif %}
-            {% if request.user.is_authenticated %}
-              <a href="{% url "user:password_confirm" %}">
-                <img src="{% static "images/menubar/change.gif" %}"
-                     width=""
-                     height=""
-                     alt="회원정보변경">
-              </a>
-            {% else %}
-              <a href="{% url "user:register_terms" %}">
-                <img src="{% static "images/menubar/join.gif" %}"
-                     width=""
-                     height=""
-                     alt="회원가입">
-              </a>
-            {% endif %}
-            <a href="{% url 'shop:order_form' %}">
-              <img src="{% static "images/menubar/order.gif" %}"
-                   width=""
-                   height=""
-                   alt="주문하기">
-            </a>
-            <a href="{% url "shop:cart_detail" %}">
-              <img src="{% static "images/menubar/cart.gif" %}"
-                   width=""
-                   height=""
-                   alt="장바구니">
-            </a>
-            <a href="{% url "user:mypage" %}">
-              <img src="{% static "images/menubar/mypage.gif" %}"
-                   width=""
-                   height=""
-                   alt="마이페이지">
-            </a>
-            <!--메뉴1 끝-->
+            </div>
           </td>
         </tr>
       </tbody>

@@ -40,7 +40,7 @@
 
 .lnb_new ul {
   width: 100%;
-  padding: 15px 15px;
+  padding: 60px 15px;
   margin: 0;
   list-style-type: none;
   text-decoration: none !important;
@@ -51,7 +51,7 @@
   display: block;
   font-size: 12.7px;
   font-weight: 600;
-  color: #fff;
+  color: #1B2558;
   font-family: 'Nanum Gothic';
   padding: 3px 15px 4px 15px;
   list-style-type: none;
@@ -59,8 +59,8 @@
 }
 
 .lnb_new a li:hover {
-  color: #034184;
-  background: #f2fcff;
+  color: #fff;
+  background: #1B2558;
   border-radius: 10px;
   font-weight: 800;
   list-style-type: none;
@@ -72,7 +72,8 @@
 }
 
 .left_bg_1 {
-  background: url(/static/images/menubar/left_bg_1.jpg);
+  background: url(/static/images/menubar/left_bg_1.png);
+  background-size: 168px 367px;
   background-repeat: no-repeat;
-  background-position: center top
+  background-position: center top;
 }
