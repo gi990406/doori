@@ -3,89 +3,41 @@
 {% block content %}
   <td width="800" valign="top">
     <!--타이틀시작-->
-    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tbody>
-        <tr>
-          <td class="t01">
-            {% if selected_parent_category_display == '전면부품' %}
-              <img src="{% static "images/parts/title91.gif" %}"
-                   width=""
-                   height=""
-                   alt="">
-            {% endif %}
-            {% if selected_parent_category_display == '후면부품' %}
-              <img src="{% static "images/parts/title92.gif" %}"
-                   width=""
-                   height=""
-                   alt="">
-            {% endif %}
-            {% if selected_parent_category_display == '측면부품' %}
-              <img src="{% static "images/parts/title93.gif" %}"
-                   width=""
-                   height=""
-                   alt="">
-            {% endif %}
-            {% if selected_parent_category_display == '실내부품' %}
-              <img src="{% static "images/parts/title94.gif" %}"
-                   width=""
-                   height=""
-                   alt="">
-            {% endif %}
-            {% if selected_parent_category_display == '중고순정휠' %}
-              <img src="{% static "images/parts/title95.gif" %}"
-                   width=""
-                   height=""
-                   alt="">
-            {% endif %}
-            {% if selected_parent_category_display == '하체부품' %}
-              <img src="{% static "images/parts/title96.gif" %}"
-                   width=""
-                   height=""
-                   alt="">
-            {% endif %}
-            {% if selected_parent_category_display == '기타부품' %}
-              <img src="{% static "images/parts/title97.gif" %}"
-                   width=""
-                   height=""
-                   alt="">
-            {% endif %}
-          </td>
-          <td class="t02" align="right">
-            <img src="{% static "images/icon/home.gif" %}"
-                 width=""
-                 height=""
-                 alt="home">
-            &gt; {{ selected_parent_category_display }} &gt; {{ selected_subcategory_display }}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" class="t03"></td>
-        </tr>
-      </tbody>
-    </table>
+    <section id="parts-hero" aria-label="페이지 타이틀">
+      <div class="row">
+        <div class="left">
+          <h1>
+            <span class="chunks">자동차 부품</span>
+            {% if selected_parent_category_display %}<span class="sub">· {{ selected_parent_category_display }}</span>{% endif %}
+            {% if selected_subcategory_display %}<span class="sub">· {{ selected_subcategory_display }}</span>{% endif %}
+          </h1>
+        </div>
+      </div>
+    </section>
     <!--/ 타이틀시작-->
     <!-- 컨텐츠 -->
     <table width="100%" cellpadding="0" cellspacing="0" border="0">
       <tbody>
         <tr>
           <td>
-            <table width="98%"
-                   cellpadding="0"
-                   cellspacing="0"
-                   align="center"
-                   class="p_list">
-              <tbody>
-                <tr>
-                  <td width="50%" class="p_list01"></td>
-                  <td width="50%" class="p_list02">
-                    <a href="/shop/list.php?ca_id=20r0&amp;skin=&amp;ev_id=&amp;sort=it_amount asc">낮은가격순</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/shop/list.php?ca_id=20r0&amp;skin=&amp;ev_id=&amp;sort=it_amount desc">높은가격순</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/shop/list.php?ca_id=20r0&amp;skin=&amp;ev_id=&amp;sort=it_name asc">상품명순</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/shop/list.php?ca_id=20r0&amp;skin=&amp;ev_id=&amp;sort=it_type3 desc">신상품</a>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2" background="/static/images/parts/line_h.gif" height="1"></td>
-                </tr>
-              </tbody>
-            </table>
+            <div id="parts-sort" class="p_list">
+              <div class="left p_list01"></div>
+              <div class="right p_list02">
+                <form method="get" id="sortForm">
+                  <select name="sort" onchange="document.getElementById('sortForm').submit();">
+                    <option value="new" {% if request.GET.sort == 'new' %}selected{% endif %}>신상품순</option>
+                    <option value="low_price"
+                            {% if request.GET.sort == 'low_price' %}selected{% endif %}>낮은가격순</option>
+                    <option value="high_price"
+                            {% if request.GET.sort == 'high_price' %}selected{% endif %}>높은가격순</option>
+                    <option value="title" {% if request.GET.sort == 'title' %}selected{% endif %}>상품명순</option>
+                  </select>
+                </form>
+                <noscript>
+                  <button type="submit">적용</button>
+                </noscript>
+              </div>
+            </div>
             <table width="100%" cellpadding="0" cellspacing="0" border="0">
               <tbody>
                 {% for part in products %}
@@ -140,7 +92,66 @@
       </tbody>
     </table>
     <br>
-    <div align="center" style="clear:both;"></div>
+    {% if is_paginated %}
+      <form id="parts-pagination"
+            method="get"
+            role="navigation"
+            aria-label="페이지네이션">
+        {# 다른 GET 파라미터 보존 (page 제외) #}
+        {% for k, v in request.GET.items %}
+          {% if k != 'page' %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endif %}
+        {% endfor %}
+        <div class="pager">
+          {# 처음/이전 #}
+          {% if page_obj.has_previous %}
+            <button class="btn" type="submit" name="page" value="1">처음</button>
+            <button class="btn"
+                    type="submit"
+                    name="page"
+                    value="{{ page_obj.previous_page_number }}">이전</button>
+          {% else %}
+            <button class="btn" type="button" disabled>처음</button>
+            <button class="btn" type="button" disabled>이전</button>
+          {% endif %}
+          {# 앞쪽 엘립시스 #}
+          {% if 1 not in page_range %}
+            <button class="num" type="submit" name="page" value="1">1</button>
+            <span class="dots">…</span>
+          {% endif %}
+          {# 가운데 페이지들 #}
+          {% for num in page_range %}
+            {% if num == page_obj.number %}
+              <button class="num" type="button" aria-current="page">{{ num }}</button>
+            {% else %}
+              <button class="num" type="submit" name="page" value="{{ num }}">{{ num }}</button>
+            {% endif %}
+          {% endfor %}
+          {# 뒤쪽 엘립시스 #}
+          {% if paginator.num_pages not in page_range %}
+            <span class="dots">…</span>
+            <button class="num"
+                    type="submit"
+                    name="page"
+                    value="{{ paginator.num_pages }}">{{ paginator.num_pages }}</button>
+          {% endif %}
+          {# 다음/맨끝 #}
+          {% if page_obj.has_next %}
+            <button class="btn"
+                    type="submit"
+                    name="page"
+                    value="{{ page_obj.next_page_number }}">다음</button>
+            <button class="btn"
+                    type="submit"
+                    name="page"
+                    value="{{ paginator.num_pages }}">맨끝</button>
+          {% else %}
+            <button class="btn" type="button" disabled>다음</button>
+            <button class="btn" type="button" disabled>맨끝</button>
+          {% endif %}
+          <span class="stat">총 {{ page_obj.paginator.count }}개 · {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+        </div>
+      </form>
+    {% endif %}
     <br>
   </td>
 {% endblock content %}
