@@ -13,6 +13,22 @@
             {% if car_model.name %}<span class="sub">· {{ car_model.name }}</span>{% endif %}
           </h1>
         </div>
+        <!-- 🔍 우측 끝 검색 -->
+        <div class="right" role="search">
+          <form class="search-form" method="get" action="">
+            {# 기존 GET 파라미터 보존 (q만 제외) #}
+            {% for k, v in request.GET.items %}
+              {% if k != 'q' %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endif %}
+            {% endfor %}
+            <input id="heroSearch"
+                   type="search"
+                   name="q"
+                   value="{{ request.GET.q }}"
+                   placeholder="검색"
+                   autocomplete="off">
+            <button type="submit">검색</button>
+          </form>
+        </div>
       </div>
     </section>
     <!--/ 타이틀시작-->

@@ -12,6 +12,21 @@
             {% if selected_subcategory_display %}<span class="sub">· {{ selected_subcategory_display }}</span>{% endif %}
           </h1>
         </div>
+        <div class="right" role="search">
+          <form class="search-form" method="get" action="">
+            {# 기존 GET 파라미터 보존 (q만 제외) #}
+            {% for k, v in request.GET.items %}
+              {% if k != 'q' %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endif %}
+            {% endfor %}
+            <input id="heroSearch"
+                   type="search"
+                   name="q"
+                   value="{{ request.GET.q }}"
+                   placeholder="검색"
+                   autocomplete="off">
+            <button type="submit">검색</button>
+          </form>
+        </div>
       </div>
     </section>
     <!--/ 타이틀시작-->

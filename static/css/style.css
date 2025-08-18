@@ -1085,21 +1085,23 @@ a.cloudy {
 }
 
 #parts-hero {
-  --ink: #1B2558;
+  --ink: #0f172a;
   --muted: #64748b;
   --line: #e2e8f0
 }
 
 #parts-hero {
-  padding: 18px 0 1px;
+  padding: 18px 0 10px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 12px
 }
 
 #parts-hero .row {
   display: flex;
-  gap: 16px;
-  justify-content: space-between;
   align-items: flex-end;
-  flex-wrap: wrap
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 #parts-hero h1 {
@@ -1111,16 +1113,16 @@ a.cloudy {
   letter-spacing: -.2px
 }
 
-#parts-hero .chunks {
-  display: inline;
-  font-weight: 700
-}
-
 #parts-hero .sub {
   margin-left: 8px;
   font-size: 16px;
   color: var(--muted);
   font-weight: 600
+}
+
+#parts-hero .chunks {
+  display: inline;
+  font-weight: 700
 }
 
 #parts-hero .bc {
@@ -1230,4 +1232,53 @@ a.cloudy {
   color: var(--muted);
   font-size: 13px;
   margin-left: 8px
+}
+
+/* 우측 검색 */
+#parts-hero .right {
+  display: flex;
+  align-items: center;
+  margin-left: auto
+}
+
+#parts-hero .search-form {
+  display: flex;
+  gap: 8px
+}
+
+#parts-hero .search-form input[type="search"] {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 12px;
+  min-width: 220px;
+  max-width: 360px
+}
+
+#parts-hero .search-form button {
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  font-weight: 700;
+  cursor: pointer
+}
+
+@media (max-width:640px) {
+  #parts-hero .row {
+    align-items: stretch
+  }
+
+  #parts-hero .right {
+    width: 100%
+  }
+
+  #parts-hero .search-form {
+    width: 100%
+  }
+
+  #parts-hero .search-form input[type="search"] {
+    flex: 1;
+    min-width: 0;
+    max-width: none
+  }
 }

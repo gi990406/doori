@@ -3,6 +3,7 @@ from .models import Part, CarModel, CarManufacturer, PartSubCategory, CarModelDe
 from django.shortcuts import get_object_or_404, render
 from django.db.models import Count
 from django.core.paginator import PageNotAnInteger, EmptyPage
+from django.db.models import Q
 
 # Create your views here.
 class ProductListView(ListView):
@@ -32,6 +33,7 @@ class ProductListView(ListView):
             page = paginator.page(1)
 
         return (paginator, page, page.object_list, page.has_other_pages())
+
     def get_queryset(self):
         self.manufacturer = None
         self.category = None
@@ -47,6 +49,16 @@ class ProductListView(ListView):
 
         if category:
             queryset = queryset.filter(subcategory__parent_category=category)
+
+        q = self.request.GET.get('q', '').strip()
+        if q:
+            queryset = queryset.filter(
+                Q(title__icontains=q) |
+                Q(part_number__icontains=q) |
+                Q(car_model__name__icontains=q) |
+                Q(car_model__manufacturer__name__icontains=q) |
+                Q(subcategory__name__icontains=q)
+            )
 
         # ✅ 정렬 처리
         sort = self.request.GET.get('sort', 'new')  # 기본은 신상품순
@@ -144,6 +156,16 @@ class CarModelPartsListView(ListView):
 
         queryset = Part.objects.filter(car_model=self.car_model).select_related('subcategory').prefetch_related('images').order_by('-created_at')
 
+        q = self.request.GET.get('q', '').strip()
+        if q:
+            queryset = queryset.filter(
+                Q(title__icontains=q) |
+                Q(part_number__icontains=q) |
+                Q(car_model__name__icontains=q) |
+                Q(car_model__manufacturer__name__icontains=q) |
+                Q(subcategory__name__icontains=q)
+            )
+
         # ✅ 정렬 처리
         sort = self.request.GET.get('sort', 'new')  # 기본은 신상품순
         if sort == 'low_price':
@@ -222,6 +244,17 @@ class ProductByModelDetailView(ListView):
                          .prefetch_related('images')\
                          .filter(car_model_detail=self.detail)\
                          .order_by('-id')
+
+        q = self.request.GET.get('q', '').strip()
+        if q:
+            qs = qs.filter(
+                Q(title__icontains=q) |
+                Q(part_number__icontains=q) |
+                Q(car_model__name__icontains=q) |
+                Q(car_model__manufacturer__name__icontains=q) |
+                Q(subcategory__name__icontains=q)
+            )
+
         for p in qs:
             try:
                 p.formatted_price = "{:,.0f}".format(p.price)
@@ -293,6 +326,15 @@ class ProductBySubcategoryView(ListView):
                                .prefetch_related('images') \
                                .filter(subcategory=self.subcategory) \
                                .order_by('-created_at')
+        q = self.request.GET.get('q', '').strip()
+        if q:
+            queryset = queryset.filter(
+                Q(title__icontains=q) |
+                Q(part_number__icontains=q) |
+                Q(car_model__name__icontains=q) |
+                Q(car_model__manufacturer__name__icontains=q) |
+                Q(subcategory__name__icontains=q)
+            )
         # ✅ 정렬 처리
         sort = self.request.GET.get('sort', 'new')  # 기본은 신상품순
         if sort == 'low_price':
