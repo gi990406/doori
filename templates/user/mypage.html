@@ -29,15 +29,19 @@
           <td align="right">
             <!-- 회원정보 수정: 비밀번호 재확인 후 이동 -->
             <a href="{% url 'user:password_confirm' %}?next={% url 'user:profile_edit' %}">
-              <img src="{% static 'images/account/my_modify.gif' %}"
+              <img src="{% static 'images/account/my_modify.png' %}"
                    alt="정보수정"
                    border="0"
+                   width="103"
+                   height="21"
                    align="absmiddle">
             </a>
             <!-- 회원탈퇴: confirm 후 비밀번호 재확인 → 탈퇴 -->
             <a href="#" onclick="member_leave(event);">
-              <img src="{% static 'images/account/my_leave.gif' %}"
+              <img src="{% static 'images/account/my_leave.png' %}"
                    alt="회원탈퇴"
+                   width="68"
+                   height="21"
                    border="0"
                    align="absmiddle">
             </a>

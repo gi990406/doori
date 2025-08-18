@@ -40,17 +40,12 @@
           <td width="490" align="right" valign="bottom">
             <div class="login-menu">
               {% if request.user.is_authenticated %}
-                <a href="{% url "user:logout" %}" class="login-btn">
-                  <img src="{% static "images/menubar/logout.gif" %}" alt="로그아웃">
+                <a href="{% url "user:logout" %}" class="logout-btn">
+                  <img src="{% static "images/menubar/logout.png" %}" alt="로그아웃">
                 </a>
               {% else %}
                 <a href="{% url "user:login" %}" class="login-btn">
                   <img src="{% static "images/menubar/login.png" %}" alt="로그인">
-                </a>
-              {% endif %}
-              {% if request.user.is_authenticated %}
-                <a href="{% url "user:password_confirm" %}" class="icon-btn">
-                  <img src="{% static "images/menubar/change.gif" %}" alt="회원정보변경">
                 </a>
               {% endif %}
               <a href="{% url "shop:cart_detail" %}" class="icon-btn">

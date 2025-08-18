@@ -916,6 +916,14 @@ a.cloudy {
   cursor: pointer;
 }
 
+.login-menu .logout-btn img {
+  width: 43px;
+  /* 크게 */
+  height: auto;
+  /* 비율 유지 */
+  cursor: pointer;
+}
+
 /* 나머지 아이콘 버튼 */
 .login-menu .icon-btn img {
   width: 20px;
@@ -1281,4 +1289,323 @@ a.cloudy {
     min-width: 0;
     max-width: none
   }
+}
+
+#auth-login {
+  --ink: #0f172a;
+  --muted: #64748b;
+  --line: #e5e7eb;
+  --brand: #162450;
+  --shadow: 0 12px 30px rgba(2, 6, 23, .08)
+}
+
+#auth-login .titlebar {
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  padding: 16px 0;
+  margin-bottom: 24px
+}
+
+#auth-login .titlebar h1 {
+  margin: 0;
+  text-align: center;
+  font-size: 24px;
+  letter-spacing: .02em;
+  font-weight: 800;
+  color: #1f2a44
+}
+
+#auth-login .wrap {
+  max-width: 520px;
+  margin: 0 auto 80px;
+  padding: 0 20px
+}
+
+#auth-login .card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 28px
+}
+
+#auth-login .field {
+  margin-bottom: 18px
+}
+
+#auth-login label {
+  display: block;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 8px;
+  font-size: 14px
+}
+
+#auth-login .input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #f5f6f8;
+  padding: 12px 14px 12px 44px;
+  /* 아이콘 여백 */
+  font-size: 15px;
+  color: var(--ink);
+  outline: none;
+}
+
+#auth-login .input:focus {
+  background: #fff;
+  border-color: #cbd5e1;
+  box-shadow: 0 0 0 3px rgba(30, 58, 138, .08)
+}
+
+/* 아이콘 (좌측) */
+#auth-login .icon-wrap {
+  position: relative
+}
+
+#auth-login .icon-wrap .ico {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  opacity: .65
+}
+
+#auth-login .helper {
+  display: flex;
+  justify-content: flex-end
+}
+
+#auth-login .helper a {
+  font-size: 13px;
+  color: #334155;
+  text-decoration: underline
+}
+
+#auth-login .btn {
+  width: 100%;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-weight: 800;
+  cursor: pointer
+}
+
+#auth-login .btn-primary {
+  background: #162450;
+  color: #fff;
+  border: 0;
+  box-shadow: 0 8px 20px rgba(22, 36, 80, .25)
+}
+
+#auth-login .btn-primary:hover {
+  filter: brightness(.98)
+}
+
+#auth-login .btn-outline {
+  background: #fff;
+  border: 1px solid #162450;
+  color: #162450
+}
+
+#auth-login .divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0;
+  color: #94a3b8
+}
+
+#auth-login .divider::before,
+#auth-login .divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line)
+}
+
+#auth-login .error {
+  margin-top: 8px;
+  margin-bottom: 6px;
+  color: #b91c1c;
+  text-align: center;
+  font-weight: 700
+}
+
+@media (max-width:480px) {
+  #auth-login .card {
+    padding: 22px
+  }
+}
+
+#account-title {
+  position: relative;
+  padding: 22px 0;
+  border-bottom: 1px solid #dfe4ef;
+  margin-bottom: 16px;
+  background: #fff
+}
+
+#account-title .title {
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
+
+#account-title .title img {
+  height: 38px;
+  /* 필요시 크기 조절 */
+}
+
+
+#account-title .sep {
+  opacity: .45
+}
+
+#login-card {
+  --line: #e5e7eb;
+  --muted: #64748b
+}
+
+#login-card {
+  max-width: 520px;
+  margin: 0 auto 60px;
+  padding: 0 20px
+}
+
+#login-card .card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 28px
+}
+
+#login-card .field {
+  margin-bottom: 22px
+}
+
+#login-card label {
+  display: block;
+  font-weight: 800;
+  color: #475569;
+  margin-bottom: 10px
+}
+
+#login-card .input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #efefef;
+  padding: 14px 14px;
+  font-size: 15px;
+  outline: none;
+}
+
+/* 잠금 아이콘이 들어간 입력(비번) */
+#login-card .with-ico {
+  position: relative
+}
+
+#login-card .with-ico .ico {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24.23px;
+  height: 24.23px;
+  opacity: .7;
+  background: url("/static/images/account/lock.png") no-repeat center/contain;
+}
+
+#login-card .with-ico .input {
+  padding-left: 44px
+}
+
+#login-card .helper {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px
+}
+
+#login-card .helper a {
+  font-size: 14px;
+  color: #1f2a44;
+  text-decoration: underline
+}
+
+/* 버튼 영역: 이미지 버튼이 블록처럼 보이도록 */
+#login-card .btn-img {
+  display: block;
+  width: 100%;
+  text-align: center
+}
+
+
+#login-card .btn-img img {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  display: block;
+  margin: 0 auto
+}
+
+/* 구분선 OR */
+#login-card .divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0;
+  color: #b7b7b7;
+  justify-content: center
+}
+
+#login-card .divider::before,
+#login-card .divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #e7e7e7;
+  max-width: 200px
+}
+
+/* 에러 */
+#login-card .error {
+  color: #b91c1c;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 10px
+}
+
+/* 카드 안에서는 모두 border-box로 계산 */
+#login-card,
+#login-card * {
+  box-sizing: border-box;
+}
+
+/* 입력영역이 부모를 절대 넘지 않도록 */
+#login-card .field,
+#login-card .with-ico {
+  width: 100%;
+}
+
+#login-card .input {
+  width: 100%;
+  box-sizing: border-box;
+  /* 핵심 */
+  max-width: 100%;
+}
+
+/* 혹시 넘치는 요소가 있을 경우 클리핑 */
+#login-card .card {
+  overflow: hidden;
+}
+
+/* 이미지 버튼도 부모폭 안에서만 */
+#login-card .btn-img img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
 }
