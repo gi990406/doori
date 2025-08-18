@@ -166,17 +166,32 @@
                       <tbody>
                         <tr>
                           <td>
-                            {% if product.price == 0 %}
-                              <a href="tel:01020108272" class="btn-secondary-blue">전화하기</a>
-                            {% else %}
-                              <a href="{% url 'shop:buy_now' product.id %}" class="btn-primary-navy">주문하기</a>
-                            {% endif %}
                             <form method="post"
                                   action="{% url 'shop:add' product.id %}"
                                   style="display:inline">
                               {% csrf_token %}
-                              <button type="submit" class="btn-secondary-blue">보관하기</button>
+                              <button type="submit" class="cart-button">
+                                <img src="{% static "images/parts/cart.png" %}"
+                                     width="84"
+                                     height="28"
+                                     alt="보관하기">
+                              </button>
                             </form>
+                            {% if product.price == 0 %}
+                              <a href="tel:01020108272">
+                                <img src="{% static "images/parts/call.png" %}"
+                                     width="84"
+                                     height="28"
+                                     alt="전화하기">
+                              </a>
+                            {% else %}
+                              <a href="{% url 'shop:buy_now' product.id %}" class="order-button">
+                                <img src="{% static "images/parts/order.png" %}"
+                                     width="84"
+                                     height="28"
+                                     alt="주문하기">
+                              </a>
+                            {% endif %}
                           </td>
                         </tr>
                       </tbody>
