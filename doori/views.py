@@ -5,7 +5,7 @@ from parts.models import Part
 def home(request):
 
     notices = Notice.objects.prefetch_related('images').all().order_by('-created_at')[:2]
-    parts = Part.objects.prefetch_related('images').all().order_by('-created_at')[:10]
+    parts = Part.objects.prefetch_related('images').all().order_by('-created_at')[:15]
 
     for part in parts:
         try:
