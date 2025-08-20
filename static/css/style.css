@@ -1609,3 +1609,142 @@ a.cloudy {
   max-width: 100%;
   height: auto;
 }
+
+#register-card,
+#register-card * {
+  box-sizing: border-box;
+}
+
+#register-card {
+  --line: #e5e7eb;
+  --muted: #64748b;
+  --ink: #0f172a
+}
+
+#register-card {
+  max-width: 880px;
+  margin: 0 auto 60px;
+  padding: 0 20px
+}
+
+#register-card .card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 28px
+}
+
+/* 그리드: 2열 */
+#register-card .grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 28px;
+}
+
+@media (max-width:760px) {
+  #register-card .grid {
+    grid-template-columns: 1fr
+  }
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px
+}
+
+.field label {
+  font-weight: 800;
+  color: #475569
+}
+
+.input,
+#register-card input[type=text],
+#register-card input[type=password],
+#register-card input[type=email] {
+  width: 100%;
+  background: #EEEEF0;
+  /* 캡처의 밝은 그레이 톤 */
+  border: 1px solid #E6E9F0;
+  border-radius: 10px;
+  /* 라운드 조금 더 크게 */
+  padding: 14px 14px;
+  font-size: 15px;
+  color: #0F172A;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+  box-sizing: border-box;
+}
+
+.input:focus,
+#register-card input:focus {
+  background: #fff;
+  border-color: #cbd5e1;
+  box-shadow: 0 0 0 3px rgba(30, 58, 138, .08)
+}
+
+/* 잠금 아이콘 입력 */
+.with-ico {
+  position: relative
+}
+
+.with-ico .ico {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24.23px;
+  height: 24.23px;
+  opacity: .7;
+  background: url("/static/images/account/lock.png") no-repeat center/contain;
+}
+
+/* 비밀번호 아이콘 패딩 보정 */
+#register-card .with-ico input {
+  padding-left: 48px;
+}
+
+#register-card .with-ico .ico {
+  width: 22px;
+  height: 22px;
+  left: 14px;
+  opacity: .6;
+}
+
+.hint {
+  font-size: 13px;
+  color: #1B2558
+}
+
+.err {
+  font-size: 13px;
+  color: #b91c1c;
+  font-weight: 700
+}
+
+/* 구분선 & 버튼 영역 */
+#register-card .actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px
+}
+
+#register-card .btn-img {
+  display: block;
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer
+}
+
+#register-card .btn-img img {
+  display: block;
+  height: auto;
+  width: 240px;
+  max-width: 60vw
+}
+
+/* 카드 그림자(선택) */
+#register-card .card {
+  box-shadow: 0 20px 50px rgba(2, 6, 23, .06)
+}

@@ -3,28 +3,12 @@
 {% block content %}
   <td width="800" valign="top">
     <!--타이틀시작-->
-    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tbody>
-        <tr>
-          <td class="t01">
-            <img src="{% static 'images/notice/notice_list.gif' %}"
-                 width=""
-                 height=""
-                 alt="공지사항">
-          </td>
-          <td class="t02" align="right">
-            <img src="{% static "images/icon/home.gif" %}"
-                 width=""
-                 height=""
-                 alt="home">
-            &gt; 공지사항
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" class="t03"></td>
-        </tr>
-      </tbody>
-    </table>
+    <div id="account-title" aria-label="페이지 타이틀">
+      <!-- 가운데 타이틀 이미지 -->
+      <div class="title">
+        <img src="{% static 'images/notice/notice_title.png' %}" alt="공지사항">
+      </div>
+    </div>
     <!--/ 타이틀시작-->
     <!-- 컨텐츠 -->
     <div style="height:12px; line-height:1px; font-size:1px;">&nbsp;</div>

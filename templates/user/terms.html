@@ -3,25 +3,11 @@
 {% block content %}
   <td width="800" valign="top">
     <!-- 타이틀 -->
-    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tbody>
-        <tr>
-          <td class="t01">
-            <img src="{% static 'images/account/title_m2.gif' %}"
-                 width=""
-                 height=""
-                 alt="">
-          </td>
-          <td class="t02" align="right">
-            <img src="{% static 'images/icon/home.gif' %}" width="" height="" alt="">
-            &gt; 회원가입약관
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" class="t03"></td>
-        </tr>
-      </tbody>
-    </table>
+    <div id="account-title" aria-label="페이지 타이틀">
+      <div class="title">
+        <img src="{% static 'images/account/title_m2.png' %}" alt="회원 약관">
+      </div>
+    </div>
     <!-- 컨텐츠 -->
     <table width="100%" cellspacing="0" align="center">
       <tbody>
@@ -95,9 +81,9 @@
                   <tr>
                     <td align="center" style="padding:16px 0;">
                       <button type="submit" style="background:none;border:0;cursor:pointer;">
-                        <img src="{% static 'images/account/join_ok_btn.gif' %}"
-                             width="66"
-                             height="20"
+                        <img src="{% static 'images/account/join_ok_btn.png' %}"
+                             width="220"
+                             height="85"
                              alt="다음">
                       </button>
                     </td>

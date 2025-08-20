@@ -4,22 +4,13 @@
 {% block content %}
   <td width="800" valign="top">
     <!-- 타이틀 -->
-    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tbody>
-        <tr>
-          <td class="t01">
-            <img src="{% static 'images/cart/title_m6.gif' %}">
-          </td>
-          <td class="t02" align="right">
-            <img src="{% static 'images/icon/home.gif' %}">
-            &gt; 장바구니
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" class="t03"></td>
-        </tr>
-      </tbody>
-    </table>
+    <div id="account-title" aria-label="페이지 타이틀">
+      <!-- 가운데 타이틀 이미지 -->
+      <div class="title">
+        {# 캡처처럼 보이는 '로그인' 이미지 파일로 교체해도 OK #}
+        <img src="{% static 'images/cart/title_m6.png' %}" alt="장바구니">
+      </div>
+    </div>
     <!-- 테이블 (바깥 form 제거: 중첩 폼 방지) -->
     <table width="98%" cellpadding="0" cellspacing="0" align="center">
       <!-- 열: [이미지][상품명][수량][판매가][소계][삭제] = 6개 -->
@@ -154,8 +145,11 @@
               </a>
             {% else %}
               <!-- 실제 주문 시작 URL로 교체하세요 (회원/비회원 공용 시작점) -->
-              <a class="btn btn-primary" href="{% url 'shop:order_form' %}">
-                <span class="ico">🧾</span> 주문하기
+              <a href="{% url 'shop:order_form' %}">
+                <img src="{% static "images/parts/order.png" %}"
+                     width="84"
+                     height="28"
+                     alt="주문하기">
               </a>
             {% endif %}
           </td>

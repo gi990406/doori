@@ -3,50 +3,38 @@
 {% block content %}
   <td width="800" valign="top">
     <!--타이틀시작-->
-    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tbody>
-        <tr>
-          <td class="t01">
-            <img src="{% static "images/title15.gif" %}" width="" height="" alt="">
-          </td>
-          <td class="t02" align="right">
-            <img src="{% static "images/icon/home.gif" %}"
-                 width=""
-                 height=""
-                 alt="home">
-            &gt; 회사소개
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" class="t03"></td>
-        </tr>
-      </tbody>
-    </table>
+    <div id="account-title" aria-label="페이지 타이틀">
+      <!-- 가운데 타이틀 이미지 -->
+      <div class="title">
+        <img src="{% static 'images/company.png' %}" alt="회사소개">
+      </div>
+    </div>
     <!--/ 타이틀시작-->
     <!-- 컨텐츠 -->
     <div>
       <div style="text-align: center">
         <div style="text-align: center">
           <div style="text-align: center">
-            <div style="text-align: center" target="_blank">
-              <br>
-            </div>
-            <br>
             <img class="chimg_photo"
                  id="image_038584776951885563"
                  style="border: currentColor;
                         border-image: none;
                         width: 783px;
                         height: 802px"
-                 alt="소개페이지2.jpg"
-                 src="">
+                 alt="소개페이지.jpg"
+                 src="{% static "images/about us.png" %}">
           </div>
           <br>
         </div>
       </div>
       <div style="text-align: center">
-        <br>
-        <div id="map" style="width:100%;height:350px;"></div>
+        <!-- 상단 정보 -->
+        <img src="{% static "images/Map.png" %}"
+             alt="오시는 길 안내"
+             style="max-width:100%;
+                    height:auto">
+        <!-- 지도 들어갈 부분 -->
+        <div id="map" style="width:100%;height:350px; margin-top:40px;"></div>
       </div>
       <br>
       <br>
