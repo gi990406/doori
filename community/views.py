@@ -9,7 +9,7 @@ class NoticeListView(ListView):
     template_name = 'community/notice_list.html'
     context_object_name = 'notices'
     ordering = ['-created_at', '-id']
-    paginate_by = 10
+    paginate_by = 5
 
     def get_queryset(self):
         queryset = Notice.objects.prefetch_related('images').order_by('-created_at', '-id')
@@ -19,22 +19,14 @@ class NoticeListView(ListView):
     def get_context_data(self, **kwargs) :
         context = super().get_context_data(**kwargs)
 
-        # 페이징 처리
-        paginator = context['paginator']
-        page_numbers_range = 5
-        max_index = len(paginator.page_range)
-
-        page = self.request.GET.get('page')
-        current_page = int(page) if page else 1
-
-        start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
-        end_index = start_index + page_numbers_range
-
-        if end_index >= max_index:
-            end_index = max_index
-
-        page_range = paginator.page_range[start_index:end_index]
-        context['page_range'] = page_range
+        if context.get('is_paginated'):
+            paginator = context['paginator']
+            page_obj  = context['page_obj']
+            window = 5
+            current = page_obj.number
+            start = ((current - 1) // window) * window + 1
+            end = min(start + window - 1, paginator.num_pages)
+            context['page_range'] = range(start, end + 1)
 
         return context
 

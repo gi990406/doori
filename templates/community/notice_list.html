@@ -3,7 +3,7 @@
 {% block content %}
   <td width="800" valign="top">
     <!--타이틀시작-->
-    <div id="account-title" aria-label="페이지 타이틀">
+    <div id="notice-title" aria-label="페이지 타이틀">
       <!-- 가운데 타이틀 이미지 -->
       <div class="title">
         <img src="{% static 'images/notice/notice_title.png' %}" alt="공지사항">
@@ -11,93 +11,71 @@
     </div>
     <!--/ 타이틀시작-->
     <!-- 게시판 목록 시작 -->
-    <table width="97%" align="center" cellpadding="0" cellspacing="0">
-      <tbody>
-        <tr>
-          <td>
-            <!-- 분류 셀렉트 박스, 게시물 몇건, 관리자화면 링크 -->
-            <div class="board_top">
-              <div style="float:left;"></div>
-              <div style="float:right;">
-                <img src="{% static 'images/icon/total.gif' %}"
-                     align="absmiddle"
-                     border="0"
-                     alt="total"
-                     width=""
-                     height="">
-                <span style="color:#888888; font-weight:bold;">총 {{ notices.count }}개의 게시물</span>
-              </div>
-            </div>
-            <!-- 제목 -->
-            <table cellspacing="0" cellpadding="0" class="board_list">
-              <colgroup>
-                <col width="50">
-                <col>
-                <col width="110">
-                <col width="40">
-                <col width="50">
-              </colgroup>
-              <tbody>
-                <tr>
-                  <th>번호</th>
-                  <th>제&nbsp;&nbsp;&nbsp;목</th>
-                  <th>글쓴이</th>
-                  <th>날짜</th>
-                  <th>조회</th>
-                </tr>
-                {% for notice in notices %}
-                  <tr class="bg1">
-                    <td class="num">{{ notice.id }}</td>
-                    <td class="subject">
-                    <nobr style="display:block; overflow:hidden;"><a href="{% url 'community:notice_detail' notice.id %}">{{ notice.title }}</a>
-                  </nobr>
-                </td>
-                <td class="name">
-                  <span class="member">두리상사</span>
-                </td>
-                <td class="datetime">{{ notice.created_at | date:'m-d' }}</td>
-                <td class="hit">{{ notice.hits }}</td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-        <div class="board_button">
-          <div style="float:left;"></div>
-          <div style="float:right;"></div>
+    <div id="notice-board">
+      <table>
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성일</th>
+            <!-- ✅ 오른쪽 정렬 -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for notice in notices %}
+            <tr>
+              <td class="num">{{ notice.id }}</td>
+              <td class="subject">
+                <a class="ellipsis" href="{% url 'community:notice_detail' notice.id %}">{{ notice.title }}</a>
+              </td>
+              <td class="datetime">{{ notice.created_at|date:"Y-m-d" }}</td>
+              <!-- ✅ 오른쪽 정렬은 colgroup/CSS로 적용 -->
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="3" style="text-align:center; padding:40px 0; color:#6b7280;">등록된 공지가 없습니다.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <!-- 게시판 목록 끝 -->
+    {% if is_paginated %}
+      <form class="pager-wrap" method="get" role="navigation" aria-label="페이지네이션">
+        {# 다른 GET 파라미터 보존(page 제외) #}
+        {% for k, v in request.GET.items %}
+          {% if k != 'page' %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endif %}
+        {% endfor %}
+        <div class="pager">
+          {# 숫자들 (뷰에서 page_range 제공 권장; 없으면 paginator.page_range 사용) #}
+          {% for num in page_range|default:paginator.page_range %}
+            {% if num == page_obj.number %}
+              <button type="button" class="num" aria-current="page">{{ num }}</button>
+            {% else %}
+              <button type="submit" class="num" name="page" value="{{ num }}">{{ num }}</button>
+            {% endif %}
+          {% endfor %}
+          <span class="vsep" aria-hidden="true"></span>
+          {# › 다음 #}
+          {% if page_obj.has_next %}
+            <button type="submit"
+                    class="arrow"
+                    name="page"
+                    value="{{ page_obj.next_page_number }}">›</button>
+          {% else %}
+            <button type="button" class="arrow" disabled>›</button>
+          {% endif %}
+          {# » 맨끝 #}
+          {% if page_obj.has_next %}
+            <button type="submit"
+                    class="arrow"
+                    name="page"
+                    value="{{ paginator.num_pages }}">»</button>
+          {% else %}
+            <button type="button" class="arrow" disabled>»</button>
+          {% endif %}
         </div>
-        <!-- 페이지 -->
-        <div class="board_page"></div>
-        <!-- 검색 -->
-        <div class="board_search">
-          <form name="fsearch" method="get">
-            <input type="hidden" name="bo_table" value="notice">
-            <input type="hidden" name="sca" value="">
-            <select name="sfl">
-              <option value="wr_subject">제목</option>
-              <option value="wr_content">내용</option>
-              <option value="wr_subject||wr_content">제목+내용</option>
-            </select>
-            <input name="stx"
-                   class="stx"
-                   maxlength="15"
-                   itemname="검색어"
-                   required=""
-                   value=""
-                   style="background-image: url(&quot;
-                          ../js/wrest.gif&quot;
-                          );
-                          background-position: right top;
-                          background-repeat: no-repeat">
-            <input type="image"
-                   src="{% static "images/btn_search.gif" %}"
-                   border="0"
-                   align="absmiddle">
-          </form>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<!-- 게시판 목록 끝 -->
-</td>
+      </form>
+    {% endif %}
+  </td>
 {% endblock content %}
