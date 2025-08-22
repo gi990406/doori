@@ -8,6 +8,7 @@ urlpatterns = [
     path("add/<int:part_id>/", views.cart_add, name="add"),
     path("update/<int:part_id>/", views.cart_update, name="update"),
     path("remove/<int:part_id>/", views.cart_remove, name="remove"),
+    path("cart/update-ajax/", views.cart_update_ajax, name="update_ajax"),
 
     path("order/", views.order_form, name="order_form"),                 # 회원/비회원 공용 시작
     path("complete/<int:order_id>/", views.order_complete, name="complete"),

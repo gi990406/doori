@@ -84,6 +84,8 @@ class Part(models.Model):
     stock = models.PositiveIntegerField(default=0, verbose_name="재고")
     price = models.DecimalField(max_digits=10, decimal_places=0, null=True, verbose_name="가격", help_text="0으로 입력 시 전화상담으로 표시")
     description = models.TextField(blank=True, verbose_name="유의사항")
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)  # ✅ 등록 시 자동 저장
+    updated_at = models.DateTimeField(auto_now=True)  # 저장될 때마다 자동 갱신
 
     def __str__(self):
         return f"{self.title} ({self.part_number})"

@@ -3,234 +3,273 @@
 {% block content %}
   <td width="800" valign="top">
     <!--타이틀시작-->
-    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tbody>
-        <tr>
-          <td class="t01">
-            {% if selected_manufacturer == '현대자동차' %}
-              <img src="{% static "images/parts/title20.gif" %}"
-                   width=""
-                   height=""
-                   alt="">
-            {% endif %}
-            {% if selected_manufacturer == '기아자동차' %}
-              <img src="{% static "images/parts/title30.gif" %}"
-                   width=""
-                   height=""
-                   alt="">
-            {% endif %}
-            {% if selected_category_display == '전면부품' %}
-              <img src="{% static "images/parts/title91.gif" %}"
-                   width=""
-                   height=""
-                   alt="">
-            {% endif %}
-            {% if selected_category_display == '후면부품' %}
-              <img src="{% static "images/parts/title92.gif" %}"
-                   width=""
-                   height=""
-                   alt="">
-            {% endif %}
-            {% if selected_category_display == '측면부품' %}
-              <img src="{% static "images/parts/title93.gif" %}"
-                   width=""
-                   height=""
-                   alt="">
-            {% endif %}
-            {% if selected_category_display == '실내부품' %}
-              <img src="{% static "images/parts/title94.gif" %}"
-                   width=""
-                   height=""
-                   alt="">
-            {% endif %}
-            {% if selected_category_display == '중고순정휠' %}
-              <img src="{% static "images/parts/title95.gif" %}"
-                   width=""
-                   height=""
-                   alt="">
-            {% endif %}
-            {% if selected_category_display == '하체부품' %}
-              <img src="{% static "images/parts/title96.gif" %}"
-                   width=""
-                   height=""
-                   alt="">
-            {% endif %}
-            {% if selected_category_display == '기타부품' %}
-              <img src="{% static "images/parts/title97.gif" %}"
-                   width=""
-                   height=""
-                   alt="">
-            {% endif %}
-            <!-- 수정 필요 : 카테고리 명 표시-->
-          </td>
-          <td class="t02" align="right">
-            <img src="{% static "images/icon/home.gif" %}"
-                 width=""
-                 height=""
-                 alt="home">
-            &gt;
-            {% if selected_manufacturer %}{{ selected_manufacturer }}{% endif %}
-            {% if selected_category_display %}{{ selected_category_display }}{% endif %}
-            {% if selected_model %}&gt;{{ selected_model }}{% endif %}
-            {% if selected_model_detail %}&gt;{{ selected_model_detail }}{% endif %}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" class="t03"></td>
-        </tr>
-      </tbody>
-    </table>
-    <!--/ 타이틀시작-->
+    <section id="parts-hero" aria-label="페이지 타이틀">
+      <div class="row">
+        <div class="left">
+          <h1>
+            <span class="chunks">
+              {% if selected_manufacturer %}
+                {{ selected_manufacturer }}
+              {% else %}
+                자동차 부품
+              {% endif %}
+            </span>
+            {% if selected_category_display %}<span class="sub">· {{ selected_category_display }}</span>{% endif %}
+            {% if selected_model %}<span class="sub">· {{ selected_model }}</span>{% endif %}
+            {% if selected_model_detail %}<span class="sub">· {{ selected_model_detail }}</span>{% endif %}
+          </h1>
+        </div>
+        <!-- 🔍 우측 끝 검색 -->
+        <div class="right" role="search">
+          <form class="search-form" method="get" action="">
+            {# 기존 GET 파라미터 보존 (q만 제외) #}
+            {% for k, v in request.GET.items %}
+              {% if k != 'q' %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endif %}
+            {% endfor %}
+            <input id="heroSearch"
+                   type="search"
+                   name="q"
+                   value="{{ request.GET.q }}"
+                   placeholder="검색"
+                   autocomplete="off">
+            <button type="submit">검색</button>
+          </form>
+        </div>
+      </div>
+    </section>
     <!-- 컨텐츠 -->
     <br>
     {% if manufacturer_models or subcategory_list %}
-      <table width="98%" cellpadding="0" cellspacing="0" align="center" border="0">
-        <colgroup width="11">
-        </colgroup><colgroup width="">
-      </colgroup><colgroup width="11">
-    </colgroup>
-    <tbody>
-      <tr>
-        <td width="11">
-          <img src="{% static "images/parts/ca_box01.gif" %}"
-               width=""
-               height=""
-               alt="">
-        </td>
-        <td background="/static/images/parts/ca_bg01.gif"></td>
-        <td width="11">
-          <img src="{% static "images/parts/ca_box02.gif" %}"
-               width=""
-               height=""
-               alt="">
-        </td>
-      </tr>
-      <tr>
-        <td width="11" background="/static/images/parts/ca_bg02.gif"></td>
-        <td>
-          <table width="100%" border="0">
-            <tbody>
-              <tr>
-                <td>
-                  {% for car in manufacturer_models %}
-                    <a href="{% url "parts:product_by_model" car.id %}">{{ car.name }} ({{ car.part_count }})</a> &nbsp;
-                  {% endfor %}
-                  {% for sub in subcategory_list %}
-                    <a href="{% url 'parts:product_by_subcategory' sub.id %}">{{ sub.name }} ({{ sub.part_count }})</a> &nbsp;
-                  {% endfor %}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </td>
-        <td width="11" background="/static/images/parts/ca_bg03.gif"></td>
-      </tr>
-      <tr>
-        <td width="11">
-          <img src="{% static "images/parts/ca_box03.gif" %}"
-               width=""
-               height=""
-               alt="">
-        </td>
-        <td background="/static/images/parts/ca_bg04.gif"></td>
-        <td width="11">
-          <img src="{% static "images/parts/ca_box04.gif" %}"
-               width=""
-               height=""
-               alt="">
-        </td>
-      </tr>
-    </tbody>
-  </table>
-{% endif %}
-<table width="100%" cellpadding="0" cellspacing="0" border="0">
-  <tbody>
-    <tr>
-      <td>
-        <table width="98%"
-               cellpadding="0"
-               cellspacing="0"
-               align="center"
-               class="p_list">
-          <tbody>
-            <tr>
-              <td width="50%" class="p_list01"></td>
-              <td width="50%" class="p_list02">
-                <a href="/shop/list.php?ca_id=10&amp;skin=&amp;ev_id=&amp;sort=it_amount asc">낮은가격순</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/shop/list.php?ca_id=10&amp;skin=&amp;ev_id=&amp;sort=it_amount desc">높은가격순</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/shop/list.php?ca_id=10&amp;skin=&amp;ev_id=&amp;sort=it_name asc">상품명순</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/shop/list.php?ca_id=10&amp;skin=&amp;ev_id=&amp;sort=it_type3 desc">신상품</a>
-              </td>
-            </tr>
-            <tr>
-              <td colspan="2" background="/static/images/parts/line_h.gif" height="1"></td>
-            </tr>
-          </tbody>
-        </table>
-        {% if products %}
-          <table width="100%" cellpadding="0" cellspacing="0" border="0">
-            <tbody>
-              {% for part in products %}
-                {% if forloop.first or forloop.counter0|divisibleby:4 %}<tr>{% endif %}
-                  <td width="25%" align="center" valign="top">
-                    <table width="25%" cellpadding="0" cellspacing="0" border="0">
-                      <tbody>
-                        <tr>
-                          <td height="5"></td>
-                        </tr>
-                        <tr>
-                          <td align="center" style="border:1px solid #d2d2cd;">
-                            <a href="{% url 'parts:product_detail' part.pk %}">
-                              <img id="1752766397_m"
-                                   src="{{ part.images.all.0.image.url }}"
-                                   alt="{{ part.title }} 이미지"
-                                   width="120"
-                                   height="120"
-                                   border="0">
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td align="center" class="locat">
-                            <a href="{% url 'parts:product_detail' part.pk %}" class="item">{{ part.title }}</a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td align="center"></td>
-                        </tr>
-                        <tr>
-                          <td align="center" class="locat2">
-                            {% if part.price == 0 %}
-                              전화문의
-                            {% else %}
-                              {{ part.formatted_price }}원
-                            {% endif %}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td height="20"></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                  {% if forloop.counter|divisibleby:4 or forloop.last %}</tr>{% endif %}
-              {% endfor %}
-            </tbody>
-          </table>
-        {% else %}
-          <div align="center">
-            <img src="{% static "images/parts/no_item.gif" %}"
-                 border="0"
-                 width=""
-                 height=""
-                 alt="">
+      <div id="parts-filter">
+        <!-- 차종 -->
+        {% if manufacturer_models %}
+          <div class="section">
+            <span class="label">차종</span>
+            <div class="chips">
+              {% with top_cars=manufacturer_models|slice:":7" %}
+                {% for car in top_cars %}
+                  <a class="chip" href="{% url 'parts:product_by_model' car.id %}">
+                    {{ car.name }} <span class="badge">{{ car.part_count }}</span>
+                  </a>
+                {% endfor %}
+              {% endwith %}
+              {% if manufacturer_models|length > 7 %}
+                <button class="chip muted" id="openModelModal">+{{ manufacturer_models|length|add:"-7" }} 더보기</button>
+              {% endif %}
+            </div>
           </div>
         {% endif %}
-      </td>
-    </tr>
-  </tbody>
-</table>
-<br>
-<div align="center" style="clear:both;">
-  &nbsp;<b>1</b>  &nbsp;<a href="/shop/list.php?ca_id=10&amp;skin=&amp;ev_id=&amp;sort=&amp;page=2"><span>2</span></a> &nbsp;<a href="/shop/list.php?ca_id=10&amp;skin=&amp;ev_id=&amp;sort=&amp;page=3"><span>3</span></a> &nbsp;<a href="/shop/list.php?ca_id=10&amp;skin=&amp;ev_id=&amp;sort=&amp;page=4"><span>4</span></a> &nbsp;<a href="/shop/list.php?ca_id=10&amp;skin=&amp;ev_id=&amp;sort=&amp;page=5"><span>5</span></a> &nbsp;<a href="/shop/list.php?ca_id=10&amp;skin=&amp;ev_id=&amp;sort=&amp;page=6"><span>6</span></a> &nbsp;<a href="/shop/list.php?ca_id=10&amp;skin=&amp;ev_id=&amp;sort=&amp;page=7"><span>7</span></a> &nbsp;<a href="/shop/list.php?ca_id=10&amp;skin=&amp;ev_id=&amp;sort=&amp;page=8"><span>8</span></a> &nbsp;<a href="/shop/list.php?ca_id=10&amp;skin=&amp;ev_id=&amp;sort=&amp;page=9"><span>9</span></a> &nbsp;<a href="/shop/list.php?ca_id=10&amp;skin=&amp;ev_id=&amp;sort=&amp;page=10"><span>10</span></a> &nbsp;<a href="/shop/list.php?ca_id=10&amp;skin=&amp;ev_id=&amp;sort=&amp;page=11">다음</a> &nbsp;<a href="/shop/list.php?ca_id=10&amp;skin=&amp;ev_id=&amp;sort=&amp;page=88">맨끝</a>
-</div>
-<br>
-</td>
+        {% if subcategory_list %}
+          <div class="section">
+            <span class="label">부품</span>
+            <div class="chips">
+              {% with top_subs=subcategory_list|slice:":6" %}
+                {% for sub in top_subs %}
+                  <a class="chip" href="{% url 'parts:product_by_subcategory' sub.id %}">
+                    {{ sub.name }} <span class="badge">{{ sub.part_count }}</span>
+                  </a>
+                {% endfor %}
+              {% endwith %}
+              {% if subcategory_list|length > 6 %}
+                <button class="chip muted" id="openPartModal">+{{ subcategory_list|length|add:"-6" }} 더보기</button>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+      <!-- 차종 모달 -->
+      <div id="modelModal" class="pf-modal">
+        <div class="panel">
+          <header>
+            <strong>모델 전체보기</strong>
+            <button class="btn" data-close="modelModal">닫기</button>
+          </header>
+          <div class="grid">
+            {% for car in manufacturer_models %}
+              <a href="{% url 'parts:product_by_model' car.id %}">
+                <span>{{ car.name }}</span><span class="count">{{ car.part_count }}</span>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <!-- 부품 모달 -->
+      <div id="partModal" class="pf-modal">
+        <div class="panel">
+          <header>
+            <strong>부품 전체보기</strong>
+            <button class="btn" data-close="partModal">닫기</button>
+          </header>
+          <div class="grid">
+            {% for sub in subcategory_list %}
+              <a href="{% url 'parts:product_by_subcategory' sub.id %}">
+                <span>{{ sub.name }}</span><span class="count">{{ sub.part_count }}</span>
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <script>
+(function(){
+  function hookModal(openId, modalId){
+    const modal=document.getElementById(modalId);
+    const openBtn=document.getElementById(openId);
+    const closeBtn=modal.querySelector('[data-close="'+modalId+'"]');
+    if(openBtn){openBtn.addEventListener('click',()=>{modal.style.display='flex';});}
+    if(closeBtn){closeBtn.addEventListener('click',()=>modal.style.display='none');}
+    modal.addEventListener('click',e=>{if(e.target===modal) modal.style.display='none';});
+  }
+  hookModal('openModelModal','modelModal');
+  hookModal('openPartModal','partModal');
+})();
+      </script>
+    {% endif %}
+    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        <tr>
+          <td>
+            <div id="parts-sort" class="p_list">
+              <div class="left p_list01"></div>
+              <div class="right p_list02">
+                <form method="get" id="sortForm">
+                  <select name="sort" onchange="document.getElementById('sortForm').submit();">
+                    <option value="new" {% if request.GET.sort == 'new' %}selected{% endif %}>신상품순</option>
+                    <option value="low_price"
+                            {% if request.GET.sort == 'low_price' %}selected{% endif %}>낮은가격순</option>
+                    <option value="high_price"
+                            {% if request.GET.sort == 'high_price' %}selected{% endif %}>높은가격순</option>
+                    <option value="title" {% if request.GET.sort == 'title' %}selected{% endif %}>상품명순</option>
+                  </select>
+                </form>
+                <noscript>
+                  <button type="submit">적용</button>
+                </noscript>
+              </div>
+            </div>
+            {% if products %}
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tbody>
+                  {% for part in products %}
+                    {% if forloop.first or forloop.counter0|divisibleby:4 %}<tr>{% endif %}
+                      <td width="25%" align="center" valign="top">
+                        <table width="25%" cellpadding="0" cellspacing="0" border="0">
+                          <tbody>
+                            <tr>
+                              <td height="5"></td>
+                            </tr>
+                            <tr>
+                              <td align="center" style="border:1px solid #d2d2cd;">
+                                <a href="{% url 'parts:product_detail' part.pk %}">
+                                  <img id="1752766397_m"
+                                       src="{{ part.images.all.0.image.url }}"
+                                       alt="{{ part.title }} 이미지"
+                                       width="120"
+                                       height="120"
+                                       border="0">
+                                </a>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td align="center" class="locat">
+                                <a href="{% url 'parts:product_detail' part.pk %}" class="item">{{ part.title }}</a>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td align="center"></td>
+                            </tr>
+                            <tr>
+                              <td align="center" class="locat2">
+                                {% if part.price == 0 %}
+                                  전화문의
+                                {% else %}
+                                  {{ part.formatted_price }}원
+                                {% endif %}
+                              </td>
+                            </tr>
+                            <tr>
+                              <td height="20"></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                      {% if forloop.counter|divisibleby:4 or forloop.last %}</tr>{% endif %}
+                  {% endfor %}
+                </tbody>
+              </table>
+            {% else %}
+              <div align="center">
+                <img src="{% static "images/parts/no_item.gif" %}"
+                     border="0"
+                     width=""
+                     height=""
+                     alt="">
+              </div>
+            {% endif %}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    {% if is_paginated %}
+      <form id="parts-pagination"
+            method="get"
+            role="navigation"
+            aria-label="페이지네이션">
+        {# 다른 GET 파라미터 보존 (page 제외) #}
+        {% for k, v in request.GET.items %}
+          {% if k != 'page' %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endif %}
+        {% endfor %}
+        <div class="pager">
+          {# 처음/이전 #}
+          {% if page_obj.has_previous %}
+            <button class="btn" type="submit" name="page" value="1">처음</button>
+            <button class="btn"
+                    type="submit"
+                    name="page"
+                    value="{{ page_obj.previous_page_number }}">이전</button>
+          {% else %}
+            <button class="btn" type="button" disabled>처음</button>
+            <button class="btn" type="button" disabled>이전</button>
+          {% endif %}
+          {# 앞쪽 엘립시스 #}
+          {% if 1 not in page_range %}
+            <button class="num" type="submit" name="page" value="1">1</button>
+            <span class="dots">…</span>
+          {% endif %}
+          {# 가운데 페이지들 #}
+          {% for num in page_range %}
+            {% if num == page_obj.number %}
+              <button class="num" type="button" aria-current="page">{{ num }}</button>
+            {% else %}
+              <button class="num" type="submit" name="page" value="{{ num }}">{{ num }}</button>
+            {% endif %}
+          {% endfor %}
+          {# 뒤쪽 엘립시스 #}
+          {% if paginator.num_pages not in page_range %}
+            <span class="dots">…</span>
+            <button class="num"
+                    type="submit"
+                    name="page"
+                    value="{{ paginator.num_pages }}">{{ paginator.num_pages }}</button>
+          {% endif %}
+          {# 다음/맨끝 #}
+          {% if page_obj.has_next %}
+            <button class="btn"
+                    type="submit"
+                    name="page"
+                    value="{{ page_obj.next_page_number }}">다음</button>
+            <button class="btn"
+                    type="submit"
+                    name="page"
+                    value="{{ paginator.num_pages }}">맨끝</button>
+          {% else %}
+            <button class="btn" type="button" disabled>다음</button>
+            <button class="btn" type="button" disabled>맨끝</button>
+          {% endif %}
+          <span class="stat">총 {{ page_obj.paginator.count }}개 · {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+        </div>
+      </form>
+    {% endif %}
+    <br>
+  </td>
 {% endblock content %}

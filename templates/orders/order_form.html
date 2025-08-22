@@ -2,42 +2,59 @@
 {% load static humanize %}
 {% block content %}
   <td width="800" valign="top">
-    <h3>주문서 작성</h3>
-    <table width="98%"
-           cellspacing="0"
-           cellpadding="6"
-           style="border:1px solid #eee">
-      <tr style="background:#fafafa;">
-        <th align="left">상품</th>
-        <th>수량</th>
-        <th>단가</th>
-        <th>소계</th>
-      </tr>
-      {% for it in cart %}
-        {% with p=it.product %}
+    <div id="order-title" aria-label="페이지 타이틀">
+      <!-- 가운데 타이틀 이미지 -->
+      <div class="title">
+        <img src="{% static 'images/parts/order_write.png' %}" alt="주문서 작성">
+      </div>
+    </div>
+    <div id="order-summary">
+      <table>
+        <colgroup>
+          <col>
+          {# 상품 #}
+          <col style="width:120px">
+          {# 수량 #}
+          <col style="width:160px">
+          {# 단가 #}
+          <col style="width:180px">
+          {# 소계 #}
+        </colgroup>
+        <thead>
           <tr>
-            <td align="left">{{ p.title }}</td>
-            <td align="center">{{ it.qty }}</td>
-            <td align="right">
-              {% if it.price is None %}
-                <span class="warn">전화문의</span>
-              {% else %}
-                {{ it.price|floatformat:0|intcomma }}원
-              {% endif %}
-            </td>
-            <td align="right">{{ it.subtotal|floatformat:0|intcomma }}원</td>
+            <th>상품</th>
+            <th>수량</th>
+            <th>단가</th>
+            <th>소계</th>
           </tr>
-        {% endwith %}
-      {% endfor %}
-      <tr>
-        <td colspan="4"
-            align="right"
-            style="border-top:1px solid #eee;
-                   padding-top:8px">
-          <b>총 상품금액:</b> {{ cart.total|floatformat:0|intcomma }}원
-        </td>
-      </tr>
-    </table>
+        </thead>
+        <tbody>
+          {% for it in cart %}
+            {% with p=it.product %}
+              <tr>
+                <td>{{ p.title }}</td>
+                <td>{{ it.qty }}</td>
+                <td>
+                  {% if it.price is None %}
+                    <span class="warn">전화문의</span>
+                  {% else %}
+                    {{ it.price|floatformat:0|intcomma }}원
+                  {% endif %}
+                </td>
+                <td>{{ it.subtotal|floatformat:0|intcomma }}원</td>
+              </tr>
+            {% endwith %}
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="4">
+              <b>총 상품금액:</b> {{ cart.total|floatformat:0|intcomma }}원
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
     <br>
     <form method="post">
       {% csrf_token %}

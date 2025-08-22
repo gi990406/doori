@@ -2,6 +2,8 @@ from django.views.generic import ListView, DetailView
 from .models import Part, CarModel, CarManufacturer, PartSubCategory, CarModelDetail
 from django.shortcuts import get_object_or_404, render
 from django.db.models import Count
+from django.core.paginator import PageNotAnInteger, EmptyPage
+from django.db.models import Q
 
 # Create your views here.
 class ProductListView(ListView):
@@ -9,8 +11,28 @@ class ProductListView(ListView):
     model = Part
     template_name = 'product/product_list.html'
     context_object_name = 'products'
-    ordering = ['-id']
-    paginate_by = 10
+    ordering = ['-created_at']
+    paginate_by = 12
+
+    def paginate_queryset(self, queryset, page_size):
+        paginator = self.get_paginator(queryset, page_size)
+        raw = self.request.GET.get("page", 1)
+
+        # 숫자 보정: 1 미만이면 1로, 숫자 아님이면 1로
+        try:
+            number = int(raw)
+            if number < 1:
+                number = 1
+        except (TypeError, ValueError):
+            number = 1
+
+        # Django 내부 예외도 한 번 더 안전하게 처리
+        try:
+            page = paginator.page(number)
+        except (PageNotAnInteger, EmptyPage):
+            page = paginator.page(1)
+
+        return (paginator, page, page.object_list, page.has_other_pages())
 
     def get_queryset(self):
         self.manufacturer = None
@@ -18,7 +40,7 @@ class ProductListView(ListView):
         category = self.kwargs.get('category')
         self.category = self.kwargs.get('category')
 
-        queryset = Part.objects.select_related('car_model__manufacturer', 'subcategory').prefetch_related('images').order_by('-id')
+        queryset = Part.objects.select_related('car_model__manufacturer', 'subcategory').prefetch_related('images').order_by('-created_at')
         manufacturer_id = self.kwargs.get('manufacturer_id')
 
         if manufacturer_id:
@@ -27,6 +49,27 @@ class ProductListView(ListView):
 
         if category:
             queryset = queryset.filter(subcategory__parent_category=category)
+
+        q = self.request.GET.get('q', '').strip()
+        if q:
+            queryset = queryset.filter(
+                Q(title__icontains=q) |
+                Q(part_number__icontains=q) |
+                Q(car_model__name__icontains=q) |
+                Q(car_model__manufacturer__name__icontains=q) |
+                Q(subcategory__name__icontains=q)
+            )
+
+        # ✅ 정렬 처리
+        sort = self.request.GET.get('sort', 'new')  # 기본은 신상품순
+        if sort == 'low_price':
+            queryset = queryset.order_by('price')
+        elif sort == 'high_price':
+            queryset = queryset.order_by('-price')
+        elif sort == 'name':
+            queryset = queryset.order_by('name')
+        else:  # 기본: 신상품순
+            queryset = queryset.order_by('-created_at')
 
         for part in queryset:
             try:
@@ -39,22 +82,21 @@ class ProductListView(ListView):
     def get_context_data(self, **kwargs) :
         context = super().get_context_data(**kwargs)
 
-        # 페이징 처리
-        paginator = context['paginator']
-        page_numbers_range = 5
-        max_index = len(paginator.page_range)
+        # ✅ 페이지 버튼 묶음 계산은 page_obj.number로 (이미 보정된 값)
+        if context.get('is_paginated'):
+            paginator = context['paginator']
+            page_obj = context['page_obj']
 
-        page = self.request.GET.get('page')
-        current_page = int(page) if page else 1
+            page_numbers_range = 5
+            current_page = page_obj.number
+            total_pages = paginator.num_pages
 
-        start_index = int((current_page - 1) / page_numbers_range) * page_numbers_range
-        end_index = start_index + page_numbers_range
+            start_page = ((current_page - 1) // page_numbers_range) * page_numbers_range + 1
+            end_page = min(start_page + page_numbers_range - 1, total_pages)
 
-        if end_index >= max_index:
-            end_index = max_index
-
-        page_range = paginator.page_range[start_index:end_index]
-        context['page_range'] = page_range
+            context['page_range'] = range(start_page, end_page + 1)
+        else:
+            context['page_range'] = []
 
         # 선택된 제조사
         if self.manufacturer:
@@ -86,11 +128,54 @@ class CarModelPartsListView(ListView):
     model = Part
     template_name = 'product/product_model_list.html'
     context_object_name = 'products'
+    ordering = ['-created_at']
+    paginate_by = 12
+
+    def paginate_queryset(self, queryset, page_size):
+        paginator = self.get_paginator(queryset, page_size)
+        raw = self.request.GET.get("page", 1)
+
+        # 숫자 보정: 1 미만이면 1로, 숫자 아님이면 1로
+        try:
+            number = int(raw)
+            if number < 1:
+                number = 1
+        except (TypeError, ValueError):
+            number = 1
+
+        # Django 내부 예외도 한 번 더 안전하게 처리
+        try:
+            page = paginator.page(number)
+        except (PageNotAnInteger, EmptyPage):
+            page = paginator.page(1)
+
+        return (paginator, page, page.object_list, page.has_other_pages())
 
     def get_queryset(self):
         self.car_model = get_object_or_404(CarModel, id=self.kwargs['car_model_id'])
 
-        queryset = Part.objects.filter(car_model=self.car_model).select_related('subcategory').prefetch_related('images')
+        queryset = Part.objects.filter(car_model=self.car_model).select_related('subcategory').prefetch_related('images').order_by('-created_at')
+
+        q = self.request.GET.get('q', '').strip()
+        if q:
+            queryset = queryset.filter(
+                Q(title__icontains=q) |
+                Q(part_number__icontains=q) |
+                Q(car_model__name__icontains=q) |
+                Q(car_model__manufacturer__name__icontains=q) |
+                Q(subcategory__name__icontains=q)
+            )
+
+        # ✅ 정렬 처리
+        sort = self.request.GET.get('sort', 'new')  # 기본은 신상품순
+        if sort == 'low_price':
+            queryset = queryset.order_by('price')
+        elif sort == 'high_price':
+            queryset = queryset.order_by('-price')
+        elif sort == 'name':
+            queryset = queryset.order_by('name')
+        else:  # 기본: 신상품순
+            queryset = queryset.order_by('-created_at')
 
         for part in queryset:
             try:
@@ -102,6 +187,23 @@ class CarModelPartsListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # ✅ 페이지 버튼 묶음 계산은 page_obj.number로 (이미 보정된 값)
+        if context.get('is_paginated'):
+            paginator = context['paginator']
+            page_obj = context['page_obj']
+
+            page_numbers_range = 5
+            current_page = page_obj.number
+            total_pages = paginator.num_pages
+
+            start_page = ((current_page - 1) // page_numbers_range) * page_numbers_range + 1
+            end_page = min(start_page + page_numbers_range - 1, total_pages)
+
+            context['page_range'] = range(start_page, end_page + 1)
+        else:
+            context['page_range'] = []
+
         context['car_model'] = self.car_model
         context['model_details'] = (CarModelDetail.objects
                                     .filter(model=self.car_model)
@@ -113,8 +215,28 @@ class ProductByModelDetailView(ListView):
     model = Part
     template_name = 'product/product_list.html'
     context_object_name = 'products'
-    paginate_by = 10
-    ordering = ['-id']
+    ordering = ['-created_at']
+    paginate_by = 12
+
+    def paginate_queryset(self, queryset, page_size):
+        paginator = self.get_paginator(queryset, page_size)
+        raw = self.request.GET.get("page", 1)
+
+        # 숫자 보정: 1 미만이면 1로, 숫자 아님이면 1로
+        try:
+            number = int(raw)
+            if number < 1:
+                number = 1
+        except (TypeError, ValueError):
+            number = 1
+
+        # Django 내부 예외도 한 번 더 안전하게 처리
+        try:
+            page = paginator.page(number)
+        except (PageNotAnInteger, EmptyPage):
+            page = paginator.page(1)
+
+        return (paginator, page, page.object_list, page.has_other_pages())
 
     def get_queryset(self):
         self.detail = get_object_or_404(CarModelDetail, id=self.kwargs['detail_id'])
@@ -122,6 +244,17 @@ class ProductByModelDetailView(ListView):
                          .prefetch_related('images')\
                          .filter(car_model_detail=self.detail)\
                          .order_by('-id')
+
+        q = self.request.GET.get('q', '').strip()
+        if q:
+            qs = qs.filter(
+                Q(title__icontains=q) |
+                Q(part_number__icontains=q) |
+                Q(car_model__name__icontains=q) |
+                Q(car_model__manufacturer__name__icontains=q) |
+                Q(subcategory__name__icontains=q)
+            )
+
         for p in qs:
             try:
                 p.formatted_price = "{:,.0f}".format(p.price)
@@ -131,6 +264,23 @@ class ProductByModelDetailView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # ✅ 페이지 버튼 묶음 계산은 page_obj.number로 (이미 보정된 값)
+        if context.get('is_paginated'):
+            paginator = context['paginator']
+            page_obj = context['page_obj']
+
+            page_numbers_range = 5
+            current_page = page_obj.number
+            total_pages = paginator.num_pages
+
+            start_page = ((current_page - 1) // page_numbers_range) * page_numbers_range + 1
+            end_page = min(start_page + page_numbers_range - 1, total_pages)
+
+            context['page_range'] = range(start_page, end_page + 1)
+        else:
+            context['page_range'] = []
+
         context['selected_manufacturer'] = self.detail.model.manufacturer.name
         context['selected_model'] = self.detail.model.name
         context['selected_model_detail'] = self.detail.name
@@ -140,13 +290,33 @@ class ProductByModelDetailView(ListView):
         context['category_choices'] = PartSubCategory.PartsCategory.choices
         return context
 
-
 class ProductBySubcategoryView(ListView):
     """세부 카테고리별 제품 목록"""
     model = Part
     template_name = 'product/subcategory_list.html'
     context_object_name = 'products'
-    ordering = ['-id']
+    ordering = ['-created_at']
+    paginate_by = 12
+
+    def paginate_queryset(self, queryset, page_size):
+        paginator = self.get_paginator(queryset, page_size)
+        raw = self.request.GET.get("page", 1)
+
+        # 숫자 보정: 1 미만이면 1로, 숫자 아님이면 1로
+        try:
+            number = int(raw)
+            if number < 1:
+                number = 1
+        except (TypeError, ValueError):
+            number = 1
+
+        # Django 내부 예외도 한 번 더 안전하게 처리
+        try:
+            page = paginator.page(number)
+        except (PageNotAnInteger, EmptyPage):
+            page = paginator.page(1)
+
+        return (paginator, page, page.object_list, page.has_other_pages())
 
     def get_queryset(self):
         self.subcategory = get_object_or_404(PartSubCategory, id=self.kwargs['subcategory_id'])
@@ -155,7 +325,26 @@ class ProductBySubcategoryView(ListView):
         queryset = Part.objects.select_related('car_model__manufacturer', 'subcategory') \
                                .prefetch_related('images') \
                                .filter(subcategory=self.subcategory) \
-                               .order_by('-id')
+                               .order_by('-created_at')
+        q = self.request.GET.get('q', '').strip()
+        if q:
+            queryset = queryset.filter(
+                Q(title__icontains=q) |
+                Q(part_number__icontains=q) |
+                Q(car_model__name__icontains=q) |
+                Q(car_model__manufacturer__name__icontains=q) |
+                Q(subcategory__name__icontains=q)
+            )
+        # ✅ 정렬 처리
+        sort = self.request.GET.get('sort', 'new')  # 기본은 신상품순
+        if sort == 'low_price':
+            queryset = queryset.order_by('price')
+        elif sort == 'high_price':
+            queryset = queryset.order_by('-price')
+        elif sort == 'name':
+            queryset = queryset.order_by('name')
+        else:  # 기본: 신상품순
+            queryset = queryset.order_by('-created_at')
 
         for part in queryset:
             try:
@@ -167,6 +356,21 @@ class ProductBySubcategoryView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # ✅ 페이지 버튼 묶음 계산은 page_obj.number로 (이미 보정된 값)
+        if context.get('is_paginated'):
+            paginator = context['paginator']
+            page_obj = context['page_obj']
+
+            page_numbers_range = 5
+            current_page = page_obj.number
+            total_pages = paginator.num_pages
+
+            start_page = ((current_page - 1) // page_numbers_range) * page_numbers_range + 1
+            end_page = min(start_page + page_numbers_range - 1, total_pages)
+
+            context['page_range'] = range(start_page, end_page + 1)
+        else:
+            context['page_range'] = []
         context['selected_subcategory'] = self.subcategory
         context['selected_subcategory_display'] = str(self.subcategory.name)
         context['selected_parent_category_display'] = self.parent_category  # ✅ 추가

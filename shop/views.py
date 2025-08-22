@@ -6,6 +6,41 @@ from parts.models import Part
 from django.views.decorators.http import require_http_methods
 from .models import Order, OrderItem
 from django.contrib.auth.hashers import make_password
+from django.http import JsonResponse
+import json
+
+@require_POST
+def cart_update_ajax(request):
+    """
+    요청: {product_id:int, qty:int}
+    응답: {
+      ok:bool, qty:int, item_subtotal:int, cart_total:int,
+      stock:int|null, stock_ok:bool|null,
+      has_inquiry_only:bool, has_stock_issue:bool
+    }
+    """
+    try:
+      payload = json.loads(request.body.decode())
+      product_id = int(payload.get("product_id"))
+      qty = max(1, int(payload.get("qty", 1)))
+    except Exception:
+      return JsonResponse({"ok": False, "error": "잘못된 요청"}, status=400)
+
+    # 장바구니/상품 로직은 프로젝트에 맞게 바꿔주세요
+    cart = request.cart  # 미들웨어나 헬퍼로 세션 카트 접근한다고 가정
+    item = cart.update(product_id=product_id, qty=qty)   # 수량 갱신
+    cart.recalculate()                                   # 합계/상태 갱신
+
+    return JsonResponse({
+        "ok": True,
+        "qty": item.qty,
+        "item_subtotal": int(item.subtotal or 0),
+        "cart_total": int(cart.total or 0),
+        "stock": item.stock if item.stock is not None else None,
+        "stock_ok": bool(item.stock_ok) if item.stock is not None else None,
+        "has_inquiry_only": bool(cart.has_inquiry_only),
+        "has_stock_issue": bool(cart.has_stock_issue),
+    })
 
 def cart_detail(request):
     cart = Cart(request)
