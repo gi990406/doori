@@ -11,124 +11,37 @@
     </div>
     <!--/ 타이틀시작-->
     <!-- 컨텐츠 -->
-    <div style="height:12px; line-height:1px; font-size:1px;">&nbsp;</div>
-    <!-- 게시글 보기 시작 -->
-    <table width="97%" align="center" cellpadding="0" cellspacing="0">
-      <tbody>
-        <tr>
-          <td>
-            <div style="clear:both; height:30px;">
-              <div style="float:left; margin-top:6px;">
-                <img src="{% static 'images/icon/date.gif' %}"
-                     align="absmiddle"
-                     border="0"
-                     width=""
-                     height=""
-                     alt="date">
-                <span style="color:#888888;">작성일 : {{ notice.created_at | date:'y-m-d H:i' }}</span>
-              </div>
-              <!-- 링크 버튼 -->
-              <div style="float:right;">
-                <a href="{% url "community:notice_list" %}">
-                  <img src="{% static "images/icon/btn_list.gif" %}"
-                       border="0"
-                       align="absmiddle"
-                       width=""
-                       height=""
-                       alt="목록">
-                </a>
-              </div>
-            </div>
-            <div style="border:1px solid #ddd;
-                        clear:both;
-                        height:34px;
-                        background:url(../skin/board/basic/img/title_bg.gif) repeat-x">
-              <table border="0" cellpadding="0" cellspacing="0" width="100%">
-                <tbody>
-                  <tr>
-                    <td style="padding:8px 0 0 10px;">
-                      <div style="color:#505050;
-                                  font-size:13px;
-                                  font-weight:bold;
-                                  word-break:break-all">{{ notice.title }}</div>
-                    </td>
-                    <td align="right" style="padding:6px 6px 0 0;" width="120"></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div style="height:3px;
-                        background:url(../skin/board/basic/img/title_shadow.gif) repeat-x;
-                        line-height:1px;
-                        font-size:1px"></div>
-            <table border="0" cellpadding="0" cellspacing="0" width="97%">
-              <tbody>
-                <tr>
-                  <td height="30"
-                      background="../skin/board/basic/img/view_dot.gif"
-                      style="color:#888">
-                    <div style="float:left;">
-                      &nbsp;글쓴이 :
-                      <span class="member">두리상사</span>
-                    </div>
-                    <div style="float:right;">조회 : {{ notice.hits }}                        &nbsp;</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td height="150" style="word-break:break-all; padding:10px;">
-                    <!-- 내용 출력 -->
-                    {% for notice in notice.images.all %}
-                      <img src="{{ notice.image.url }}"
-                           alt="{{ notice.title }} 이미지"
-                           width="100%"
-                           height="" />
-                    {% endfor %}
-                    <span style="font-size: 12px;">{{ notice.content | safe }}</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <br>
-            <div style="height:1px;
-                        line-height:1px;
-                        font-size:1px;
-                        background-color:#ddd;
-                        clear:both">&nbsp;</div>
-            <div style="clear:both; height:43px;">
-              <div style="float:left; margin-top:10px;">
-                {% if prev_notice %}
-                  <a href="{% url "community:notice_detail" prev_notice.id %}"
-                     title="{{ prev_notice.title }}">
-                    <img src="{% static "images/icon/btn_prev.gif" %}"
-                         border="0"
-                         align="absmiddle"
-                         width=""
-                         height=""
-                         alt="이전글">
-                  </a>&nbsp;
-                {% endif %}
-              </div>
-              <!-- 링크 버튼 -->
-              <div style="float:right; margin-top:10px;">
-                <a href="{% url 'community:notice_list' %}">
-                  <img src="{% static "images/icon/btn_list.gif" %}"
-                       border="0"
-                       align="absmiddle"
-                       width=""
-                       height=""
-                       alt="목록">
-                </a>
-              </div>
-            </div>
-            <div style="height:2px;
-                        line-height:1px;
-                        font-size:1px;
-                        background-color:#dedede;
-                        clear:both">&nbsp;</div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <section class="notice-detail" aria-label="공지사항 상세">
+      <article class="card">
+        <!-- 제목 + 작성일/조회수 -->
+        <div class="headline">
+          <span class="ttl">{{ notice.title }}</span>
+          <div class="meta-line">
+            <span>작성일 : {{ notice.created_at|date:'y-m-d H:i' }}</span>
+            <span>조회 : {{ notice.hits }}</span>
+          </div>
+        </div>
+        <!-- 본문 -->
+        <div class="content">
+          {% for img in notice.images.all %}<img src="{{ img.image.url }}" alt="{{ notice.title }} 이미지">{% endfor %}
+          <div class="text">{{ notice.content|safe }}</div>
+        </div>
+        <!-- 하단 버튼 -->
+        <div class="toolbar">
+          <div>
+            {% if prev_notice %}
+              <a href="{% url 'community:notice_detail' prev_notice.id %}"
+                 class="btn ghost"
+                 title="{{ prev_notice.title }}">이전글</a>
+            {% endif %}
+          </div>
+          <div>
+            <a href="{% url 'community:notice_list' %}" class="btn primary">목록</a>
+          </div>
+        </div>
+      </article>
+      <div class="spacer"></div>
+    </section>
     <br>
   </td>
 {% endblock content %}
