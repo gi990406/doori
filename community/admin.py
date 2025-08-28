@@ -11,3 +11,7 @@ class ImageInline(admin.TabularInline):
 class NoticeAdmin(SummernoteModelAdmin):
     inlines = [ImageInline]
     summernote_fields = ['content',]
+
+@admin.register(models.QuoteInquiry)
+class QuoteInquiryAdmin(SummernoteModelAdmin):
+    summernote_fields = ['content',]

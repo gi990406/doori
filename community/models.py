@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 class Notice(models.Model):
@@ -22,3 +23,35 @@ class Notice_Image(models.Model):
 
     def __str__(self):
         return f"{self.notice.title} - 이미지"
+
+class QuoteInquiry(models.Model):
+    class Status(models.TextChoices):
+        OPEN = "OPEN", "접수"
+        ANSWERED = "ANSWERED", "답변완료"
+        CLOSED = "CLOSED", "종결"
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="quote_inquiries")
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    attachment = models.FileField(upload_to="quote_attachments/", blank=True, null=True)
+    is_private = models.BooleanField(default=False, help_text="비공개 설정 시 본인과 관리자만 열람")
+    status = models.CharField(max_length=10, choices=Status.choices, default=Status.OPEN)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"[{self.get_status_display()}] {self.title}"
+
+class QuoteComment(models.Model):
+    inquiry = models.ForeignKey(QuoteInquiry, on_delete=models.CASCADE, related_name="comments")
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="quote_comments")
+    content = models.TextField()
+    is_from_admin = models.BooleanField(default=False)  # staff 여부 캐싱용(표시/스타일)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["created_at"]
