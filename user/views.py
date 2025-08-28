@@ -165,10 +165,8 @@ def mypage(request):
     recent_wishlist = []
 
     # (주문/보관 모델이 생기면 아래 패턴으로 교체)
-    # from orders.models import Order
-    # recent_orders = Order.objects.filter(user=user).order_by("-created_at")[:5]
-    # from shop.models import Wishlist
-    # recent_wishlist = Wishlist.objects.filter(user=user).select_related("product").order_by("-created_at")[:5]
+    from shop.models import Order
+    recent_orders = Order.objects.filter(user=user).order_by("-created_at")[:5]
 
     context = {
         "user_name": user.name or user.user_id,

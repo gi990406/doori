@@ -3,22 +3,10 @@
 {% block content %}
   <td width="800" valign="top">
     <!-- 타이틀 -->
-    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tbody>
-        <tr>
-          <td class="t01">
-            <img src="{% static 'images/account/title_m9.gif' %}" alt="">
-          </td>
-          <td class="t02" align="right">
-            <img src="{% static 'images/icon/home.gif' %}" alt="">
-            &gt; 마이페이지
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" class="t03"></td>
-        </tr>
-      </tbody>
-    </table>
+    <div id="account-title" aria-label="페이지 타이틀">
+      <!-- 가운데 타이틀 이미지 -->
+      <div class="title_text">마이페이지</div>
+    </div>
     <!-- 상단 바 -->
     <table align="center" width="98%">
       <tbody>
