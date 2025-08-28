@@ -199,7 +199,7 @@ A:active {
 
   font-size: 13px;
   font-weight: bold;
-  color: #4b4b4b;
+  color: #1B2558;
   line-height: 120%;
   padding-top: 5px;
 }
@@ -939,7 +939,7 @@ a.cloudy {
   --line: #e2e8f0;
   --bg: #f8fafc;
   --muted: #64748b;
-  --ink: #111827
+  --ink: #1B2558;
 }
 
 #parts-filter {
@@ -977,7 +977,7 @@ a.cloudy {
   border-radius: 999px;
   background: #fff;
   text-decoration: none;
-  color: #0b1220;
+  color: #1B2558;
   font-weight: 600;
   font-size: 14px;
   white-space: nowrap
@@ -1065,11 +1065,11 @@ a.cloudy {
 #parts-sort {
   --line: #e2e8f0;
   --muted: #64748b;
-  --ink: #111827
+  --ink: #111827;
 }
 
 #parts-sort {
-  --line: #e2e8f0
+  --line: #e2e8f0;
 }
 
 #parts-sort {
@@ -1078,7 +1078,7 @@ a.cloudy {
   justify-content: space-between;
   gap: 12px;
   padding: 5px 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid #1B2558;
   margin-bottom: 12px
 }
 
@@ -1091,18 +1091,18 @@ a.cloudy {
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 8px 10px;
-  background: #fff
+  background: #fff;
 }
 
 #parts-hero {
-  --ink: #0f172a;
+  --ink: #1B2558;
   --muted: #64748b;
   --line: #e2e8f0
 }
 
 #parts-hero {
   padding: 18px 0 10px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid #1B2558;
   margin-bottom: 12px
 }
 
@@ -1166,6 +1166,94 @@ a.cloudy {
   height: 14px;
   vertical-align: -2px;
   filter: grayscale(1)
+}
+
+#parts-hero .search-form {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+#parts-hero .hero-input {
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid #dbe2ea;
+  border-radius: 999px;
+  outline: none;
+  min-width: 220px;
+}
+
+#parts-hero .hero-input:focus {
+  border-color: #94a3b8;
+}
+
+#parts-hero .hero-btn {
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid #dbe2ea;
+  background: #fff;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ===== 칩바(차종) ===== */
+#parts-filter .chips.surface {
+  background: #E7EEF6;
+  /* 연한 파랑 배경 */
+  border-color: transparent;
+  /* 테두리 제거 */
+  padding: 10px;
+  border-radius: 12px;
+}
+
+#parts-filter .chip {
+  border: none;
+  background: transparent;
+  padding: 8px 10px;
+  font-weight: 700;
+  color: #1B2558;
+}
+
+#parts-filter .chip:hover {
+  text-decoration: underline;
+}
+
+#parts-filter .chip.active {
+  background: #fff;
+  border: 1px solid #cfe0ff;
+  box-shadow: 0 1px 0 rgba(15, 23, 42, .03);
+  border-radius: 999px;
+}
+
+#parts-filter .chip.muted {
+  font-weight: 600;
+}
+
+#parts-filter .badge {
+  display: none;
+}
+
+/* 스샷처럼 카운트 숨김 */
+
+/* ===== 정렬 셀렉트(오른쪽 둥근 버튼처럼) ===== */
+#parts-sort .sort-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 8px 34px 8px 12px;
+  border: 1px solid #dbe2ea;
+  background: #fff;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  position: relative;
+  background-image:
+    linear-gradient(45deg, transparent 50%, #64748b 50%),
+    linear-gradient(135deg, #64748b 50%, transparent 50%);
+  background-position: right 12px top 55%, right 6px top 55%;
+  background-size: 8px 8px, 8px 8px;
+  background-repeat: no-repeat;
 }
 
 /* 범위 한정 */

@@ -21,12 +21,13 @@
               {% if k != 'q' %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endif %}
             {% endfor %}
             <input id="heroSearch"
+                   class="hero-input"
                    type="search"
                    name="q"
                    value="{{ request.GET.q }}"
                    placeholder="검색"
                    autocomplete="off">
-            <button type="submit">검색</button>
+            <button type="submit" class="hero-btn">검색</button>
           </form>
         </div>
       </div>
@@ -39,7 +40,7 @@
         <!-- 차종 -->
         <div class="section">
           <span class="label">차종</span>
-          <div class="chips">
+          <div class="chips surface">
             {% with top_cars=model_details|slice:":7" %}
               {% for car in top_cars %}
                 <a class="chip" href="{% url 'parts:product_by_model_detail' car.id %}">
