@@ -41,6 +41,8 @@ class QuoteInquiry(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        verbose_name = "견적 문의"
+        verbose_name_plural = "견적 문의"
         ordering = ["-created_at"]
 
     def __str__(self):

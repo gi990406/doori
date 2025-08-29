@@ -8,6 +8,7 @@ class QuoteInquiryForm(forms.ModelForm):
         fields = ["title", "content", "attachment", "is_private"]
         widgets = {
             "content": SummernoteWidget(),  # 또는 SummernoteInplaceWidget()
+            "is_private": forms.CheckboxInput(attrs={"class": "switch-input"}),
         }
 
 class QuoteCommentForm(forms.ModelForm):

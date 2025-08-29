@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Q
+from .forms import QuoteCommentForm
 
 # Create your views here.
 class NoticeListView(ListView):
@@ -52,38 +53,51 @@ def notice_detail(request, pk):
 
     return render(request, 'community/notice_detail.html', context)
 
-class InquiryListView(LoginRequiredMixin, ListView):
+class InquiryListView(ListView):
     model = QuoteInquiry
     paginate_by = 10
     template_name = "community/inquiry_list.html"
 
     def get_queryset(self):
         qs = QuoteInquiry.objects.all()
-        # 비공개글은 작성자 또는 staff만
-        if not self.request.user.is_staff:
-            qs = qs.filter(Q(is_private=False) | Q(user=self.request.user))
-        return qs
+        u = self.request.user
+        if u.is_staff:
+            return qs
+        if u.is_authenticated:
+            return qs.filter(Q(is_private=False) | Q(user=u))
+        return qs.filter(is_private=False)
 
-class InquiryCreateView(LoginRequiredMixin, CreateView):
+# 2) 작성: 로그인 필요 (그대로)
+class InquiryCreateView(CreateView):
     model = QuoteInquiry
     form_class = QuoteInquiryForm
     template_name = "community/inquiry_form.html"
     success_url = reverse_lazy("community:quotes_list")
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            from django.contrib.auth.views import redirect_to_login
+            return redirect_to_login(request.get_full_path())
+        return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         messages.success(self.request, "견적 문의가 등록되었습니다.")
         return super().form_valid(form)
 
-class InquiryDetailView(LoginRequiredMixin, DetailView):
+# 3) 상세: 익명/타인 = 공개글만 조회 가능
+class InquiryDetailView(DetailView):
     model = QuoteInquiry
     template_name = "community/inquiry_detail.html"
 
     def get_queryset(self):
         qs = super().get_queryset()
-        if self.request.user.is_staff:
+        u = self.request.user
+        if u.is_staff:
             return qs
-        return qs.filter(Q(is_private=False) | Q(user=self.request.user))
+        if u.is_authenticated:
+            return qs.filter(Q(is_private=False) | Q(user=u))
+        return qs.filter(is_private=False)
 
 @login_required
 @user_passes_test(lambda u: u.is_staff)

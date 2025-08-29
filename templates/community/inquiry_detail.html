@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  <td width="800" valign="top">
+    <!-- 타이틀 -->
+    <div id="account-title" aria-label="페이지 타이틀">
+      <!-- 가운데 타이틀 이미지 -->
+      <div class="title_text">견적 문의</div>
+    </div>
+    <!-- 상세 카드 -->
+    <div id="quote-detail" class="card">
+      <header>
+        <h1 class="subject">
+          {% if object.is_private %}<span class="lock" title="비공개">🔒</span>{% endif %}
+          {{ object.title }}
+        </h1>
+        <div class="meta">
+          <span class="badge {% if object.status == 'OPEN' %}open{% elif object.status == 'ANSWERED' %}answered{% else %}closed{% endif %}">
+            {{ object.get_status_display }}
+          </span>
+          <span class="split">·</span>
+          <span class="author">{{ object.user }}</span>
+          <span class="split">·</span>
+          <time datetime="{{ object.created_at|date:'c' }}">{{ object.created_at|date:"Y-m-d H:i" }}</time>
+        </div>
+      </header>
+      {% if object.attachment %}
+        <div class="attach">
+          첨부:
+          <a href="{{ object.attachment.url }}">다운로드</a>
+        </div>
+      {% endif %}
+      <article class="content">{{ object.content|safe }}</article>
+      {% if user.is_authenticated and user == object.user and object.status != 'CLOSED' %}
+        <form method="post"
+              action="{% url 'community:close' object.pk %}"
+              class="close-wrap">
+          {% csrf_token %}
+          <button type="submit" class="btn ghost">문의 종결</button>
+        </form>
+      {% endif %}
+    </div>
+    <!-- 댓글 -->
+    <div id="comment-block" class="card">
+      <h3>댓글</h3>
+      <ul id="comment-list">
+        {% for c in object.comments.all %}
+          <li class="item {% if c.is_from_admin %}admin{% endif %}">
+            <div class="head">
+              <strong class="who">
+                {% if c.is_from_admin %}[관리자]{% endif %}
+                {{ c.author }}
+              </strong>
+              <time class="date" datetime="{{ c.created_at|date:'c' }}">{{ c.created_at|date:"Y-m-d H:i" }}</time>
+            </div>
+            <div class="body">{{ c.content|safe }}</div>
+          </li>
+        {% empty %}
+          <li class="empty">댓글이 없습니다.</li>
+        {% endfor %}
+      </ul>
+      {% if user.is_staff %}
+        <form method="post"
+              action="{% url 'community:comment_create' object.pk %}"
+              class="reply-form">
+          {% csrf_token %}
+          {{ comment_form.media }}
+          <div class="form-row">
+            {{ comment_form.content }}
+            {% for err in comment_form.content.errors %}<p class="err">{{ err }}</p>{% endfor %}
+          </div>
+          <div class="actions">
+            <a class="btn" href="{% url 'community:quotes_list' %}">목록</a>
+            <button type="submit" class="btn primary">답변 등록</button>
+          </div>
+        </form>
+      {% else %}
+        <div class="actions only-list">
+          <a class="btn" href="{% url 'community:quotes_list' %}">목록</a>
+        </div>
+      {% endif %}
+    </div>
+  </td>
+{% endblock %}
