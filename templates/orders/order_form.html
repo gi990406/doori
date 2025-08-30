@@ -3,7 +3,6 @@
 {% block content %}
   <td width="800" valign="top">
     <div id="order-title" aria-label="페이지 타이틀">
-      <!-- 가운데 타이틀 이미지 -->
       <div class="title">
         <img src="{% static 'images/parts/order_write.png' %}" alt="주문서 작성">
       </div>
@@ -29,7 +28,8 @@
           </tr>
         </thead>
         <tbody>
-          {% for it in cart %}
+          {# 🔴 cart 대신 items 사용 (buy-now/장바구니 공통) #}
+          {% for it in items %}
             {% with p=it.product %}
               <tr>
                 <td>{{ p.title }}</td>
@@ -41,15 +41,32 @@
                     {{ it.price|floatformat:0|intcomma }}원
                   {% endif %}
                 </td>
-                <td>{{ it.subtotal|floatformat:0|intcomma }}원</td>
+                <td>
+                  {% if it.price %}
+                    {{ it.subtotal|floatformat:0|intcomma }}원
+                  {% else %}
+                    -
+                  {% endif %}
+                </td>
               </tr>
+              {% if not it.stock_ok %}
+                <tr>
+                  <td colspan="4">
+                    <span class="warn">⚠ 재고 부족으로 주문이 제한될 수 있습니다.</span>
+                  </td>
+                </tr>
+              {% endif %}
             {% endwith %}
+          {% empty %}
+            <tr>
+              <td colspan="4">주문할 상품이 없습니다.</td>
+            </tr>
           {% endfor %}
         </tbody>
         <tfoot>
           <tr>
             <td colspan="4">
-              <b>총 상품금액:</b> {{ cart.total|floatformat:0|intcomma }}원
+              <b>총 상품금액:</b> {{ total_amount|floatformat:0|intcomma }}원
             </td>
           </tr>
         </tfoot>
@@ -58,6 +75,11 @@
     <br>
     <form method="post">
       {% csrf_token %}
+      {# 🔵 buy-now로 들어왔으면 POST 때도 값 유지 (중요) #}
+      {% if buy_now_part_id %}
+        <input type="hidden" name="part_id" value="{{ buy_now_part_id }}">
+        <input type="hidden" name="qty" value="{{ buy_now_qty|default:1 }}">
+      {% endif %}
       {% if not is_member %}
         <fieldset style="border:1px solid #eee; padding:12px;">
           <legend>비회원 정보</legend>
@@ -92,15 +114,19 @@
                   border-radius:6px">
         <b>입금 안내</b>
         <br>
-        주문 후 아래 계좌로 송금해주세요. 송금 후 문자로 알려주시면 관리자가 확인 후 발송합니다.
         <br>
-        우리은행 1002-123-456789 (홍길동)
+        주문 후 아래 계좌로 송금해주세요. 송금 후 문자로 알려주시면 관리자가 확인 후 연락드리겠습니다.
+        <br>
+        <br>
+        농협 01020108272-19 (정경수)
+        <br>
+        신협 01020108272 (정경수)
       </div>
       <br>
-      <button type="submit" class="btn btn-primary">
-        <span class="ico">🧾</span> 주문 제출
-      </button>
-      <a href="{% url 'shop:cart_detail' %}" class="btn">장바구니로 돌아가기</a>
+      <button type="submit" class="btn btn-primary">주문하기</button>
+      {% if using_cart %}
+        <a href="{% url 'shop:cart_detail' %}" class="btn">장바구니로 돌아가기</a>
+      {% endif %}
     </form>
   </td>
 {% endblock %}

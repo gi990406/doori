@@ -8,6 +8,9 @@ from .models import Order, OrderItem
 from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
 import json
+from django.db import transaction
+from django.views.decorators.http import require_http_methods
+from django.utils.http import urlencode
 
 @require_POST
 def cart_update_ajax(request):
@@ -72,74 +75,98 @@ def cart_remove(request, part_id):
 def order_form(request):
     cart = Cart(request)
 
-    # 장바구니 검사
-    empty = True
-    has_inquiry = False
-    has_stock_issue = False
-    items_snapshot = []
-    for it in cart:
-        empty = False
-        has_inquiry |= (it["price"] is None)
-        has_stock_issue |= (not it["stock_ok"])
-        items_snapshot.append(it)
+    # 1) buy-now 파라미터는 GET/POST 모두에서 수집
+    part_id = request.GET.get("part_id") or request.POST.get("part_id")
+    try:
+        qty = int(request.GET.get("qty") or request.POST.get("qty") or 1)
+    except ValueError:
+        qty = 1
 
-    if empty:
-        messages.warning(request, "장바구니가 비어 있습니다.")
-    if has_inquiry or has_stock_issue:
-        messages.error(request, "전화문의 상품 또는 재고 이슈가 있어 주문할 수 없습니다.")
+    def build_item_from_part(p, q):
+        price = getattr(p, "price", None)
+        stock_ok = True
+        if hasattr(p, "stock"):
+            stock_ok = (p.stock or 0) >= q
+        return {
+            "product": p,
+            "price": price,
+            "qty": q,
+            "stock_ok": stock_ok,
+            "subtotal": (price or 0) * q,
+        }
+
+    # 2) 아이템 스냅샷: buy-now가 우선, 없으면 cart
+    items, using_cart = [], True
+    if part_id:
+        p = get_object_or_404(Part, pk=part_id)
+        items.append(build_item_from_part(p, qty))
+        using_cart = False
+    else:
+        for it in cart:
+            it.setdefault("subtotal", (it["price"] or 0) * it["qty"])
+            items.append(it)
+
+    has_inquiry = any(i["price"] is None for i in items)
+    has_stock_issue = any(not i["stock_ok"] for i in items)
+    total_amount = sum(i["subtotal"] for i in items)
 
     if request.method == "POST":
-        # 공통 주문 생성
-        order = Order()
+        if not items:
+            messages.warning(request, "주문할 상품이 없습니다.")
+            return redirect("shop:order_form")
+        if has_inquiry or has_stock_issue:
+            messages.error(request, "전화문의 상품 또는 재고 이슈가 있어 주문할 수 없습니다.")
+            return redirect("shop:order_form")
 
+        order = Order()
         if request.user.is_authenticated:
-            # 회원 주문
             order.user = request.user
             order.memo = request.POST.get("memo", "")
         else:
-            # 비회원 주문
             order.guest_name  = request.POST.get("name", "").strip()
             order.guest_hp    = request.POST.get("hp", "").strip()
             order.guest_email = request.POST.get("email", "").strip()
             raw_pw = request.POST.get("password", "").strip()
-            # 간단 검증
             if not (order.guest_name and order.guest_hp and order.guest_email and raw_pw):
                 messages.error(request, "비회원 주문의 필수 정보를 모두 입력해주세요.")
+                if part_id:
+                    return redirect(f"{reverse('shop:order_form')}?part_id={part_id}&qty={qty}")
                 return redirect("shop:order_form")
             order.guest_password = make_password(raw_pw)
             order.memo = request.POST.get("memo", "")
-
         order.save()
 
-        # 아이템 스냅샷
-        for it in items_snapshot:
-            p = it["product"]  # Part
+        for i in items:
+            p = i["product"]
             OrderItem.objects.create(
                 order=order,
                 part=p,
-                title=p.title,
-                unit_price=it["price"],   # None이면 전화문의가 아니라 여기선 이미 막혔음
-                quantity=it["qty"],
+                title=getattr(p, "title", str(p)),
+                unit_price=i["price"],
+                quantity=i["qty"],
             )
 
-        # 장바구니 비우기
-        cart.clear()
+        if using_cart:
+            cart.clear()
 
         return redirect("shop:complete", order_id=order.id)
 
-    # GET: 폼 표시 (회원/비회원 분기)
     ctx = {
-        "cart": cart,
         "is_member": request.user.is_authenticated,
+        "items": items,
+        "total_amount": total_amount,
+        "using_cart": using_cart,
+        "buy_now_part_id": part_id,
+        "buy_now_qty": qty,
     }
     if request.user.is_authenticated:
-        # 회원 기본값 (필요시 사용자 모델 필드명에 맞춰 출력)
         ctx.update({
-            "default_name": getattr(request.user, "name", ""),
-            "default_hp":   getattr(request.user, "hp", ""),
-            "default_email":getattr(request.user, "email", ""),
+            "default_name":  getattr(request.user, "name", ""),
+            "default_hp":    getattr(request.user, "hp", ""),
+            "default_email": getattr(request.user, "email", ""),
         })
     return render(request, "orders/order_form.html", ctx)
+
 
 def order_complete(request, order_id):
     order = get_object_or_404(Order, pk=order_id)

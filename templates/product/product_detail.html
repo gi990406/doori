@@ -185,7 +185,8 @@
                                      alt="전화하기">
                               </a>
                             {% else %}
-                              <a href="{% url 'shop:buy_now' product.id %}" class="order-button">
+                              <a href="{% url 'shop:order_form' %}?part_id={{ product.id }}&qty=1"
+                                 class="order-button">
                                 <img src="{% static "images/parts/order.png" %}"
                                      width="84"
                                      height="28"
