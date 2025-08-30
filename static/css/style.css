@@ -1962,7 +1962,7 @@ a.cloudy {
 
 #notice-board tbody td {
   padding: 22px 18px;
-  font-size: 16px;
+  font-size: 14px;
   color: var(--text);
   vertical-align: middle;
   /* ✅ 세로 중앙 */
@@ -2307,4 +2307,462 @@ a.cloudy {
     flex-direction: column;
     gap: 10px
   }
+}
+
+/* 카드 공통 */
+.card {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 14px 16px;
+  background: #fff;
+  margin-bottom: 12px;
+}
+
+/* 헤더 */
+#quote-detail header {
+  background: #eaf2ff;
+  padding: 12px 16px;
+  margin: -14px -16px 12px;
+  border-bottom: 1px solid #d4e0ff;
+  border-radius: 12px 12px 0 0;
+
+  display: flex;
+  align-items: baseline;
+  /* ✅ 제목과 메타를 같은 베이스라인으로 */
+  justify-content: space-between;
+  /* 제목 좌측, 메타 우측 */
+  gap: 12px;
+  flex-wrap: wrap;
+  /* 폭이 좁아지면 메타가 다음 줄로 */
+}
+
+#quote-detail .subject {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.1;
+  color: #0b1220;
+}
+
+#quote-detail .meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* ✅ 요소 간 간격 통일 */
+  white-space: nowrap;
+  font-size: 13px;
+  color: #334155;
+}
+
+#quote-detail .lock {
+  margin-right: 6px;
+}
+
+
+#quote-detail .split {
+  opacity: .5;
+}
+
+/* 상태 배지(목록과 동일 팔레트) */
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.badge.open {
+  background: #eef2ff;
+  color: #3730a3;
+}
+
+.badge.answered {
+  background: #ecfeff;
+  color: #155e75;
+}
+
+.badge.closed {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* 본문/첨부 */
+#quote-detail .attach {
+  margin: 4px 0 8px;
+  font-size: 14px;
+}
+
+#quote-detail .content {
+  margin-top: 8px;
+  line-height: 1.7;
+  color: #0b1220;
+  min-height: 120px;
+}
+
+/* 종결 버튼 */
+.close-wrap {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  border-radius: 999px;
+  text-decoration: none;
+  color: #111827;
+}
+
+.btn.ghost {
+  background: #fff;
+}
+
+.btn.primary {
+  background: #1B2558;
+  color: #fff;
+  border-color: #1B2558;
+}
+
+/* 댓글 */
+#comment-block h3 {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-weight: 800;
+  color: #1f2937;
+}
+
+#comment-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#comment-list .item {
+  border-top: 1px solid #f1f5f9;
+  padding: 10px 0;
+}
+
+#comment-list .item:first-child {
+  border-top: none;
+}
+
+#comment-list .item.admin {
+  background: #f8fafc;
+  border-left: 3px solid #1e3a8a;
+  padding-left: 12px;
+}
+
+#comment-list .head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+#comment-list .who {
+  color: #0b1220;
+}
+
+#comment-list .date {
+  color: #64748b;
+  font-size: 12px;
+}
+
+#comment-list .body {
+  color: #111827;
+  line-height: 1.6;
+}
+
+#comment-list .empty {
+  text-align: center;
+  color: #6b7280;
+  padding: 26px 0;
+}
+
+/* 답변 폼/액션 */
+.reply-form .actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.actions.only-list {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* 액션 바 */
+#board-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 10px;
+}
+
+/* 글쓰기 버튼 */
+.btn.write {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  background: #1B2558;
+  color: #fff;
+  border: 1px solid #1B2558;
+  font-weight: 800;
+  box-shadow: 0 6px 16px rgba(17, 24, 39, .25);
+  transition: transform .12s ease, box-shadow .12s ease, background-color .2s;
+}
+
+.btn.write:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(17, 24, 39, .28);
+}
+
+.btn.write:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(17, 24, 39, .2);
+}
+
+.btn.write svg {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+/* 모바일에서는 하단 플로팅 버튼으로 쓰고 싶다면 */
+@media (max-width: 899px) {
+  #board-actions {
+    display: none;
+  }
+
+  /* 상단 버튼 숨김 */
+  .fab-write {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 60;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #111827;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 12px 24px rgba(17, 24, 39, .35);
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+
+  .fab-write:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 28px rgba(17, 24, 39, .4);
+  }
+
+  .fab-write svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+}
+
+/* 카드 폭 · 중앙 정렬 */
+#quote-write form {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* 필드 블록(한 컬럼) */
+#quote-write .form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+/* 라벨 */
+#quote-write .form-row>label {
+  font-size: 13px;
+  color: #7a7a7a;
+  font-weight: 700;
+}
+
+/* 입력 요소 공통 */
+#quote-write input[type="text"],
+#quote-write input[type="email"],
+#quote-write input[type="tel"],
+#quote-write input[type="password"],
+#quote-write select,
+#quote-write textarea {
+  height: 42px;
+  padding: 0 12px;
+  border: none;
+  outline: 0;
+  border-radius: 10px;
+  background: #eef1f4;
+  /* 🔹 연회색 배경 */
+  color: #111827;
+  font-size: 14px;
+}
+
+#quote-write textarea {
+  min-height: 140px;
+  height: auto;
+  padding: 10px 12px;
+}
+
+/* 포커스 */
+#quote-write input:focus,
+#quote-write select:focus,
+#quote-write textarea:focus {
+  box-shadow: 0 0 0 2px #dbe2ea inset;
+}
+
+/* 파일 업로드 라인 */
+#quote-write .filebox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#quote-write .filebox input[type="file"] {
+  background: #eef1f4;
+}
+
+#quote-write .filebox [data-file-name] {
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* 에러 */
+#quote-write .err {
+  color: #b91c1c;
+  font-size: 12px;
+}
+
+/* 스위치 베이스 */
+#quote-write .switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  min-height: 24px;
+  /* 클릭하기 쉽도록 최소 높이 */
+}
+
+/* 숨김 체크박스가 전체 영역을 클릭 가능하게 */
+#quote-write .switch input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  cursor: pointer;
+}
+
+/* 슬라이더 */
+#quote-write .switch .slider {
+  width: 44px;
+  height: 24px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  position: relative;
+  transition: background .2s;
+}
+
+#quote-write .switch .slider::after {
+  content: "";
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .15);
+  transition: left .2s;
+}
+
+/* 체크 시 변화 */
+#quote-write .switch input[type="checkbox"]:checked+.slider {
+  background: #111827;
+}
+
+#quote-write .switch input[type="checkbox"]:checked+.slider::after {
+  left: 23px;
+}
+
+/* 텍스트 토글 */
+#quote-write .switch .txt {
+  font-size: 13px;
+  color: #334155;
+}
+
+#quote-write .switch .txt .on {
+  display: none;
+}
+
+#quote-write .switch input[type="checkbox"]:checked~.txt .on {
+  display: inline;
+}
+
+#quote-write .switch input[type="checkbox"]:checked~.txt .off {
+  display: none;
+}
+
+/* 액션 버튼 */
+#quote-write .actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+#quote-write .btn {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 14px;
+  border: 1px solid #e2e8f0;
+  background: #fff;
+  border-radius: 999px;
+  color: #111827;
+  text-decoration: none;
+}
+
+#quote-write .btn.primary {
+  background: #111827;
+  border-color: #111827;
+  color: #fff;
+}
+
+/* (옵션) 스위치만 라벨 옆에 한 줄로 두고 싶을 때 */
+#quote-write .form-row.one-line {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#quote-write .form-row.one-line>label {
+  margin-right: 8px;
 }

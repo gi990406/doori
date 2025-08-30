@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  <td width="800" valign="top">
+    <!-- 타이틀 -->
+    <div id="account-title" aria-label="페이지 타이틀">
+      <!-- 가운데 타이틀 이미지 -->
+      <div class="title_text">견적 문의</div>
+    </div>
+    <!-- ✅ 액션 바: 글쓰기 버튼 -->
+    <div id="board-actions">
+      {% if user.is_authenticated %}
+        <a class="btn write" href="{% url 'community:quotes_create' %}">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+          </svg>
+          <span>글쓰기</span>
+        </a>
+      {% else %}
+        <a class="btn write"
+           href="{% url 'user:login' %}?next={% url 'community:quotes_create' %}">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+          </svg>
+          <span>글쓰기</span>
+        </a>
+      {% endif %}
+    </div>
+    <!-- 목록 -->
+    <div id="notice-board">
+      <table>
+        <colgroup>
+          <col style="width:80px">
+          <col>
+          <col style="width:120px">
+          <col style="width:120px">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>상태</th>
+            <th>작성일</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in object_list %}
+            <tr>
+              <td class="num">{{ item.id }}</td>
+              <td class="subject">
+                <a class="ellipsis" href="{% url 'community:quotes_detail' item.pk %}">
+                  {% if item.is_private %}<span class="lock" aria-label="비공개" title="비공개">🔒</span>{% endif %}
+                  {{ item.title }}
+                </a>
+              </td>
+              <td class="status">
+                {% if item.status == "OPEN" %}
+                  <span class="badge open">접수</span>
+                {% elif item.status == "ANSWERED" %}
+                  <span class="badge answered">답변완료</span>
+                {% else %}
+                  <span class="badge closed">종결</span>
+                {% endif %}
+              </td>
+              <td class="datetime">{{ item.created_at|date:"Y-m-d" }}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="4" class="empty">등록된 문의가 없습니다.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <!-- 페이지네이션 -->
+    {% if is_paginated %}
+      <form class="pager-wrap" method="get" role="navigation" aria-label="페이지네이션">
+        {% for k, v in request.GET.items %}
+          {% if k != 'page' %}<input type="hidden" name="{{ k }}" value="{{ v }}">{% endif %}
+        {% endfor %}
+        <div class="pager">
+          {% for num in page_range|default:paginator.page_range %}
+            {% if num == page_obj.number %}
+              <button type="button" class="num current" aria-current="page">{{ num }}</button>
+            {% else %}
+              <button type="submit" class="num" name="page" value="{{ num }}">{{ num }}</button>
+            {% endif %}
+          {% endfor %}
+          <span class="vsep" aria-hidden="true"></span>
+          {% if page_obj.has_next %}
+            <button type="submit"
+                    class="arrow"
+                    name="page"
+                    value="{{ page_obj.next_page_number }}">›</button>
+            <button type="submit"
+                    class="arrow"
+                    name="page"
+                    value="{{ paginator.num_pages }}">»</button>
+          {% else %}
+            <button type="button" class="arrow" disabled>›</button>
+            <button type="button" class="arrow" disabled>»</button>
+          {% endif %}
+        </div>
+      </form>
+    {% endif %}
+  </td>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+  <td width="800" valign="top">
+    <!-- 타이틀 -->
+    <div id="account-title" aria-label="페이지 타이틀">
+      <!-- 가운데 타이틀 이미지 -->
+      <div class="title_text">견적 문의</div>
+    </div>
+    <div id="quote-write" class="card">
+      <form method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        {{ form.media }}
+        <!-- 제목 -->
+        <div class="form-row">
+          <label for="{{ form.title.id_for_label }}">제목</label>
+          {{ form.title }}
+          {% if form.title.errors %}<p class="err">{{ form.title.errors.0 }}</p>{% endif %}
+        </div>
+        <!-- 내용 (Summernote) -->
+        <div class="form-row">
+          <label for="{{ form.content.id_for_label }}">내용</label>
+          {{ form.content }}
+          {% if form.content.errors %}<p class="err">{{ form.content.errors.0 }}</p>{% endif %}
+        </div>
+        <!-- 첨부 -->
+        <div class="form-row">
+          {# ← inline 제거 #}
+          <label for="{{ form.attachment.id_for_label }}">첨부</label>
+          <div class="filebox">{{ form.attachment }}</div>
+        </div>
+        <!-- 비공개 스위치 -->
+        <div class="form-row">
+          <label for="{{ form.is_private.id_for_label }}">공개 설정</label>
+          <!-- 클릭 전체 영역을 만들기 위해 .switch는 label이 아닌 div로, 위 label은 for= 로 연결 -->
+          <div class="switch">
+            {{ form.is_private }}
+            <span class="slider" aria-hidden="true"></span>
+            <span class="txt">
+              <span class="off">공개</span>
+              <span class="on">비공개</span>
+            </span>
+          </div>
+        </div>
+        <!-- 액션 -->
+        <div class="actions">
+          <a class="btn" href="{% url 'community:quotes_list' %}">목록</a>
+          <button type="submit" class="btn primary">등록</button>
+        </div>
+      </form>
+    </div>
+  </td>
+{% endblock %}
