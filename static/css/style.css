@@ -644,8 +644,9 @@ a.cloudy {
 }
 
 .btn-primary:hover {
-  background: #1d4ed8;
-  border-color: #1e40af;
+  background: #1B2558;
+  border-color: #1B2558;
+  color: #fff;
 }
 
 .btn-danger {
