@@ -20,6 +20,13 @@ from .forms import ProfileEditForm
 from urllib.parse import urlparse
 from django.views.decorators.http import require_POST
 
+from .forms import FindIDForm
+from django.core.mail import send_mail
+from django.views.decorators.http import require_http_methods
+from django.contrib.auth.hashers import make_password
+from .decorators import anonymous_required
+
+from .forms import PasswordResetMatchForm, PasswordResetNewForm
 # Create your views here..
 class RegisterTermsView(TemplateView):
     template_name = "user/terms.html"
@@ -187,3 +194,126 @@ def account_delete(request):
     user.save()
     messages.success(request, '탈퇴가 완료되었습니다.')
     return redirect('index')
+
+
+def _mask(s: str) -> str:
+    """아이디 마스킹: abcd1234 -> ab***34"""
+    if not s:
+        return ""
+    if len(s) <= 4:
+        return s[0] + "***"
+    return s[:2] + "***" + s[-2:]
+
+@anonymous_required()
+def find_id(request):
+    """
+    이름+이메일로 가입된 계정의 user_id 목록을 찾아
+    마스킹하여 화면에 보여주고, 같은 내용으로 이메일도 발송.
+    """
+    if request.method == "POST":
+        form = FindIDForm(request.POST)
+        if form.is_valid():
+            name  = form.cleaned_data["name"].strip()
+            email = form.cleaned_data["email"].strip().lower()
+            qs = User.objects.filter(is_active=True, name__iexact=name, email__iexact=email)
+
+            user_ids = [u.user_id for u in qs if getattr(u, "user_id", None)]
+            masked   = [_mask(uid) for uid in user_ids]
+
+            # 메일은 존재/미존재 관계없이 같은 톤으로 응답 (정보유출 방지)
+            try:
+                subject = "[두리상사] 아이디 찾기 안내"
+                if user_ids:
+                    body = f"{name}님, 아래 아이디가 확인되었습니다.\n\n" + "\n".join(f"- {m}" for m in masked)
+                else:
+                    body = f"{name}님, 입력하신 정보로 가입된 계정을 찾지 못했습니다."
+                send_mail(
+                    subject,
+                    body,
+                    getattr(settings, "DEFAULT_FROM_EMAIL", "no-reply@example.com"),
+                    [email],
+                    fail_silently=True,
+                )
+            except Exception:
+                pass
+
+            request.session["find_id_masked"] = masked
+            return redirect("user:find_id_done")
+    else:
+        form = FindIDForm()
+
+    return render(request, "user/find_id_form.html", {"form": form})
+
+@anonymous_required()
+def find_id_done(request):
+    masked = request.session.pop("find_id_masked", [])
+    return render(request, "user/find_id_done.html", {"masked": masked})
+
+@anonymous_required()
+@require_http_methods(["GET", "POST"])
+def password_reset_match(request):
+    """
+    STEP 1: 아이디/이름/이메일/휴대폰이 모두 저장된 정보와 일치하는지 확인.
+    일치하면 세션에 사용자 키를 저장하고 비밀번호 변경 페이지로 이동.
+    """
+    if request.method == "POST":
+        form = PasswordResetMatchForm(request.POST)
+        if form.is_valid():
+            user_id = form.cleaned_data["user_id"].strip()
+            name    = form.cleaned_data["name"].strip()
+            email   = form.cleaned_data["email"].strip().lower()
+            hp      = form.cleaned_data["hp"].strip()
+
+            # 모든 항목 일치하는 활성 사용자 1명 찾기 (대소문자 무시: email/name은 iexact)
+            try:
+                user = User.objects.get(
+                    is_active=True,
+                    user_id=user_id,
+                    name__iexact=name,
+                    email__iexact=email,
+                    hp=hp,
+                )
+            except User.DoesNotExist:
+                messages.error(request, "입력하신 정보가 일치하지 않습니다.")
+            else:
+                # ✅ 일치 → 세션에 통과 마크 후 다음 단계로
+                request.session["pw_match_uid"] = user.pk
+                return redirect("user:password_reset_match_new")
+    else:
+        form = PasswordResetMatchForm()
+
+    return render(request, "user/password_reset_match.html", {"form": form})
+
+@anonymous_required()
+@require_http_methods(["GET", "POST"])
+def password_reset_match_new(request):
+    """
+    STEP 2: 위 검증을 통과한 사용자에게 새 비밀번호 설정 폼 제공.
+    """
+    uid = request.session.get("pw_match_uid")
+    if not uid:
+        messages.error(request, "인증 세션이 만료되었습니다. 처음부터 다시 진행해 주세요.")
+        return redirect("user:password_reset_match")
+
+    try:
+        user = User.objects.get(pk=uid, is_active=True)
+    except User.DoesNotExist:
+        messages.error(request, "인증 정보가 유효하지 않습니다.")
+        return redirect("user:password_reset_match")
+
+    if request.method == "POST":
+        form = PasswordResetNewForm(request.POST)
+        if form.is_valid():
+            new_pw = form.cleaned_data["new_password1"]
+            user.password = make_password(new_pw)
+            user.save(update_fields=["password"])
+
+            # 세션 정리
+            request.session.pop("pw_match_uid", None)
+
+            messages.success(request, "비밀번호가 변경되었습니다. 새 비밀번호로 로그인해 주세요.")
+            return redirect("user:login")
+    else:
+        form = PasswordResetNewForm()
+
+    return render(request, "user/password_reset_match_new.html", {"form": form})

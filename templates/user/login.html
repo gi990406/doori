@@ -1,7 +1,7 @@
 {% extends "../base.html" %}
 {% load static %}
 {% block content %}
-  <td width="800" valign="top">
+  <td width="800" height="" valign="top">
     <!--타이틀시작-->
     <div id="account-title" aria-label="페이지 타이틀">
       <!-- 가운데 타이틀 이미지 -->
@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="helper">
-          <a href="javascript:void(0)" onclick="win_password_lost()">
+          <a href="{% url "user:find_id" %}" onclick="pointer">
             <img src="{% static "images/account/password.png" %}"
                  width="126"
                  height="16"

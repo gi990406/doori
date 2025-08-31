@@ -1,0 +1,56 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block content %}
+  <td width="800" valign="top">
+    <div id="account-title" aria-label="페이지 타이틀">
+      <div class="title_text">아이디/비밀번호 찾기</div>
+    </div>
+    <!-- 카드 -->
+    <div id="find-card">
+      <form class="card"
+            method="post"
+            autocomplete="off"
+            action="{% url 'user:find_id' %}">
+        {% csrf_token %}
+        <!-- 아이디 찾기 설명 -->
+        <p class="desc">
+          가입 시 입력한 <b>이름</b>과 <b>이메일</b>로 아이디를 찾아 드립니다.
+        </p>
+        <!-- 이름 -->
+        <div class="field">
+          <label for="id_name">이름</label>
+          <input id="id_name"
+                 name="name"
+                 type="text"
+                 class="input"
+                 maxlength="50"
+                 required
+                 value="{{ form.name.value|default:'' }}">
+          {% if form.name.errors %}<div class="error">{{ form.name.errors.0 }}</div>{% endif %}
+        </div>
+        <!-- 이메일 -->
+        <div class="field">
+          <label for="id_email">이메일</label>
+          <input id="id_email"
+                 name="email"
+                 type="email"
+                 class="input"
+                 maxlength="128"
+                 required
+                 value="{{ form.email.value|default:'' }}">
+          {% if form.email.errors %}<div class="error">{{ form.email.errors.0 }}</div>{% endif %}
+        </div>
+        <!-- 제출 버튼: 주문하기 버튼 톤과 유사(넓은 네이비 솔리드) -->
+        <div class="actions">
+          <button type="submit" class="btn-primary">아이디 찾기</button>
+        </div>
+        <!-- 보조 링크 -->
+        <div class="helper">
+          <a href="{% url 'user:password_reset_match' %}">비밀번호 재설정</a>
+          <span class="dot">·</span>
+          <a href="{% url 'user:login' %}">로그인</a>
+        </div>
+      </form>
+    </div>
+  </td>
+{% endblock %}
