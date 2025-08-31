@@ -2975,3 +2975,588 @@ a.btn-primary:active {
 .btn-primary:hover {
   filter: brightness(.95);
 }
+
+.info-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 18px
+}
+
+.info-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 12px
+}
+
+.spec-row {
+  display: grid;
+  grid-template-columns: 110px 16px 1fr;
+  gap: 10px;
+  padding: 8px 0
+}
+
+.spec-row+.spec-row {
+  border-top: 1px dashed #f3f4f6
+}
+
+.spec-key {
+  color: #374151;
+  font-weight: 600
+}
+
+.spec-val {
+  color: #111827
+}
+
+.spec-price {
+  font-size: 18px;
+  font-weight: 800
+}
+
+.spec-price a {
+  color: #ef4444;
+  text-decoration: none
+}
+
+@media (max-width:480px) {
+  .spec-row {
+    grid-template-columns: 90px 16px 1fr
+  }
+}
+
+.account-card {
+  width: 98%;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  overflow: hidden
+}
+
+.account-head {
+  background: linear-gradient(180deg, #f9fafb, #f3f4f6);
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  gap: 10px
+}
+
+.account-head-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827
+}
+
+.account-body {
+  background: #fafafa;
+  padding: 8px 12px
+}
+
+.account-list {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  row-gap: 0;
+  border: 1px dashed #eef0f2;
+  border-radius: 12px;
+  overflow: hidden
+}
+
+.account-row {
+  display: contents
+}
+
+.account-key {
+  padding: 10px 12px;
+  background: #fff;
+  color: #374151;
+  font-weight: 600;
+  border-bottom: 1px dashed #eef0f2
+}
+
+.account-val {
+  padding: 10px 12px;
+  background: #fff;
+  color: #111827;
+  border-bottom: 1px dashed #eef0f2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis
+}
+
+.account-list .account-key:last-of-type,
+.account-list .account-val:last-of-type {
+  border-bottom: none
+}
+
+@media (max-width:640px) {
+  .account-list {
+    grid-template-columns: 1fr
+  }
+
+  .account-key {
+    background: #f9fafb;
+    border-bottom: none;
+    border-top: 1px dashed #eef0f2
+  }
+
+  .account-val {
+    border-top: none
+  }
+}
+
+.orders-card {
+  width: 98%;
+  margin: 0 auto 12px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  overflow: hidden
+}
+
+.orders-head {
+  padding: 12px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+  font-weight: 700
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse
+}
+
+.orders-table th,
+.orders-table td {
+  padding: 10px;
+  text-align: center;
+  font-size: 14px
+}
+
+.orders-table th {
+  background: #f3f4f6;
+  color: #374151;
+  font-weight: 600
+}
+
+.orders-table tr:nth-child(even) td {
+  background: #fafafa
+}
+
+.orders-empty {
+  padding: 40px;
+  text-align: center;
+  color: #6b7280
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px
+}
+
+.pagination a,
+.pagination span {
+  padding: 6px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #374151;
+  text-decoration: none
+}
+
+.pagination .current {
+  background: #111827;
+  color: #fff;
+  border-color: #111827
+}
+
+.order-wrap {
+  max-width: 960px;
+}
+
+.order-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 16px;
+  background: #fff;
+  margin-bottom: 16px
+}
+
+.order-section-title {
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 10px
+}
+
+.order-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px
+}
+
+.order-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px
+}
+
+.order-label {
+  font-size: 13px;
+  color: #374151;
+  font-weight: 600
+}
+
+.order-input,
+.order-textarea {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 14px;
+  color: #111827;
+  background: #fff;
+  width: 97%;
+}
+
+.order-hint {
+  font-size: 12px;
+  color: #6b7280
+}
+
+.order-banner {
+  padding: 10px 12px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  color: #1f2937;
+  margin-bottom: 16px
+}
+
+.order-payment {
+  background: #E6EDF8;
+  border: 1px solid #E6EDF8;
+  border-radius: 12px;
+  padding: 16px;
+  color: #1f2937;
+  margin-bottom: 20px
+}
+
+.order-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 8px 0 24px
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #111827;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer
+}
+
+.btn-primary {
+  background: #111827;
+  color: #fff;
+  border-color: #111827
+}
+
+.btn-primary:hover {
+  background: #1f2937
+}
+
+@media (max-width:640px) {
+  .order-grid {
+    grid-template-columns: 1fr
+  }
+}
+
+.oc-wrap {
+  max-width: 960px;
+  margin: 0 auto
+}
+
+.oc-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 16px
+}
+
+.oc-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px
+}
+
+.oc-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #111827;
+  display: flex;
+  align-items: center;
+  gap: 10px
+}
+
+.oc-badge {
+  background: #111827;
+  color: #fff;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 13px
+}
+
+.oc-sub {
+  color: #6b7280;
+  font-size: 13px;
+  margin-bottom: 12px
+}
+
+.oc-table-wrap {
+  overflow: auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px
+}
+
+.oc-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 560px
+}
+
+.oc-table th,
+.oc-table td {
+  padding: 12px
+}
+
+.oc-table thead th {
+  background: #f3f4f6;
+  color: #374151;
+  text-align: center;
+  font-weight: 700
+}
+
+.oc-table td {
+  border-top: 1px solid #f1f5f9
+}
+
+.oc-table td.tl {
+  text-align: left
+}
+
+.oc-table td.tc {
+  text-align: center
+}
+
+.oc-table td.tr {
+  text-align: right
+}
+
+.oc-total {
+  margin-top: 12px;
+  text-align: right;
+  font-size: 16px
+}
+
+.oc-total strong {
+  font-weight: 800
+}
+
+.oc-note {
+  margin-top: 14px;
+  background: #fffbea;
+  border: 1px solid #fde68a;
+  border-radius: 12px;
+  padding: 12px;
+  color: #7c5200
+}
+
+.oc-bank {
+  margin-top: 16px;
+  background: #E6EDF8;
+  border: 1px solid #E6EDF8;
+  border-radius: 12px;
+  padding: 16px
+}
+
+.oc-bank-title {
+  font-weight: 800;
+  margin-bottom: 8px
+}
+
+.oc-bank ul {
+  margin: 6px 0 0 18px
+}
+
+.oc-bank li {
+  margin: 4px 0
+}
+
+.oc-copy {
+  font-size: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 4px 8px;
+  background: #fff;
+  cursor: pointer
+}
+
+.order-auth-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  background: linear-gradient(180deg, #E6EDF8, #E6EDF8);
+}
+
+.order-auth-left {
+  display: flex;
+  align-items: center;
+  gap: 12px
+}
+
+.order-auth-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #111827;
+  color: #fff;
+  font-size: 18px;
+  flex: none;
+}
+
+.order-auth-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px
+}
+
+.order-auth-title {
+  font-weight: 800;
+  color: #111827
+}
+
+.order-auth-kv {
+  font-size: 13px;
+  color: #4b5563
+}
+
+.order-auth-kv .dot {
+  margin: 0 6px;
+  color: #9ca3af
+}
+
+.order-auth-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap
+}
+
+.btn-mini,
+.link-mini {
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-mini {
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  color: #111827
+}
+
+.btn-mini:hover {
+  background: #f9fafb
+}
+
+.link-mini {
+  color: #2563eb
+}
+
+@media (max-width:640px) {
+  .order-auth-banner {
+    flex-direction: column;
+    align-items: flex-start
+  }
+
+  .order-auth-actions {
+    width: 100%
+  }
+}
+
+.btn-outline-navy {
+  --navy: #1B2558;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 48px;
+  border: 1.01px solid var(--navy);
+  border-radius: 8.078px;
+  background: #fff;
+  /* ← 흰색 바탕 */
+  color: var(--navy);
+  font-size: 16.156;
+  font-weight: 500;
+  letter-spacing: .2px;
+  text-decoration: none;
+  transition: background .15s, box-shadow .15s, transform .05s;
+}
+
+.btn-outline-navy:hover {
+  background: #f8fafc;
+}
+
+.btn-outline-navy:active {
+  transform: translateY(1px);
+}
+
+.btn-outline-navy:focus-visible {
+  outline: 3px solid rgba(15, 26, 74, .25);
+  outline-offset: 2px;
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+
+/* 기존 CSS 뒤에 추가 */
+.btn-outline-navy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-outline-navy.btn-block {
+  display: flex;
+  width: 100%;
+}
+
+/* flex 유지 */
+.btn-block {
+  /* display는 건드리지 않도록 */
+  width: 100%;
+}

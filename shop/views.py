@@ -10,6 +10,7 @@ from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
 import json
 from django.views.decorators.http import require_http_methods
+from django.db import transaction
 
 @require_POST
 def cart_update_ajax(request):
@@ -166,6 +167,60 @@ def order_form(request):
         })
     return render(request, "orders/order_form.html", ctx)
 
+@require_POST
+@transaction.atomic
+def order_create(request):
+    is_member = request.user.is_authenticated
+
+    # 1) 주문 기본 정보
+    if is_member:
+        order = Order.objects.create(
+            user=request.user,
+            memo=request.POST.get("memo", "")
+        )
+    else:
+        guest_name  = request.POST.get("guest_name", "").strip()
+        guest_hp    = request.POST.get("guest_hp", "").strip()
+        guest_email = request.POST.get("guest_email", "").strip()
+        guest_pw    = request.POST.get("guest_password", "")
+
+        if not (guest_name and guest_hp and guest_email and guest_pw):
+            messages.error(request, "비회원 정보가 누락되었습니다.")
+            return redirect("shop:order_form")
+
+        order = Order.objects.create(
+            user=None,
+            guest_name=guest_name,
+            guest_hp=guest_hp,
+            guest_email=guest_email,
+            guest_password=make_password(guest_pw),
+            memo=request.POST.get("memo", "")
+        )
+
+    # 2) 아이템 구성 (바로구매 또는 장바구니)
+    part_id = request.POST.get("part_id")
+    qty     = int(request.POST.get("qty") or 1)
+
+    if part_id:  # 바로구매
+        part = get_object_or_404(Part, pk=part_id)
+        unit_price = None if (getattr(part, "price", 0) in [None, 0]) else int(part.price)
+        OrderItem.objects.create(
+            order=order,
+            part=part,
+            title=getattr(part, "title", str(part)),
+            unit_price=unit_price,  # None이면 전화문의
+            quantity=qty,
+        )
+    else:
+        # TODO: 장바구니에서 가져오는 로직 연결
+        # for ci in cart_items:
+        #     OrderItem.objects.create(order=order, part=ci.part, title=ci.part.title,
+        #                              unit_price=ci.part.price or None, quantity=ci.qty)
+        pass
+
+    # 3) 완료 페이지로 이동(또는 결제 페이지)
+    messages.success(request, "주문이 접수되었습니다.")
+    return redirect("shop:order_complete", order_id=order.id)
 
 def order_complete(request, order_id):
     order = get_object_or_404(Order, pk=order_id)

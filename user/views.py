@@ -27,6 +27,10 @@ from django.contrib.auth.hashers import make_password
 from .decorators import anonymous_required
 
 from .forms import PasswordResetMatchForm, PasswordResetNewForm
+
+from django.core.paginator import Paginator
+from django.db.models import Sum, F, Value, DecimalField, ExpressionWrapper
+from django.db.models.functions import Coalesce
 # Create your views here..
 class RegisterTermsView(TemplateView):
     template_name = "user/terms.html"
@@ -166,24 +170,33 @@ def logout(request):
 @login_required(login_url='user:login')
 def mypage(request):
     user = request.user
-
-    # 최근 주문/보관함: 아직 모델이 없다면 빈 리스트로
-    recent_orders = []
-    recent_wishlist = []
-
-    # (주문/보관 모델이 생기면 아래 패턴으로 교체)
     from shop.models import Order
-    recent_orders = Order.objects.filter(user=user).order_by("-created_at")[:5]
 
-    context = {
-        "user_name": user.name or user.user_id,
+    # (단가 × 수량) 라인 합
+    line_total = ExpressionWrapper(
+        F('items__unit_price') * F('items__quantity'),
+        output_field=DecimalField(max_digits=12, decimal_places=0)  # OrderItem.unit_price가 decimal_places=0
+    )
+
+    orders_qs = (
+        Order.objects
+        .filter(user=user)                # 게스트 주문까지 보여주려면 | Q(user__isnull=True, guest_email=user.email)
+        .order_by('-created_at')
+        .annotate(
+            item_count=Coalesce(Sum('items__quantity'), 0),
+            total_amount=Coalesce(Sum(line_total), Value(0, output_field=DecimalField(max_digits=12, decimal_places=0)))
+        )
+    )
+
+    page_obj = Paginator(orders_qs, 5).get_page(request.GET.get('page'))
+
+    return render(request, "user/mypage.html", {
+        "user_name": getattr(user, "name", None) or getattr(user, "user_id", ""),
         "user_email": user.email,
-        "user_hp": user.hp,
+        "user_hp": getattr(user, "hp", ""),
         "date_joined": user.date_joined,
-        "recent_orders": recent_orders,
-        "recent_wishlist": recent_wishlist,
-    }
-    return render(request, "user/mypage.html", context)
+        "page_obj": page_obj,
+    })
 
 @login_required
 @require_POST
