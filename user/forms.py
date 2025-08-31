@@ -4,6 +4,7 @@ from django.contrib.auth.hashers import check_password
 from django import forms
 import re
 from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import PasswordResetForm
 
 User = get_user_model()
 
@@ -144,3 +145,23 @@ class ProfileEditForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+class FindIDForm(forms.Form):
+    name  = forms.CharField(label="이름", max_length=50)
+    email = forms.EmailField(label="이메일")
+
+class PasswordResetMatchForm(forms.Form):
+    user_id = forms.CharField(label="아이디", max_length=17)
+    name    = forms.CharField(label="이름", max_length=10)
+    email   = forms.EmailField(label="이메일", max_length=128)
+    hp      = forms.CharField(label="휴대폰", max_length=11, help_text="01012345678")
+
+class PasswordResetNewForm(forms.Form):
+    new_password1 = forms.CharField(label="새 비밀번호", widget=forms.PasswordInput, min_length=8)
+    new_password2 = forms.CharField(label="새 비밀번호 확인", widget=forms.PasswordInput, min_length=8)
+
+    def clean(self):
+        cleaned = super().clean()
+        if cleaned.get("new_password1") != cleaned.get("new_password2"):
+            self.add_error("new_password2", "비밀번호가 일치하지 않습니다.")
+        return cleaned

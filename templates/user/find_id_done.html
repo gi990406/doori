@@ -1,0 +1,34 @@
+{% extends "../base.html" %}
+{% load static %}
+{% block content %}
+  <td width="800" valign="top">
+    <div id="account-title" aria-label="페이지 타이틀">
+      <div class="title_text">아이디/비밀번호 찾기</div>
+    </div>
+    <div id="login-card">
+      <div class="card" style="text-align:center">
+        {% if masked and masked|length %}
+          <p class="desc">확인된 아이디(마스킹):</p>
+          <ul style="list-style:none;padding:0;margin:10px 0;">
+            {% for m in masked %}<li style="margin:6px 0; color:#1B2558; font-weight:700;">{{ m }}</li>{% endfor %}
+          </ul>
+        {% else %}
+          <p class="desc">일치하는 계정을 찾지 못했습니다.</p>
+        {% endif %}
+        <div class="actions" style="margin-top:16px;">
+          <a class="btn-primary"
+             style="display:inline-flex;
+                    align-items:center;
+                    justify-content:center;
+                    text-decoration:none"
+             href="{% url 'user:password_reset_match' %}">비밀번호 재설정으로 이동</a>
+        </div>
+        <div class="helper">
+          <a href="{% url 'user:find_id' %}">다시 찾기</a>
+          <span class="dot">·</span>
+          <a href="{% url 'user:login' %}">로그인</a>
+        </div>
+      </div>
+    </div>
+  </td>
+{% endblock %}

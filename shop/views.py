@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render, get_object_or_404
+from django.urls import reverse
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from .cart import Cart
@@ -8,9 +9,7 @@ from .models import Order, OrderItem
 from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
 import json
-from django.db import transaction
 from django.views.decorators.http import require_http_methods
-from django.utils.http import urlencode
 
 @require_POST
 def cart_update_ajax(request):
