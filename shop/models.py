@@ -83,6 +83,9 @@ class Order(models.Model):
     def __str__(self):
         who = self.user.user_id if self.user_id else self.guest_name or "GUEST"
         return f"Order#{self.pk} by {who}"
+    class Meta:
+        verbose_name = "주문"
+        verbose_name_plural = "주문 관리"
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name="items", on_delete=models.CASCADE)
