@@ -70,3 +70,7 @@ class PartAdmin(SummernoteModelAdmin):
     def get_car_model_detail(self, obj):
         return obj.car_model_detail.name if obj.car_model_detail else None
     get_car_model_detail.short_description = "세부 차종명"
+
+admin.site.site_header = "두리상사 관리자 페이지"   # 상단 좌측 헤더
+admin.site.index_title = "관리 홈"                  # 대시보드 제목
+admin.site.site_title = "두리상사 Admin"           # 브라우저 탭 타이틀
