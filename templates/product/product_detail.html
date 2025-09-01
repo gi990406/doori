@@ -3,36 +3,18 @@
 {% block content %}
   <td width="800" valign="top">
     <!--타이틀시작-->
-    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-      <tbody>
-        <tr>
-          <td class="t01">
-            {% if product.car_model.manufacturer.name == '현대자동차' %}
-              <img src="{% static "images/parts/title20.gif" %}"
-                   width=""
-                   height=""
-                   alt="">
-            {% endif %}
-            {% if product.car_model.manufacturer.name == '기아자동차' %}
-              <img src="{% static "images/parts/title30.gif" %}"
-                   width=""
-                   height=""
-                   alt="">
-            {% endif %}
-          </td>
-          <td class="t02" align="right">
-            <img src="{% static "images/icon/home.gif" %}"
-                 width=""
-                 height=""
-                 alt="home">
-            &gt; {{ product.car_model.manufacturer.name }} &gt; {{ product.car_model.name }}
-          </td>
-        </tr>
-        <tr>
-          <td colspan="2" class="t03"></td>
-        </tr>
-      </tbody>
-    </table>
+    <section id="parts-hero" aria-label="페이지 타이틀">
+      <div class="row">
+        <div class="left">
+          <h1>
+            <span class="chunks">
+              {% if product.car_model.manufacturer.name %}{{ product.car_model.manufacturer.name }}{% endif %}
+            </span>
+            {% if car_model.name %}<span class="sub">· {{ car_model.name }}</span>{% endif %}
+          </h1>
+        </div>
+      </div>
+    </section>
     <!--/ 타이틀시작-->
     <table width="99%" cellpadding="0" cellspacing="0" align="center" border="0">
       <tbody>
@@ -95,72 +77,43 @@
                   </td>
                   <!-- 상품중간이미지 END -->
                   <td width="650" valign="top" align="center">
-                    <table width="430">
-                      <tbody>
-                        <tr>
-                          <td colspan="2" valign="top">
-                            <span style="font-size:14px; font-family:돋움;"><strong>{{ product.title }}</strong></span>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <table width="430" cellpadding="0" cellspacing="0">
-                      <colgroup width="110"></colgroup>
-                      <colgroup width="20"></colgroup>
-                      <colgroup width="300"></colgroup>
-                      <tbody>
-                        <tr>
-                          <td colspan="3" height="1" background="/static/images/dot_line.gif"></td>
-                        </tr>
-                        <tr>
-                          <td height="25">&nbsp;&nbsp;&nbsp; · 품번</td>
-                          <td align="center">:</td>
-                          <td>
-                            <font>{{ product.part_number }}</font>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colspan="3" height="1" background="/static/images/dot_line.gif"></td>
-                        </tr>
-                        <tr>
-                          <td height="25">&nbsp;&nbsp;&nbsp; · 연식</td>
-                          <td align="center">:</td>
-                          <td>
-                            <font>{{ product.applicable_years }}</font>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colspan="3" height="1" background="/static/images/dot_line.gif"></td>
-                        </tr>
-                        <tr>
-                          <td height="25">&nbsp;&nbsp;&nbsp; · 재고</td>
-                          <td align="center">:</td>
-                          <td>
-                            <font>{{ product.stock }}개</font>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colspan="3" height="1" background="/static/images/dot_line.gif"></td>
-                        </tr>
-                        <tr>
-                          <td height="25">&nbsp;&nbsp;&nbsp; · 판매가격</td>
-                          <td align="center">:</td>
-                          <td>
-                            {% if product.price == 0 %}
-                              <a href="tel:01020108272"><font color="#FF5D00">{{ formatted_price }} </font></a>
-                            {% else %}
-                              <font>{{ formatted_price }}원 </font>
-                            {% endif %}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colspan="3" height="1" background="/static/images/dot_line.gif"></td>
-                        </tr>
-                        <tr>
-                          <td colspan="3" height="1" background="/static/images/dot_line.gif"></td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <div class="info-card">
+                      <!-- 상품명 -->
+                      <div class="info-title">{{ product.title }}</div>
+                      <!-- 스펙 -->
+                      <div class="spec-row">
+                        <div class="spec-key">· 품번</div>
+                        <div>:</div>
+                        <div class="spec-val">{{ product.part_number }}</div>
+                      </div>
+                      <div class="spec-row">
+                        <div class="spec-key">· 연식</div>
+                        <div>:</div>
+                        <div class="spec-val">{{ product.applicable_years }}</div>
+                      </div>
+                      <div class="spec-row">
+                        <div class="spec-key">· 재고</div>
+                        <div>:</div>
+                        <div class="spec-val">
+                          {% if product.stock|default:0 > 0 %}
+                            재고 {{ product.stock }}개
+                          {% else %}
+                            품절
+                          {% endif %}
+                        </div>
+                      </div>
+                      <div class="spec-row">
+                        <div class="spec-key">· 판매가격</div>
+                        <div>:</div>
+                        <div class="spec-val spec-price">
+                          {% if product.price == 0 %}
+                            <a href="tel:01020108272">전화문의</a>
+                          {% else %}
+                            {{ formatted_price }}원
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
                     <br>
                     <table>
                       <tbody>

@@ -2,17 +2,46 @@
 {% load humanize %}
 {% block content %}
   <td width="800" valign="top">
-    <h3>비회원 주문 조회</h3>
-    <form method="post">
+    <div id="account-title" aria-label="페이지 타이틀">
+      <!-- 가운데 타이틀 이미지 -->
+      <div class="title_text">주문 조회</div>
+    </div>
+    <form method="post" class="lookup-card" novalidate>
       {% csrf_token %}
-      이름
-      <input type="text" name="name" required>
-      주문 비밀번호
-      <input type="password" name="password" required>
-      <button type="submit" class="btn btn-primary">조회</button>
+      <div class="lookup-grid">
+        <!-- 이름 -->
+        <div class="lookup-row">
+          <label class="lookup-label" for="gl_name">이름</label>
+          <input class="lookup-input"
+                 id="gl_name"
+                 name="name"
+                 type="text"
+                 required
+                 maxlength="20"
+                 autocomplete="name"
+                 placeholder="홍길동">
+        </div>
+        <!-- 주문 비밀번호 -->
+        <div class="lookup-row">
+          <label class="lookup-label" for="gl_pw">주문 비밀번호</label>
+          <input class="lookup-input"
+                 id="gl_pw"
+                 name="password"
+                 type="password"
+                 required
+                 maxlength="20"
+                 autocomplete="current-password"
+                 placeholder="주문 시 설정한 비밀번호">
+        </div>
+      </div>
+      <!-- 백엔드가 guest_* 키를 기대할 수도 있어 동기화(호환용) -->
+      <input type="hidden" name="guest_name" id="mirror_guest_name">
+      <input type="hidden" name="guest_password" id="mirror_guest_password">
+      <div class="lookup-actions">
+        <button type="submit" class="btn-primary">조회</button>
+      </div>
     </form>
     {% if order %}
-      <hr>
       <p>주문번호: #{{ order.id }} | 상태: {{ order.get_status_display }}</p>
       <table width="98%"
              cellspacing="0"
@@ -47,4 +76,15 @@
       </table>
     {% endif %}
   </td>
+  <script>
+  // name/password → guest_* 히든 필드로 동기화(백엔드 호환)
+  const n = document.getElementById('gl_name');
+  const p = document.getElementById('gl_pw');
+  const mn = document.getElementById('mirror_guest_name');
+  const mp = document.getElementById('mirror_guest_password');
+  function sync(){ mn.value = n.value; mp.value = p.value; }
+  n.addEventListener('input', sync);
+  p.addEventListener('input', sync);
+  sync();
+  </script>
 {% endblock %}

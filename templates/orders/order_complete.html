@@ -2,49 +2,81 @@
 {% load humanize %}
 {% block content %}
   <td width="800" valign="top">
-    <h3>주문이 접수되었습니다</h3>
-    <p>
-      주문번호: <b>#{{ order.id }}</b>
-    </p>
-    {% if not order.user_id %}
-      <p>
-        비회원 주문 조회는 <a href="{% url 'shop:guest_lookup' %}">여기</a>에서 이름과 주문 비밀번호로 확인하실 수 있어요.
-      </p>
-    {% endif %}
-    <table width="98%"
-           cellspacing="0"
-           cellpadding="6"
-           style="border:1px solid #eee">
-      <tr style="background:#fafafa;">
-        <th align="left">상품</th>
-        <th>수량</th>
-        <th>단가</th>
-        <th>소계</th>
-      </tr>
-      {% for it in order.items.all %}
-        <tr>
-          <td align="left">{{ it.title }}</td>
-          <td align="center">{{ it.quantity }}</td>
-          <td align="right">
-            {% if it.unit_price %}
-              {{ it.unit_price|intcomma }}원
-            {% else %}
-              -
-            {% endif %}
-          </td>
-          <td align="right">
-            {% if it.unit_price %}
-              {{ it.subtotal|intcomma }}원
-            {% else %}
-              -
-            {% endif %}
-          </td>
-        </tr>
-      {% endfor %}
-    </table>
-    <p style="text-align:right">
-      <b>총액:</b> {{ total_amount|intcomma }}원
-    </p>
-    <div style="padding:12px; background:#fffbea; border:1px solid #fde68a;">입금 확인 후 발송됩니다. 감사합니다!</div>
+    <div class="oc-wrap">
+      <div class="oc-card">
+        <div class="oc-head">
+          <div class="oc-title">
+            주문이 접수되었습니다
+            <span class="oc-badge">주문번호 #{{ order.id }}</span>
+          </div>
+        </div>
+        {% if not order.user_id %}
+          <div class="oc-sub">
+            비회원 주문 조회는
+            <a href="{% url 'shop:guest_lookup' %}"
+               style="color:#2563eb;
+                      text-decoration:none">여기</a>
+            에서 이름과 주문 비밀번호로 확인하실 수 있어요.
+          </div>
+        {% endif %}
+        <!-- 품목 테이블 -->
+        <div class="oc-table-wrap">
+          <table class="oc-table">
+            <thead>
+              <tr>
+                <th align="left">상품</th>
+                <th>수량</th>
+                <th>단가</th>
+                <th>소계</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for it in order.items.all %}
+                <tr>
+                  <td class="tl">{{ it.title }}</td>
+                  <td class="tc">{{ it.quantity }}</td>
+                  <td class="tr">
+                    {% if it.unit_price %}
+                      {{ it.unit_price|intcomma }}원
+                    {% else %}
+                      -
+                    {% endif %}
+                  </td>
+                  <td class="tr">
+                    {% if it.unit_price %}
+                      {{ it.subtotal|intcomma }}원
+                    {% else %}
+                      -
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- 총액 -->
+        <p class="oc-total">
+          <strong>총액:</strong>
+          {% if total_amount is not None %}
+            {{ total_amount|intcomma }}원
+          {% else %}
+            {{ order.total|intcomma }}원
+          {% endif %}
+        </p>
+        <!-- 입금 안내 -->
+        <div class="oc-bank">
+          <div class="oc-bank-title">입금 안내</div>
+          <div>주문 후 아래 계좌로 송금해주세요. 송금 후 문자로 알려주시면 관리자가 확인 후 연락드리겠습니다.</div>
+          <ul>
+            <li>
+              농협 <strong>01020108272-19</strong> (정경수)
+            </li>
+            <li>
+              신협 <strong>01020108272</strong> (정경수)
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </td>
 {% endblock %}
