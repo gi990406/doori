@@ -32,7 +32,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool("DEBUG")
 
-ALLOWED_HOSTS = ["http://43.203.31.66/"]
+ALLOWED_HOSTS = ["http://43.203.31.66/", "43.203.31.66",]
 
 AUTH_USER_MODEL = "user.User"
 
