@@ -98,7 +98,7 @@ def login(request):
         user_id = request.POST.get('user_id')
         password = request.POST.get('password')
 
-        user = authenticate(request, username=user_id, password=password)
+        user = authenticate(request, user_id=user_id, password=password)
 
         if user is not None:
             auth_login(request, user)
@@ -126,7 +126,7 @@ def password_confirm(request):
 
     if request.method == "POST":
         pw = request.POST.get("password", "")
-        user = authenticate(request, username=request.user.user_id, password=pw)
+        user = authenticate(request, user_id=request.user.user_id, password=pw)
         if user is not None:
             # 5분만 유효한 플래그
             request.session["pw_confirm_ok"] = True
